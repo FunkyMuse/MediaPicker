@@ -16,16 +16,16 @@ import kotlinx.android.synthetic.main.activity_main.*
 @SuppressLint("MissingPermission")
 class MainActivity : AppCompatActivity(), View.OnClickListener {
 
-    private var clickedID = R.id.bsPick
+    private var clickedID = R.id.singleImageBottomSheetPick
 
     private val askForStoragePermission =
         registerForActivityResult(ActivityResultContracts.RequestPermission()) {
             if (it) {
                 when (clickedID) {
-                    R.id.bsPick -> {
+                    R.id.singleImageBottomSheetPick -> {
                         showBottomSheetPicker()
                     }
-                    R.id.dialogPick -> {
+                    R.id.singleImagedialogPick -> {
                         showDialogImagePicker()
                     }
                 }
@@ -55,8 +55,8 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        bsPick.setOnClickListener(this)
-        dialogPick.setOnClickListener(this)
+        imageBottomSheetPick.setOnClickListener(this)
+        singleImagedialogPick.setOnClickListener(this)
 
     }
 

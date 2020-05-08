@@ -10,25 +10,25 @@
         tools:context=".MainActivity">
 
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/bsPick"
+            android:id="@+id/imageBottomSheetPick"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="16dp"
-            android:text="Pick bottom sheet (single selection)"
+            android:text="Image Pick bottom sheet (single selection)"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/image" />
 
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/dialogPick"
+            android:id="@+id/singleImagedialogPick"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="16dp"
             android:layout_marginTop="8dp"
-            android:text="Pick dialog (single selection)"
+            android:text="Image Pick dialog (single selection)"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/bsPick" />
+            app:layout_constraintTop_toBottomOf="@+id/imageBottomSheetPick" />
 
         <androidx.appcompat.widget.AppCompatImageView
             android:layout_width="150dp"
