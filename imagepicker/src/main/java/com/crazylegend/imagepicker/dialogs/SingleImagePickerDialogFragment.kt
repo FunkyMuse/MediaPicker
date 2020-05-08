@@ -1,23 +1,19 @@
 package com.crazylegend.imagepicker.dialogs
 
 import android.Manifest
-import android.app.Dialog
-import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.WindowManager.LayoutParams.FLAG_FULLSCREEN
 import androidx.activity.invoke
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.appcompat.widget.AppCompatImageView
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.observe
 import androidx.recyclerview.widget.GridLayoutManager
+import com.crazylegend.core.gone
 import com.crazylegend.core.viewBinding.viewBinding
-import com.crazylegend.imagepicker.R
 import com.crazylegend.imagepicker.adapter.ImagesAdapter
 import com.crazylegend.imagepicker.contracts.SinglePickerContracts
 import com.crazylegend.imagepicker.databinding.FragmentGalleryLayoutBinding
@@ -63,16 +59,16 @@ internal class SingleImagePickerDialogFragment : DialogFragment(), SinglePickerC
         }
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val view =  inflater.inflate(layout, container, false)
-        view.findViewById<AppCompatImageView>(R.id.topIndicator).visibility = View.GONE
-        return view
-    }
-
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? = inflater.inflate(layout, container, false)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        binding.topIndicator.gone()
         askForStoragePermission(Manifest.permission.READ_EXTERNAL_STORAGE)
+
+        binding.close.setOnClickListener {
+            dismissAllowingStateLoss()
+        }
 
         binding.gallery.apply {
             layoutManager = GridLayoutManager(requireContext(), 3)

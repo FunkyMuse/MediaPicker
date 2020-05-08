@@ -7,6 +7,7 @@ import android.net.Uri
 import android.os.Handler
 import android.os.Looper
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.AndroidViewModel
 
@@ -29,4 +30,17 @@ fun ContentResolver.registerObserver(uri: Uri, observer: (change: Boolean) -> Un
     }
     registerContentObserver(uri, true, contentObserver)
     return contentObserver
+}
+
+
+fun View.visible() {
+    this.visibility = View.VISIBLE
+}
+
+fun View.gone() {
+    this.visibility = View.GONE
+}
+
+fun View.invisible() {
+    this.visibility = View.INVISIBLE
 }

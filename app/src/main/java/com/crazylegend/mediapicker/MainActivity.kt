@@ -10,6 +10,7 @@ import androidx.activity.invoke
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import com.bumptech.glide.Glide
+import com.crazylegend.imagepicker.picker.MultiImagePicker
 import com.crazylegend.imagepicker.picker.SingleImagePicker
 import kotlinx.android.synthetic.main.activity_main.*
 
@@ -19,20 +20,31 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
     private var clickedID = R.id.singleImageBottomSheetPick
 
     private val askForStoragePermission =
-        registerForActivityResult(ActivityResultContracts.RequestPermission()) {
-            if (it) {
-                when (clickedID) {
-                    R.id.singleImageBottomSheetPick -> {
-                        showBottomSheetPicker()
+            registerForActivityResult(ActivityResultContracts.RequestPermission()) {
+                if (it) {
+                    when (clickedID) {
+                        R.id.singleImageBottomSheetPick -> {
+                            showBottomSheetPicker()
+                        }
+                        R.id.singleImageDialogPick -> {
+                            showDialogImagePicker()
+                        }
+                        R.id.imageBottomSheetMultiPick -> {
+                            showMultiBottomSheetPicker()
+                        }
                     }
-                    R.id.singleImagedialogPick -> {
-                        showDialogImagePicker()
-                    }
+                } else {
+                    Log.d("PERMISSION!", "NOT ALLOWED!")
                 }
-            } else {
-                Log.d("PERMISSION!", "NOT ALLOWED!")
+            }
+
+    private fun showMultiBottomSheetPicker() {
+        MultiImagePicker.bottomSheetPicker(this) { list ->
+            list.forEach {
+                Log.d("PICKED size ${list.size}", it.toString())
             }
         }
+    }
 
     private fun showDialogImagePicker() {
         SingleImagePicker.dialogPicker(this) {
@@ -48,15 +60,16 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
 
     private fun loadImage(contentUri: Uri) {
         Glide.with(this)
-            .load(contentUri)
-            .into(image)
+                .load(contentUri)
+                .into(image)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        imageBottomSheetPick.setOnClickListener(this)
-        singleImagedialogPick.setOnClickListener(this)
+        singleImageBottomSheetPick.setOnClickListener(this)
+        singleImageDialogPick.setOnClickListener(this)
+        imageBottomSheetMultiPick.setOnClickListener(this)
 
     }
 

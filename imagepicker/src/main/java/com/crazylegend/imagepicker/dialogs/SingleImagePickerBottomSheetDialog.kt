@@ -11,8 +11,8 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.observe
 import androidx.recyclerview.widget.GridLayoutManager
+import com.crazylegend.core.gone
 import com.crazylegend.core.viewBinding.viewBinding
-import com.crazylegend.imagepicker.R
 import com.crazylegend.imagepicker.adapter.ImagesAdapter
 import com.crazylegend.imagepicker.contracts.SinglePickerContracts
 import com.crazylegend.imagepicker.databinding.FragmentGalleryLayoutBinding
@@ -56,7 +56,7 @@ internal class SingleImagePickerBottomSheetDialog : BottomSheetDialogFragment(),
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         askForStoragePermission(Manifest.permission.READ_EXTERNAL_STORAGE)
-
+        binding.close.gone()
         binding.gallery.apply {
             layoutManager = GridLayoutManager(requireContext(), 3)
             adapter = imagesAdapter
