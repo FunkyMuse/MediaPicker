@@ -9,7 +9,7 @@
         android:layout_height="wrap_content"
         tools:context=".MainActivity">
 
-        <Button
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/bsPick"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -19,7 +19,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/image" />
 
-        <Button
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/dialogPick"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -29,8 +29,6 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/bsPick" />
-
-
 
         <androidx.appcompat.widget.AppCompatImageView
             android:layout_width="150dp"
