@@ -2,7 +2,7 @@ package com.crazylegend.imagepicker.contracts
 
 import androidx.activity.result.ActivityResultLauncher
 import com.crazylegend.imagepicker.R
-import com.crazylegend.imagepicker.adapter.multi.ImagesMultiSelectAdapter
+import com.crazylegend.imagepicker.adapters.multi.ImagesMultiSelectAdapter
 import com.crazylegend.imagepicker.databinding.FragmentGalleryLayoutMultiBinding
 import com.crazylegend.imagepicker.images.ImagesVM
 import com.crazylegend.imagepicker.listeners.onImagesPicked

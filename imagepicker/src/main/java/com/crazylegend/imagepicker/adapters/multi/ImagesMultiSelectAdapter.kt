@@ -1,10 +1,10 @@
-package com.crazylegend.imagepicker.adapter.multi
+package com.crazylegend.imagepicker.adapters.multi
 
 import android.util.SparseBooleanArray
 import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
 import com.crazylegend.core.inflater
-import com.crazylegend.imagepicker.adapter.ImagesDiffUtil
+import com.crazylegend.imagepicker.adapters.ImagesDiffUtil
 import com.crazylegend.imagepicker.databinding.ItemviewImageBinding
 import com.crazylegend.imagepicker.images.ImageModel
 

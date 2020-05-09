@@ -13,7 +13,7 @@ import androidx.lifecycle.observe
 import androidx.recyclerview.widget.GridLayoutManager
 import com.crazylegend.core.gone
 import com.crazylegend.core.viewBinding.viewBinding
-import com.crazylegend.imagepicker.adapter.single.ImagesAdapter
+import com.crazylegend.imagepicker.adapters.single.ImagesAdapter
 import com.crazylegend.imagepicker.contracts.SinglePickerContracts
 import com.crazylegend.imagepicker.databinding.FragmentGalleryLayoutBinding
 import com.crazylegend.imagepicker.images.ImagesVM

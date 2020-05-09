@@ -1,4 +1,4 @@
-package com.crazylegend.imagepicker.adapter.multi
+package com.crazylegend.imagepicker.adapters.multi
 
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide

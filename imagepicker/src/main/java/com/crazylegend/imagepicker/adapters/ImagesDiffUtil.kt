@@ -1,4 +1,4 @@
-package com.crazylegend.imagepicker.adapter
+package com.crazylegend.imagepicker.adapters
 
 import androidx.recyclerview.widget.DiffUtil
 import com.crazylegend.imagepicker.images.ImageModel

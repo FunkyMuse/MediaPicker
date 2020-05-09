@@ -16,7 +16,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.crazylegend.core.gone
 import com.crazylegend.core.setupDialogOnStart
 import com.crazylegend.core.viewBinding.viewBinding
-import com.crazylegend.imagepicker.adapter.multi.ImagesMultiSelectAdapter
+import com.crazylegend.imagepicker.adapters.multi.ImagesMultiSelectAdapter
 import com.crazylegend.imagepicker.consts.LIST_STATE
 import com.crazylegend.imagepicker.contracts.MultiPickerContracts
 import com.crazylegend.imagepicker.databinding.FragmentGalleryLayoutMultiBinding
