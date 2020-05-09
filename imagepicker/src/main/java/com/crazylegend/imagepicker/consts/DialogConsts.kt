@@ -6,11 +6,11 @@ package com.crazylegend.imagepicker.consts
  */
 
 
-const val SINGLE_PICKER_BOTTOM_SHEET = "singlePickerBottomSheetDialog"
-const val SINGLE_PICKER_DIALOG = "singlePickerDialog"
+const val SINGLE_PICKER_BOTTOM_SHEET = "imagesSinglePickerBottomSheetDialog"
+const val SINGLE_PICKER_DIALOG = "imagesSinglePickerDialog"
 
 
-const val MULTI_PICKER_BOTTOM_SHEET = "multiPickerBottomSheetDialog"
-const val MULTI_PICKER_DIALOG = "multiPickerDialog"
+const val MULTI_PICKER_BOTTOM_SHEET = "imagesMultiPickerBottomSheetDialog"
+const val MULTI_PICKER_DIALOG = "imagesMultiPickerDialog"
 
-const val LIST_STATE = "list"
+const val LIST_STATE = "imagesList"

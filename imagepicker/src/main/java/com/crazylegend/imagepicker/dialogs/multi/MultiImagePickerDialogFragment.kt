@@ -3,18 +3,15 @@ package com.crazylegend.imagepicker.dialogs.multi
 import android.Manifest
 import android.os.Bundle
 import android.util.Log
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import androidx.activity.invoke
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.util.keyIterator
-import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.observe
 import androidx.recyclerview.widget.GridLayoutManager
+import com.crazylegend.core.abstracts.AbstractDialogFragment
 import com.crazylegend.core.gone
-import com.crazylegend.core.setupDialogOnStart
 import com.crazylegend.core.viewBinding.viewBinding
 import com.crazylegend.imagepicker.adapters.multi.ImagesMultiSelectAdapter
 import com.crazylegend.imagepicker.consts.LIST_STATE
@@ -29,19 +26,17 @@ import com.crazylegend.imagepicker.picker.SingleImagePicker
 /**
  * Created by crazy on 5/8/20 to long live and prosper !
  */
-internal class MultiImagePickerDialogFragment : DialogFragment(),
+internal class MultiImagePickerDialogFragment : AbstractDialogFragment(),
         MultiPickerContracts {
 
+    override val layout: Int
+        get() = super.layout
     override var onImagesPicked: onImagesPicked? = null
-
-    override fun onStart() {
-        super.onStart()
-        setupDialogOnStart()
-    }
-
-
     override val binding by viewBinding(FragmentGalleryLayoutMultiBinding::bind)
     override val imagesVM by viewModels<ImagesVM>()
+    override val imagesAdapter by lazy {
+        ImagesMultiSelectAdapter()
+    }
     override val askForStoragePermission =
             registerForActivityResult(ActivityResultContracts.RequestPermission()) {
                 if (it) {
@@ -52,12 +47,6 @@ internal class MultiImagePickerDialogFragment : DialogFragment(),
                 }
             }
 
-    override val imagesAdapter by lazy {
-        ImagesMultiSelectAdapter()
-    }
-
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
-            inflater.inflate(layout, container, false)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

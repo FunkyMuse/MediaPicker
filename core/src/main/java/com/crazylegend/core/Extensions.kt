@@ -3,12 +3,11 @@ package com.crazylegend.core
 import android.content.ContentResolver
 import android.content.Context
 import android.database.ContentObserver
+import android.graphics.Point
 import android.net.Uri
 import android.os.Handler
 import android.os.Looper
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
@@ -21,12 +20,13 @@ import androidx.lifecycle.AndroidViewModel
  */
 
 
-fun DialogFragment.setupDialogOnStart() {
-    dialog?.apply {
-        val width = ViewGroup.LayoutParams.MATCH_PARENT
-        val height = ViewGroup.LayoutParams.MATCH_PARENT
-        window?.setLayout(width, height)
-    }
+fun DialogFragment.setupDialogOnStart(sizeByX: Float = 0.9f) {
+    val window = dialog?.window
+    val size = Point()
+    val display = window?.windowManager?.defaultDisplay
+    display?.getSize(size)
+    window?.setLayout((size.x * sizeByX).toInt(), WindowManager.LayoutParams.WRAP_CONTENT)
+    window?.setGravity(Gravity.CENTER)
 }
 
 fun Context.setupManager(): FragmentManager {
