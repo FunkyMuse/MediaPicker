@@ -1,4 +1,4 @@
-package com.crazylegend.imagepicker.picker
+package com.crazylegend.imagepicker.pickers
 
 import android.Manifest.permission.READ_EXTERNAL_STORAGE
 import android.content.Context

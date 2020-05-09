@@ -1,4 +1,4 @@
-package com.crazylegend.imagepicker.dialogs.single
+package com.crazylegend.videopicker.dialogs.single
 
 import android.Manifest
 import android.os.Bundle
@@ -12,33 +12,33 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.crazylegend.core.abstracts.AbstractBottomSheetDialogFragment
 import com.crazylegend.core.gone
 import com.crazylegend.core.viewBinding.viewBinding
-import com.crazylegend.imagepicker.adapters.single.ImagesAdapter
-import com.crazylegend.imagepicker.contracts.SinglePickerContracts
-import com.crazylegend.imagepicker.databinding.FragmentImagesGalleryLayoutBinding
-import com.crazylegend.imagepicker.images.ImagesVM
-import com.crazylegend.imagepicker.listeners.onImagePicked
+import com.crazylegend.videopicker.adapters.single.VideoAdapter
+import com.crazylegend.videopicker.contracts.SinglePickerContracts
+import com.crazylegend.videopicker.databinding.FragmentVideoGalleryLayoutBinding
+import com.crazylegend.videopicker.listeners.onVideoPicked
+import com.crazylegend.videopicker.videos.VideosVM
 
 
 /**
  * Created by crazy on 5/8/20 to long live and prosper !
  */
-internal class SingleImagePickerBottomSheetDialog : AbstractBottomSheetDialogFragment(), SinglePickerContracts {
+internal class SingleVideoPickerBottomSheetDialog : AbstractBottomSheetDialogFragment(), SinglePickerContracts {
 
     override val layout: Int
         get() = super.layout
-    override var onImagePicked: onImagePicked? = null
-    override val binding by viewBinding(FragmentImagesGalleryLayoutBinding::bind)
-    override val imagesVM by viewModels<ImagesVM>()
-    override val imagesAdapter by lazy {
-        ImagesAdapter {
-            onImagePicked?.forImage(it)
+    override var onVideoPicked: onVideoPicked? = null
+    override val binding by viewBinding(FragmentVideoGalleryLayoutBinding::bind)
+    override val videosVM by viewModels<VideosVM>()
+    override val videoAdapter by lazy {
+        VideoAdapter {
+            onVideoPicked?.forVideo(it)
             dismissAllowingStateLoss()
         }
     }
 
     override val askForStoragePermission = registerForActivityResult(ActivityResultContracts.RequestPermission()) {
         if (it) {
-            imagesVM.loadImages()
+            videosVM.loadVideos()
         } else {
             Log.e(errorTag, "PERMISSION DENIED")
             dismissAllowingStateLoss()
@@ -52,17 +52,17 @@ internal class SingleImagePickerBottomSheetDialog : AbstractBottomSheetDialogFra
         binding.close.gone()
         binding.gallery.apply {
             layoutManager = GridLayoutManager(requireContext(), 3)
-            adapter = imagesAdapter
+            adapter = videoAdapter
         }
 
-        imagesVM.images.observe(viewLifecycleOwner) {
-            imagesAdapter.submitList(it)
+        videosVM.videos.observe(viewLifecycleOwner) {
+            videoAdapter.submitList(it)
         }
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
-        onImagePicked = null
+        onVideoPicked = null
     }
 
 }

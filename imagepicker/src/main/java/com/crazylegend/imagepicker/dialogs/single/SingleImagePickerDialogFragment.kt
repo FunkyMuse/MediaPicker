@@ -14,10 +14,9 @@ import com.crazylegend.core.gone
 import com.crazylegend.core.viewBinding.viewBinding
 import com.crazylegend.imagepicker.adapters.single.ImagesAdapter
 import com.crazylegend.imagepicker.contracts.SinglePickerContracts
-import com.crazylegend.imagepicker.databinding.FragmentGalleryLayoutBinding
+import com.crazylegend.imagepicker.databinding.FragmentImagesGalleryLayoutBinding
 import com.crazylegend.imagepicker.images.ImagesVM
 import com.crazylegend.imagepicker.listeners.onImagePicked
-import com.crazylegend.imagepicker.picker.SingleImagePicker
 
 
 /**
@@ -29,7 +28,7 @@ internal class SingleImagePickerDialogFragment : AbstractDialogFragment(), Singl
     override val layout: Int
         get() = super.layout
 
-    override val binding by viewBinding(FragmentGalleryLayoutBinding::bind)
+    override val binding by viewBinding(FragmentImagesGalleryLayoutBinding::bind)
     override val imagesVM by viewModels<ImagesVM>()
     override val imagesAdapter by lazy {
         ImagesAdapter {
@@ -43,7 +42,7 @@ internal class SingleImagePickerDialogFragment : AbstractDialogFragment(), Singl
                 if (it) {
                     imagesVM.loadImages()
                 } else {
-                    Log.e(SingleImagePicker.javaClass.name, "PERMISSION DENIED")
+                    Log.e(errorTag, "PERMISSION DENIED")
                     dismissAllowingStateLoss()
                 }
             }

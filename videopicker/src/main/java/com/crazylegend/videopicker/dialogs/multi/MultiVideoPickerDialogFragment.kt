@@ -1,4 +1,4 @@
-package com.crazylegend.imagepicker.dialogs.multi
+package com.crazylegend.videopicker.dialogs.multi
 
 import android.Manifest
 import android.os.Bundle
@@ -13,74 +13,73 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.crazylegend.core.abstracts.AbstractDialogFragment
 import com.crazylegend.core.gone
 import com.crazylegend.core.viewBinding.viewBinding
-import com.crazylegend.imagepicker.adapters.multi.ImagesMultiSelectAdapter
-import com.crazylegend.imagepicker.consts.LIST_STATE
-import com.crazylegend.imagepicker.contracts.MultiPickerContracts
-import com.crazylegend.imagepicker.databinding.FragmentImagesGalleryLayoutMultiBinding
-import com.crazylegend.imagepicker.images.ImageModel
-import com.crazylegend.imagepicker.images.ImagesVM
-import com.crazylegend.imagepicker.listeners.onImagesPicked
+import com.crazylegend.videopicker.adapters.multi.VideosMultiSelectAdapter
+import com.crazylegend.videopicker.consts.LIST_STATE
+import com.crazylegend.videopicker.contracts.MultiPickerContracts
+import com.crazylegend.videopicker.databinding.FragmentVideoGalleryLayoutMultiBinding
+import com.crazylegend.videopicker.listeners.onVideosPicked
+import com.crazylegend.videopicker.videos.VideoModel
+import com.crazylegend.videopicker.videos.VideosVM
 
 
 /**
  * Created by crazy on 5/8/20 to long live and prosper !
  */
-internal class MultiImagePickerDialogFragment : AbstractDialogFragment(),
+internal class MultiVideoPickerDialogFragment : AbstractDialogFragment(),
         MultiPickerContracts {
 
     override val layout: Int
         get() = super.layout
-    override var onImagesPicked: onImagesPicked? = null
-    override val binding by viewBinding(FragmentImagesGalleryLayoutMultiBinding::bind)
-    override val imagesVM by viewModels<ImagesVM>()
-    override val imagesAdapter by lazy {
-        ImagesMultiSelectAdapter()
+    override var onVideosPicked: onVideosPicked? = null
+    override val binding by viewBinding(FragmentVideoGalleryLayoutMultiBinding::bind)
+    override val videosVM by viewModels<VideosVM>()
+    override val videosMultiSelectAdapter by lazy {
+        VideosMultiSelectAdapter()
     }
     override val askForStoragePermission =
             registerForActivityResult(ActivityResultContracts.RequestPermission()) {
                 if (it) {
-                    imagesVM.loadImages()
+                    videosVM.loadVideos()
                 } else {
                     Log.e(errorTag, "PERMISSION DENIED")
                     dismissAllowingStateLoss()
                 }
             }
 
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.topIndicator.gone()
-        savedInstanceState?.getIntegerArrayList(LIST_STATE)?.asSequence()?.forEach { imagesAdapter.selectedPositions.put(it, true) }
+        savedInstanceState?.getIntegerArrayList(LIST_STATE)?.asSequence()?.forEach { videosMultiSelectAdapter.selectedPositions.put(it, true) }
         askForStoragePermission(Manifest.permission.READ_EXTERNAL_STORAGE)
         binding.gallery.apply {
             layoutManager = GridLayoutManager(requireContext(), 3)
-            adapter = imagesAdapter
+            adapter = videosMultiSelectAdapter
         }
 
-        imagesVM.images.observe(viewLifecycleOwner) {
-            imagesAdapter.submitList(it)
+        videosVM.videos.observe(viewLifecycleOwner) {
+            videosMultiSelectAdapter.submitList(it)
         }
 
 
         binding.doneButton.setOnClickListener {
-            val imagesList = imagesVM.images.value ?: emptyList()
-            val pickedList = mutableListOf<ImageModel>()
-            imagesAdapter.selectedPositions.keyIterator().asSequence().forEach {
-                pickedList += imagesList[it]
+            val videosList = videosVM.videos.value ?: emptyList()
+            val pickedList = mutableListOf<VideoModel>()
+            videosMultiSelectAdapter.selectedPositions.keyIterator().asSequence().forEach {
+                pickedList += videosList[it]
             }
-            onImagesPicked?.onImagesPicked(pickedList)
+            onVideosPicked?.onVideosPicked(pickedList)
             dismissAllowingStateLoss()
         }
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
-        val positionList = imagesAdapter.selectedPositions.keyIterator().asSequence().map { it }.toList()
+        val positionList = videosMultiSelectAdapter.selectedPositions.keyIterator().asSequence().map { it }.toList()
         outState.putIntegerArrayList(LIST_STATE, ArrayList(positionList))
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
-        onImagesPicked = null
+        onVideosPicked = null
     }
 }

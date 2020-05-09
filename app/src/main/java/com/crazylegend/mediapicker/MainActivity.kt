@@ -10,8 +10,11 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import com.bumptech.glide.Glide
 import com.crazylegend.imagepicker.images.ImageModel
-import com.crazylegend.imagepicker.picker.MultiImagePicker
-import com.crazylegend.imagepicker.picker.SingleImagePicker
+import com.crazylegend.imagepicker.pickers.MultiImagePicker
+import com.crazylegend.imagepicker.pickers.SingleImagePicker
+import com.crazylegend.videopicker.pickers.MultiVideoPicker
+import com.crazylegend.videopicker.pickers.SingleVideoPicker
+import com.crazylegend.videopicker.videos.VideoModel
 import kotlinx.android.synthetic.main.activity_main.*
 
 @SuppressLint("MissingPermission")
@@ -23,17 +26,32 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
             registerForActivityResult(ActivityResultContracts.RequestPermission()) {
                 if (it) {
                     when (clickedID) {
+                        //images
                         R.id.singleImageBottomSheetPick -> {
-                            showBottomSheetPicker()
+                            showSingleImageBottomSheetPicker()
                         }
                         R.id.singleImageDialogPick -> {
-                            showDialogImagePicker()
+                            showSingleImageDialogPicker()
                         }
                         R.id.imageBottomSheetMultiPick -> {
-                            showMultiBottomSheetPicker()
+                            showImageMultiBottomSheetPicker()
                         }
                         R.id.imagePickDialogMultiPick -> {
-                            showMultiDialogPicker()
+                            showImageMultiDialogPicker()
+                        }
+
+                        //videos
+                        R.id.singleVideoBottomSheetPick -> {
+                            showSingleVideoBottomSheetPicker()
+                        }
+                        R.id.singleVideoDialogPick -> {
+                            showSingleVideoDialogPicker()
+                        }
+                        R.id.videoBottomSheetMultiPick -> {
+                            showVideoMultiBottomSheetPicker()
+                        }
+                        R.id.videoPickDialogMultiPick -> {
+                            showVideoMultiDialogPicker()
                         }
                     }
                 } else {
@@ -41,20 +59,51 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
                 }
             }
 
-    private fun showMultiDialogPicker() {
-        MultiImagePicker.dialogPicker(this, ::doSomethingWithList)
+    //videos
+    private fun showVideoMultiDialogPicker() {
+        MultiVideoPicker.dialogPicker(this, ::doSomethingWithVideoList)
+    }
+
+    private fun showVideoMultiBottomSheetPicker() {
+        MultiVideoPicker.bottomSheetPicker(this, ::doSomethingWithVideoList)
+    }
+
+    private fun showSingleVideoDialogPicker() {
+        SingleVideoPicker.dialogPicker(this, ::loadVideo)
+    }
+
+    private fun showSingleVideoBottomSheetPicker() {
+        SingleVideoPicker.bottomSheetPicker(this, ::loadVideo)
+    }
+
+    private fun loadVideo(videoModel: VideoModel) {
+        Glide.with(this)
+                .load(videoModel.contentUri)
+                .into(video)
+        Log.d("VIDEO_PICKED", videoModel.toString())
+    }
+
+    private fun doSomethingWithVideoList(list: List<VideoModel>) {
+        list.forEach {
+            Log.d("VIDEO LIST size ${list.size}", it.toString())
+        }
+    }
+
+    //images
+    private fun showImageMultiDialogPicker() {
+        MultiImagePicker.dialogPicker(this, ::doSomethingWithImageList)
     }
 
 
-    private fun showMultiBottomSheetPicker() {
-        MultiImagePicker.bottomSheetPicker(this, ::doSomethingWithList)
+    private fun showImageMultiBottomSheetPicker() {
+        MultiImagePicker.bottomSheetPicker(this, ::doSomethingWithImageList)
     }
 
-    private fun showDialogImagePicker() {
+    private fun showSingleImageDialogPicker() {
         SingleImagePicker.dialogPicker(this, ::loadImage)
     }
 
-    private fun showBottomSheetPicker() {
+    private fun showSingleImageBottomSheetPicker() {
         SingleImagePicker.bottomSheetPicker(this, ::loadImage)
     }
 
@@ -62,28 +111,39 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         Glide.with(this)
                 .load(imageModel.contentUri)
                 .into(image)
+        Log.d("IMAGE_PICKED", imageModel.toString())
     }
 
-
-    private fun doSomethingWithList(list: List<ImageModel>) {
+    private fun doSomethingWithImageList(list: List<ImageModel>) {
         list.forEach {
-            Log.d("LIST size ${list.size}", it.toString())
+            Log.d("IMAGE LIST size ${list.size}", it.toString())
         }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        //images
         singleImageBottomSheetPick.setOnClickListener(this)
         singleImageDialogPick.setOnClickListener(this)
         imageBottomSheetMultiPick.setOnClickListener(this)
         imagePickDialogMultiPick.setOnClickListener(this)
 
+        //videos
+        singleVideoBottomSheetPick.setOnClickListener(this)
+        singleVideoDialogPick.setOnClickListener(this)
+        videoBottomSheetMultiPick.setOnClickListener(this)
+        videoPickDialogMultiPick.setOnClickListener(this)
+
     }
 
     override fun onRestoreInstanceState(savedInstanceState: Bundle) {
         super.onRestoreInstanceState(savedInstanceState)
-        MultiImagePicker.restoreListener(this, ::doSomethingWithList)
+        MultiImagePicker.restoreListener(this, ::doSomethingWithImageList)
+        SingleImagePicker.restoreListener(this, ::loadImage)
+        MultiVideoPicker.restoreListener(this, ::doSomethingWithVideoList)
+        SingleVideoPicker.restoreListener(this, ::loadVideo)
     }
 
     override fun onClick(clickedview: View?) {

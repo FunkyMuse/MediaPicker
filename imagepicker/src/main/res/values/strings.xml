@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="done">Done</string>
-    <string name="pick_images">Pick images...</string>
+    <string name="pick_images">Pick images…</string>
     <string name="pick_an_image">Pick an image</string>
 </resources>

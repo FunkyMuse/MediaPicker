@@ -23,6 +23,8 @@ data class ImageModel(
         val height: Int?
 ) : Parcelable {
 
+    val getImageExtension get() = displayName?.substringAfterLast(".")
+
     val addedDateAsDate
         get() = dateAdded?.let {
             Date(TimeUnit.SECONDS.toMillis(it))

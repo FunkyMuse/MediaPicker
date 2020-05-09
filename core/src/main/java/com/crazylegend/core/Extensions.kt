@@ -3,13 +3,14 @@ package com.crazylegend.core
 import android.content.ContentResolver
 import android.content.Context
 import android.database.ContentObserver
-import android.graphics.Point
+import android.database.Cursor
 import android.net.Uri
 import android.os.Handler
 import android.os.Looper
-import android.view.*
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.AndroidViewModel
@@ -19,15 +20,14 @@ import androidx.lifecycle.AndroidViewModel
  * Created by crazy on 5/8/20 to long live and prosper !
  */
 
-
-fun DialogFragment.setupDialogOnStart(sizeByX: Float = 0.9f) {
-    val window = dialog?.window
-    val size = Point()
-    val display = window?.windowManager?.defaultDisplay
-    display?.getSize(size)
-    window?.setLayout((size.x * sizeByX).toInt(), WindowManager.LayoutParams.WRAP_CONTENT)
-    window?.setGravity(Gravity.CENTER)
+fun Cursor.getSafeColumn(column: String): Int? {
+    return try {
+        getColumnIndexOrThrow(column)
+    }catch (e: Exception){
+        null
+    }
 }
+
 
 fun Context.setupManager(): FragmentManager {
     val manager = when (this) {

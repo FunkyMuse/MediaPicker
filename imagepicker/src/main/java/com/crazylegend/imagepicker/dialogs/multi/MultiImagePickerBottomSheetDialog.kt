@@ -15,11 +15,10 @@ import com.crazylegend.core.viewBinding.viewBinding
 import com.crazylegend.imagepicker.adapters.multi.ImagesMultiSelectAdapter
 import com.crazylegend.imagepicker.consts.LIST_STATE
 import com.crazylegend.imagepicker.contracts.MultiPickerContracts
-import com.crazylegend.imagepicker.databinding.FragmentGalleryLayoutMultiBinding
+import com.crazylegend.imagepicker.databinding.FragmentImagesGalleryLayoutMultiBinding
 import com.crazylegend.imagepicker.images.ImageModel
 import com.crazylegend.imagepicker.images.ImagesVM
 import com.crazylegend.imagepicker.listeners.onImagesPicked
-import com.crazylegend.imagepicker.picker.SingleImagePicker
 
 
 /**
@@ -32,7 +31,7 @@ internal class MultiImagePickerBottomSheetDialog : AbstractBottomSheetDialogFrag
     override val layout: Int
         get() = super.layout
     override var onImagesPicked: onImagesPicked? = null
-    override val binding by viewBinding(FragmentGalleryLayoutMultiBinding::bind)
+    override val binding by viewBinding(FragmentImagesGalleryLayoutMultiBinding::bind)
     override val imagesVM by viewModels<ImagesVM>()
     override val imagesAdapter by lazy {
         ImagesMultiSelectAdapter()
@@ -42,7 +41,7 @@ internal class MultiImagePickerBottomSheetDialog : AbstractBottomSheetDialogFrag
                 if (it) {
                     imagesVM.loadImages()
                 } else {
-                    Log.e(SingleImagePicker.javaClass.name, "PERMISSION DENIED")
+                    Log.e(errorTag, "PERMISSION DENIED")
                     dismissAllowingStateLoss()
                 }
             }

@@ -1,10 +1,9 @@
-package com.crazylegend.imagepicker.picker
+package com.crazylegend.imagepicker.pickers
 
 import android.Manifest.permission.READ_EXTERNAL_STORAGE
 import android.content.Context
 import android.util.Log
 import androidx.annotation.RequiresPermission
-import androidx.lifecycle.LifecycleObserver
 import com.crazylegend.core.setupManager
 import com.crazylegend.imagepicker.consts.MULTI_PICKER_BOTTOM_SHEET
 import com.crazylegend.imagepicker.consts.MULTI_PICKER_DIALOG
@@ -17,7 +16,7 @@ import com.crazylegend.imagepicker.listeners.onImagesDSL
 /**
  * Created by crazy on 5/8/20 to long live and prosper !
  */
-object MultiImagePicker : LifecycleObserver {
+object MultiImagePicker  {
 
     fun restoreListener(context: Context, imagesList: (list: List<ImageModel>) -> Unit) {
         val manager = context.setupManager()
