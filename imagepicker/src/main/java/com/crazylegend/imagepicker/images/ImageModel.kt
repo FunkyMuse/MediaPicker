@@ -12,22 +12,24 @@ import java.util.concurrent.TimeUnit
 
 @Parcelize
 data class ImageModel(
-    val id: Long,
-    val displayName: String?,
-    val dateAdded: Long?,
-    val contentUri: Uri,
-    val dateModified: Long?,
-    val description: String?,
-    val size: Int?,
-    val width: Int?,
-    val height: Int?
+        val id: Long,
+        val displayName: String?,
+        val dateAdded: Long?,
+        val contentUri: Uri,
+        val dateModified: Long?,
+        val description: String?,
+        val size: Int?,
+        val width: Int?,
+        val height: Int?
 ) : Parcelable {
 
-    val addedDateAsDate get() = dateAdded?.let {
-        Date(TimeUnit.SECONDS.toMillis(it))
-    }
-    val dateModifiedAsDate get() = dateModified?.let {
-        Date(TimeUnit.SECONDS.toMillis(it))
-    }
+    val addedDateAsDate
+        get() = dateAdded?.let {
+            Date(TimeUnit.SECONDS.toMillis(it))
+        }
+    val dateModifiedAsDate
+        get() = dateModified?.let {
+            Date(TimeUnit.SECONDS.toMillis(it))
+        }
 
 }

@@ -2,9 +2,10 @@ package com.crazylegend.imagepicker.contracts
 
 import androidx.activity.result.ActivityResultLauncher
 import com.crazylegend.imagepicker.R
-import com.crazylegend.imagepicker.adapter.ImagesAdapter
+import com.crazylegend.imagepicker.adapter.single.ImagesAdapter
 import com.crazylegend.imagepicker.databinding.FragmentGalleryLayoutBinding
 import com.crazylegend.imagepicker.images.ImagesVM
+import com.crazylegend.imagepicker.listeners.onImagePicked
 
 
 /**
@@ -15,5 +16,6 @@ internal interface SinglePickerContracts {
     val binding: FragmentGalleryLayoutBinding?
     val askForStoragePermission: ActivityResultLauncher<String>
     val layout get() = R.layout.fragment_gallery_layout
-    val imagesAdapter:ImagesAdapter
+    val imagesAdapter: ImagesAdapter
+    var onImagePicked: onImagePicked?
 }

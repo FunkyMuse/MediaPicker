@@ -1,4 +1,4 @@
-package com.crazylegend.imagepicker.dialogs
+package com.crazylegend.imagepicker.dialogs.single
 
 import android.Manifest
 import android.os.Bundle
@@ -13,8 +13,9 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.observe
 import androidx.recyclerview.widget.GridLayoutManager
 import com.crazylegend.core.gone
+import com.crazylegend.core.setupDialogOnStart
 import com.crazylegend.core.viewBinding.viewBinding
-import com.crazylegend.imagepicker.adapter.ImagesAdapter
+import com.crazylegend.imagepicker.adapter.single.ImagesAdapter
 import com.crazylegend.imagepicker.contracts.SinglePickerContracts
 import com.crazylegend.imagepicker.databinding.FragmentGalleryLayoutBinding
 import com.crazylegend.imagepicker.images.ImagesVM
@@ -27,39 +28,37 @@ import com.crazylegend.imagepicker.picker.SingleImagePicker
  */
 internal class SingleImagePickerDialogFragment : DialogFragment(), SinglePickerContracts {
 
-    companion object {
-        var onImagePicked: onImagePicked? = null
-    }
+    override var onImagePicked: onImagePicked? = null
 
     override fun onStart() {
         super.onStart()
-        val dialog = dialog
-        if (dialog != null) {
-            val width = ViewGroup.LayoutParams.MATCH_PARENT
-            val height = ViewGroup.LayoutParams.MATCH_PARENT
-            dialog.window?.setLayout(width, height)
-        }
+        setupDialogOnStart()
     }
 
     override val binding by viewBinding(FragmentGalleryLayoutBinding::bind)
     override val imagesVM by viewModels<ImagesVM>()
-    override val askForStoragePermission = registerForActivityResult(ActivityResultContracts.RequestPermission()) {
-        if (it) {
-            imagesVM.loadImages()
-        } else {
-            Log.e(SingleImagePicker.javaClass.name, "PERMISSION DENIED")
-            dismissAllowingStateLoss()
-        }
-    }
+    override val askForStoragePermission =
+            registerForActivityResult(ActivityResultContracts.RequestPermission()) {
+                if (it) {
+                    imagesVM.loadImages()
+                } else {
+                    Log.e(SingleImagePicker.javaClass.name, "PERMISSION DENIED")
+                    dismissAllowingStateLoss()
+                }
+            }
 
     override val imagesAdapter by lazy {
         ImagesAdapter {
-            SingleImagePickerBottomSheetDialog.onImagePicked?.forImage(it)
+            onImagePicked?.forImage(it)
             dismissAllowingStateLoss()
         }
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? = inflater.inflate(layout, container, false)
+    override fun onCreateView(
+            inflater: LayoutInflater,
+            container: ViewGroup?,
+            savedInstanceState: Bundle?
+    ): View? = inflater.inflate(layout, container, false)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

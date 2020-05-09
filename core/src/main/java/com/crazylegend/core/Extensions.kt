@@ -9,6 +9,10 @@ import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.DialogFragment
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.AndroidViewModel
 
 
@@ -16,6 +20,26 @@ import androidx.lifecycle.AndroidViewModel
  * Created by crazy on 5/8/20 to long live and prosper !
  */
 
+
+fun DialogFragment.setupDialogOnStart() {
+    dialog?.apply {
+        val width = ViewGroup.LayoutParams.MATCH_PARENT
+        val height = ViewGroup.LayoutParams.MATCH_PARENT
+        window?.setLayout(width, height)
+    }
+}
+
+fun Context.setupManager(): FragmentManager {
+    val manager = when (this) {
+        is Fragment -> this.childFragmentManager
+        is AppCompatActivity -> this.supportFragmentManager
+        else -> null
+    }
+    requireNotNull(manager) {
+        "Use a Fragment or AppCompat activity"
+    }
+    return manager
+}
 
 val AndroidViewModel.context: Context
     get() = getApplication()

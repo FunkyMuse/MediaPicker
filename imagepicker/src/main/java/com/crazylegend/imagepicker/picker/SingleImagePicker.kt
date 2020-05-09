@@ -1,16 +1,14 @@
 package com.crazylegend.imagepicker.picker
 
 import android.Manifest.permission.READ_EXTERNAL_STORAGE
-import android.app.Activity
 import android.content.Context
+import android.util.Log
 import androidx.annotation.RequiresPermission
-import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentManager
+import com.crazylegend.core.setupManager
 import com.crazylegend.imagepicker.consts.SINGLE_PICKER_BOTTOM_SHEET
 import com.crazylegend.imagepicker.consts.SINGLE_PICKER_DIALOG
-import com.crazylegend.imagepicker.dialogs.SingleImagePickerBottomSheetDialog
-import com.crazylegend.imagepicker.dialogs.SingleImagePickerDialogFragment
+import com.crazylegend.imagepicker.dialogs.single.SingleImagePickerBottomSheetDialog
+import com.crazylegend.imagepicker.dialogs.single.SingleImagePickerDialogFragment
 import com.crazylegend.imagepicker.images.ImageModel
 import com.crazylegend.imagepicker.listeners.onImageDSL
 
@@ -20,36 +18,46 @@ import com.crazylegend.imagepicker.listeners.onImageDSL
  */
 object SingleImagePicker {
 
+    fun restoreListener(context: Context, onPickedImage: (image: ImageModel) -> Unit) {
+        val manager = context.setupManager()
+        when (val fragment = manager.findFragmentByTag(SINGLE_PICKER_BOTTOM_SHEET)
+                ?: manager.findFragmentByTag(SINGLE_PICKER_DIALOG)) {
+            is SingleImagePickerBottomSheetDialog -> {
+                fragment.onImagePicked = onImageDSL {
+                    onPickedImage(it)
+                }
+            }
+            is SingleImagePickerDialogFragment -> {
+                fragment.onImagePicked = onImageDSL {
+                    onPickedImage(it)
+                }
+            }
+            null -> {
+                Log.e(MultiImagePicker::class.java.name, "FRAGMENT NOT FOUND")
+            }
+        }
+    }
 
     @RequiresPermission(READ_EXTERNAL_STORAGE)
     fun bottomSheetPicker(context: Context, onPickedImage: (image: ImageModel) -> Unit) {
-        val manager = setupManager(context)
-        val singleImagePickerBottomSheetDialog = SingleImagePickerBottomSheetDialog()
-        singleImagePickerBottomSheetDialog.show(manager, SINGLE_PICKER_BOTTOM_SHEET)
-        SingleImagePickerBottomSheetDialog.onImagePicked = onImageDSL {
-            onPickedImage(it)
+        val manager = context.setupManager()
+        with(SingleImagePickerBottomSheetDialog()) {
+            onImagePicked = onImageDSL {
+                onPickedImage(it)
+            }
+            show(manager, SINGLE_PICKER_BOTTOM_SHEET)
         }
     }
 
     @RequiresPermission(READ_EXTERNAL_STORAGE)
     fun dialogPicker(context: Context, onPickedImage: (image: ImageModel) -> Unit) {
-        val manager = setupManager(context)
-        val singleImagePickerBottomSheetDialog = SingleImagePickerDialogFragment()
-        singleImagePickerBottomSheetDialog.show(manager, SINGLE_PICKER_DIALOG)
-        SingleImagePickerBottomSheetDialog.onImagePicked = onImageDSL {
-            onPickedImage(it)
+        val manager = context.setupManager()
+        with(SingleImagePickerDialogFragment()) {
+            onImageDSL {
+                onPickedImage(it)
+            }
+            show(manager, SINGLE_PICKER_DIALOG)
         }
     }
 
-    private fun setupManager(context: Context): FragmentManager {
-        val manager = when (context) {
-            is Fragment -> context.childFragmentManager
-            is AppCompatActivity -> context.supportFragmentManager
-            else -> null
-        }
-        requireNotNull(manager) {
-            "Use a Fragment or AppCompat activity"
-        }
-        return manager
-    }
 }

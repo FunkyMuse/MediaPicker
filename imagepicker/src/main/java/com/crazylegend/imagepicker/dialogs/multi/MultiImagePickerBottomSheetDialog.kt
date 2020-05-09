@@ -1,4 +1,4 @@
-package com.crazylegend.imagepicker.dialogs
+package com.crazylegend.imagepicker.dialogs.multi
 
 import android.Manifest
 import android.os.Bundle
@@ -13,7 +13,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.observe
 import androidx.recyclerview.widget.GridLayoutManager
 import com.crazylegend.core.viewBinding.viewBinding
-import com.crazylegend.imagepicker.adapter.ImagesMultiSelectAdapter
+import com.crazylegend.imagepicker.adapter.multi.ImagesMultiSelectAdapter
 import com.crazylegend.imagepicker.consts.LIST_STATE
 import com.crazylegend.imagepicker.contracts.MultiPickerContracts
 import com.crazylegend.imagepicker.databinding.FragmentGalleryLayoutMultiBinding
@@ -30,11 +30,8 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 internal class MultiImagePickerBottomSheetDialog : BottomSheetDialogFragment(),
         MultiPickerContracts {
 
-    companion object {
-        var onImagesPicked: onImagesPicked? = null
-    }
 
-
+    override var onImagesPicked: onImagesPicked? = null
     override val binding by viewBinding(FragmentGalleryLayoutMultiBinding::bind)
     override val imagesVM by viewModels<ImagesVM>()
     override val askForStoragePermission =

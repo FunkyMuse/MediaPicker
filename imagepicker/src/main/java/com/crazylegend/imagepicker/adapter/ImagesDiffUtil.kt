@@ -9,8 +9,8 @@ import com.crazylegend.imagepicker.images.ImageModel
  */
 internal class ImagesDiffUtil : DiffUtil.ItemCallback<ImageModel>() {
     override fun areItemsTheSame(oldItem: ImageModel, newItem: ImageModel) =
-        oldItem.id == newItem.id
+            oldItem.id == newItem.id
 
     override fun areContentsTheSame(oldItem: ImageModel, newItem: ImageModel) =
-        oldItem == newItem
+            oldItem == newItem
 }

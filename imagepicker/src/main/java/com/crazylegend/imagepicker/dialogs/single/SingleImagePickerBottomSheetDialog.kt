@@ -1,4 +1,4 @@
-package com.crazylegend.imagepicker.dialogs
+package com.crazylegend.imagepicker.dialogs.single
 
 import android.Manifest
 import android.os.Bundle
@@ -13,7 +13,7 @@ import androidx.lifecycle.observe
 import androidx.recyclerview.widget.GridLayoutManager
 import com.crazylegend.core.gone
 import com.crazylegend.core.viewBinding.viewBinding
-import com.crazylegend.imagepicker.adapter.ImagesAdapter
+import com.crazylegend.imagepicker.adapter.single.ImagesAdapter
 import com.crazylegend.imagepicker.contracts.SinglePickerContracts
 import com.crazylegend.imagepicker.databinding.FragmentGalleryLayoutBinding
 import com.crazylegend.imagepicker.images.ImagesVM
@@ -27,10 +27,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment
  */
 internal class SingleImagePickerBottomSheetDialog : BottomSheetDialogFragment(), SinglePickerContracts {
 
-    companion object {
-        var onImagePicked: onImagePicked? = null
-    }
-
+    override var onImagePicked: onImagePicked? = null
     override val binding by viewBinding(FragmentGalleryLayoutBinding::bind)
     override val imagesVM by viewModels<ImagesVM>()
     override val askForStoragePermission = registerForActivityResult(ActivityResultContracts.RequestPermission()) {
