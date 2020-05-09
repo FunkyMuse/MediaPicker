@@ -24,14 +24,10 @@ object MultiImagePicker : LifecycleObserver {
         when (val fragment = manager.findFragmentByTag(MULTI_PICKER_BOTTOM_SHEET)
                 ?: manager.findFragmentByTag(MULTI_PICKER_DIALOG)) {
             is MultiImagePickerDialogFragment -> {
-                fragment.onImagesPicked = onImagesDSL {
-                    imagesList(it)
-                }
+                fragment.onImagesPicked = onImagesDSL(imagesList)
             }
             is MultiImagePickerBottomSheetDialog -> {
-                fragment.onImagesPicked = onImagesDSL {
-                    imagesList(it)
-                }
+                fragment.onImagesPicked = onImagesDSL(imagesList)
             }
             null -> {
                 Log.e(MultiImagePicker::class.java.name, "FRAGMENT NOT FOUND")
@@ -43,9 +39,7 @@ object MultiImagePicker : LifecycleObserver {
     fun bottomSheetPicker(context: Context, imagesList: (list: List<ImageModel>) -> Unit) {
         val manager = context.setupManager()
         with(MultiImagePickerBottomSheetDialog()) {
-            onImagesPicked = onImagesDSL {
-                imagesList(it)
-            }
+            onImagesPicked = onImagesDSL(imagesList)
             show(manager, MULTI_PICKER_BOTTOM_SHEET)
         }
     }
@@ -54,9 +48,7 @@ object MultiImagePicker : LifecycleObserver {
     fun dialogPicker(context: Context, imagesList: (list: List<ImageModel>) -> Unit) {
         val manager = context.setupManager()
         with(MultiImagePickerDialogFragment()) {
-            onImagesPicked = onImagesDSL {
-                imagesList(it)
-            }
+            onImagesPicked = onImagesDSL(imagesList)
             show(manager, MULTI_PICKER_DIALOG)
         }
     }

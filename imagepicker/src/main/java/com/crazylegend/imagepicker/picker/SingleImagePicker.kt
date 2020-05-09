@@ -23,17 +23,13 @@ object SingleImagePicker {
         when (val fragment = manager.findFragmentByTag(SINGLE_PICKER_BOTTOM_SHEET)
                 ?: manager.findFragmentByTag(SINGLE_PICKER_DIALOG)) {
             is SingleImagePickerBottomSheetDialog -> {
-                fragment.onImagePicked = onImageDSL {
-                    onPickedImage(it)
-                }
+                fragment.onImagePicked = onImageDSL(onPickedImage)
             }
             is SingleImagePickerDialogFragment -> {
-                fragment.onImagePicked = onImageDSL {
-                    onPickedImage(it)
-                }
+                fragment.onImagePicked = onImageDSL(onPickedImage)
             }
             null -> {
-                Log.e(MultiImagePicker::class.java.name, "FRAGMENT NOT FOUND")
+                Log.e(SingleImagePicker::class.java.name, "FRAGMENT NOT FOUND")
             }
         }
     }
@@ -42,9 +38,7 @@ object SingleImagePicker {
     fun bottomSheetPicker(context: Context, onPickedImage: (image: ImageModel) -> Unit) {
         val manager = context.setupManager()
         with(SingleImagePickerBottomSheetDialog()) {
-            onImagePicked = onImageDSL {
-                onPickedImage(it)
-            }
+            onImagePicked = onImageDSL(onPickedImage)
             show(manager, SINGLE_PICKER_BOTTOM_SHEET)
         }
     }
@@ -53,9 +47,7 @@ object SingleImagePicker {
     fun dialogPicker(context: Context, onPickedImage: (image: ImageModel) -> Unit) {
         val manager = context.setupManager()
         with(SingleImagePickerDialogFragment()) {
-            onImageDSL {
-                onPickedImage(it)
-            }
+            onImagePicked = onImageDSL(onPickedImage)
             show(manager, SINGLE_PICKER_DIALOG)
         }
     }
