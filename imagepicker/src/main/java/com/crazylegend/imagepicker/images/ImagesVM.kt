@@ -105,11 +105,7 @@ internal class ImagesVM(application: Application) : AndroidViewModel(application
                     val height = cursor.getIntOrNull(heightColumn)
 
                     val contentUri = ContentUris.withAppendedId(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, id)
-                    val image = ImageModel(
-                            id, displayName, dateAdded, contentUri,
-                            dateModified, description, size,
-                            width, height
-                    )
+                    val image = ImageModel(id, displayName, dateAdded, contentUri, dateModified, description, size, width, height)
                     images += image
                 }
             }
