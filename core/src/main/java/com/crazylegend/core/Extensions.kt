@@ -6,7 +6,6 @@ import android.database.ContentObserver
 import android.database.Cursor
 import android.net.Uri
 import android.os.Handler
-import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -54,7 +53,7 @@ fun ContentResolver.registerObserver(
     uri: Uri,
     observer: (change: Boolean) -> Unit
 ): ContentObserver {
-    val contentObserver = object : ContentObserver(Handler(Looper.getMainLooper())) {
+    val contentObserver = object : ContentObserver(Handler()) {
         override fun onChange(selfChange: Boolean) {
             observer(selfChange)
         }
