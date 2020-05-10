@@ -140,8 +140,11 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
 
     override fun onRestoreInstanceState(savedInstanceState: Bundle) {
         super.onRestoreInstanceState(savedInstanceState)
+        //images
         MultiImagePicker.restoreListener(this, ::doSomethingWithImageList)
         SingleImagePicker.restoreListener(this, ::loadImage)
+
+        //videos
         MultiVideoPicker.restoreListener(this, ::doSomethingWithVideoList)
         SingleVideoPicker.restoreListener(this, ::loadVideo)
     }
