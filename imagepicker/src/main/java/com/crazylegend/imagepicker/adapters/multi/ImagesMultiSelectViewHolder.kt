@@ -1,7 +1,6 @@
 package com.crazylegend.imagepicker.adapters.multi
 
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
 import com.crazylegend.core.visible
 import com.crazylegend.imagepicker.R
 import com.crazylegend.imagepicker.databinding.ItemviewImageBinding
@@ -20,11 +19,8 @@ internal class ImagesMultiSelectViewHolder(
     }
 
     fun bind(imageModel: ImageModel, selected: Boolean = false) {
-        Glide.with(binding.image)
-                .load(imageModel.contentUri)
-                .thumbnail(0.33f)
-                .centerCrop()
-                .into(binding.image)
+        binding.image.loadImage(imageModel.contentUri)
+
         if (selected) {
             binding.selection.setImageResource(R.drawable.ic_checked)
         } else {

@@ -1,7 +1,7 @@
 package com.crazylegend.imagepicker.adapters.single
 
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
+import com.crazylegend.core.loadImage
 import com.crazylegend.imagepicker.databinding.ItemviewImageBinding
 import com.crazylegend.imagepicker.images.ImageModel
 
@@ -21,11 +21,7 @@ internal class ImagesViewHolder(private val binding: ItemviewImageBinding, onCli
     }
 
     fun bind(imageModel: ImageModel) {
-        Glide.with(binding.image)
-                .load(imageModel.contentUri)
-                .thumbnail(0.33f)
-                .centerCrop()
-                .into(binding.image)
+        binding.image.loadImage(imageModel.contentUri)
     }
 
 }

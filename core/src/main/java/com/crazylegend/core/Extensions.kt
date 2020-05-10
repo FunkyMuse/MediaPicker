@@ -10,14 +10,24 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.AppCompatImageView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.AndroidViewModel
+import com.bumptech.glide.Glide
 
 
 /**
  * Created by crazy on 5/8/20 to long live and prosper !
  */
+
+fun AppCompatImageView.loadImage(uri: Uri) {
+    Glide.with(this)
+            .load(uri)
+            .thumbnail(0.33f)
+            .centerCrop()
+            .into(this)
+}
 
 fun Cursor.getSafeColumn(column: String): Int? {
     return try {
