@@ -1,6 +1,7 @@
 package com.crazylegend.imagepicker.adapters.multi
 
 import androidx.recyclerview.widget.RecyclerView
+import com.crazylegend.core.loadImage
 import com.crazylegend.core.visible
 import com.crazylegend.imagepicker.R
 import com.crazylegend.imagepicker.databinding.ItemviewImageBinding

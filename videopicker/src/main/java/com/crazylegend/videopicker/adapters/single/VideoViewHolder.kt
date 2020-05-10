@@ -1,7 +1,7 @@
 package com.crazylegend.videopicker.adapters.single
 
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
+import com.crazylegend.core.loadImage
 import com.crazylegend.videopicker.databinding.ItemviewVideoBinding
 import com.crazylegend.videopicker.videos.VideoModel
 
@@ -21,11 +21,8 @@ internal class VideoViewHolder(private val binding: ItemviewVideoBinding, onClic
     }
 
     fun bind(imageModel: VideoModel) {
-        Glide.with(binding.image)
-                .load(imageModel.contentUri)
-                .thumbnail(0.33f)
-                .centerCrop()
-                .into(binding.image)
+        binding.image.loadImage(imageModel.contentUri)
+
     }
 
 }
