@@ -23,10 +23,14 @@ import androidx.lifecycle.AndroidViewModel
 fun Cursor.getSafeColumn(column: String): Int? {
     return try {
         getColumnIndexOrThrow(column)
-    }catch (e: Exception){
+    } catch (e: Exception) {
         null
     }
 }
+
+fun <T : Any> Cursor.mapToList(cursorPredicate: (Cursor) -> T): List<T> = generateSequence {
+    if (moveToNext()) cursorPredicate(this) else null
+}.toList()
 
 
 fun Context.setupManager(): FragmentManager {
@@ -46,7 +50,10 @@ val AndroidViewModel.context: Context
 
 val ViewGroup.inflater: LayoutInflater get() = LayoutInflater.from(context)
 
-fun ContentResolver.registerObserver(uri: Uri, observer: (change: Boolean) -> Unit): ContentObserver {
+fun ContentResolver.registerObserver(
+    uri: Uri,
+    observer: (change: Boolean) -> Unit
+): ContentObserver {
     val contentObserver = object : ContentObserver(Handler(Looper.getMainLooper())) {
         override fun onChange(selfChange: Boolean) {
             observer(selfChange)
