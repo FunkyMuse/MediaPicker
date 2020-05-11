@@ -12,14 +12,15 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.observe
 import androidx.recyclerview.widget.GridLayoutManager
 import com.crazylegend.core.abstracts.AbstractBottomSheetDialogFragment
+import com.crazylegend.core.adapters.single.SingleAdapter
+import com.crazylegend.core.databinding.FragmentImagesGalleryLayoutBinding
 import com.crazylegend.core.gone
-import com.crazylegend.core.viewBinding.viewBinding
-import com.crazylegend.imagepicker.adapters.single.ImagesAdapter
+import com.crazylegend.core.modifiers.single.SinglePickerModifier
+import com.crazylegend.extensions.viewBinding
 import com.crazylegend.imagepicker.contracts.SinglePickerContracts
-import com.crazylegend.imagepicker.databinding.FragmentImagesGalleryLayoutBinding
+import com.crazylegend.imagepicker.images.ImageModel
 import com.crazylegend.imagepicker.images.ImagesVM
 import com.crazylegend.imagepicker.listeners.onImagePicked
-import com.crazylegend.imagepicker.modifiers.single.SingleImagePickerModifier
 
 
 /**
@@ -32,12 +33,12 @@ internal class SingleImagePickerBottomSheetDialog : AbstractBottomSheetDialogFra
     override var onImagePicked: onImagePicked? = null
     override val binding by viewBinding(FragmentImagesGalleryLayoutBinding::bind)
     override val imagesVM by viewModels<ImagesVM>()
-    override val modifier: SingleImagePickerModifier?
+    override val modifier: SinglePickerModifier?
         get() = arguments?.getParcelable(modifierTag)
 
-    override val imagesAdapter by lazy {
-        ImagesAdapter {
-            onImagePicked?.forImage(it)
+    override val singleAdapter by lazy {
+        SingleAdapter {
+            onImagePicked?.forImage(it as ImageModel)
             dismissAllowingStateLoss()
         }
     }
@@ -59,10 +60,10 @@ internal class SingleImagePickerBottomSheetDialog : AbstractBottomSheetDialogFra
         applyTitleModifications(binding.title)
         binding.gallery.apply {
             layoutManager = GridLayoutManager(requireContext(), 3)
-            adapter = imagesAdapter
+            adapter = singleAdapter
         }
         imagesVM.images.observe(viewLifecycleOwner) {
-            imagesAdapter.submitList(it)
+            singleAdapter.submitList(it)
         }
     }
 
@@ -75,7 +76,7 @@ internal class SingleImagePickerBottomSheetDialog : AbstractBottomSheetDialogFra
         modifier?.titleTextModifier?.applyTextParams(appCompatTextView)
     }
 
-    override fun addModifier(modifier: SingleImagePickerModifier) {
+    override fun addModifier(modifier: SinglePickerModifier) {
         arguments = bundleOf(modifierTag to modifier)
     }
 

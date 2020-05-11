@@ -8,9 +8,8 @@ import android.os.Build
 import android.os.Parcelable
 import android.provider.MediaStore
 import android.util.Size
+import com.crazylegend.core.dto.BaseCursorModel
 import kotlinx.android.parcel.Parcelize
-import java.util.*
-import java.util.concurrent.TimeUnit
 
 
 /**
@@ -19,15 +18,15 @@ import java.util.concurrent.TimeUnit
 
 @Parcelize
 data class VideoModel(
-        val id: Long,
-        val displayName: String?,
-        val dateAdded: Long?,
-        val contentUri: Uri,
-        val dateModified: Long?,
-        val description: String?,
-        val size: Int?,
-        val width: Int?,
-        val height: Int?,
+        override val id: Long,
+        override val displayName: String?,
+        override val dateAdded: Long?,
+        override val contentUri: Uri,
+        override val dateModified: Long?,
+        override val description: String?,
+        override val size: Int?,
+        override val width: Int?,
+        override val height: Int?,
         val resolution: String?,
         val private: Int?,
         val artist: String?,
@@ -36,18 +35,8 @@ data class VideoModel(
         val tags: String?,
         val language: String?,
         val bookmark: Int?
-) : Parcelable {
+) : BaseCursorModel(id, displayName, dateAdded, contentUri, dateModified, description, size, width, height), Parcelable {
 
-    val getVideoExtension get() = displayName?.substringAfterLast(".")
-
-    val addedDateAsDate
-        get() = dateAdded?.let {
-            Date(TimeUnit.SECONDS.toMillis(it))
-        }
-    val dateModifiedAsDate
-        get() = dateModified?.let {
-            Date(TimeUnit.SECONDS.toMillis(it))
-        }
 
     /**
      * Or just use Glide with the contentUri

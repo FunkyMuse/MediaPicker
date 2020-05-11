@@ -4,13 +4,13 @@ import android.Manifest
 import android.content.Context
 import android.util.Log
 import androidx.annotation.RequiresPermission
+import com.crazylegend.core.modifiers.single.SinglePickerModifier
 import com.crazylegend.core.setupManager
 import com.crazylegend.videopicker.consts.SINGLE_PICKER_BOTTOM_SHEET
 import com.crazylegend.videopicker.consts.SINGLE_PICKER_DIALOG
 import com.crazylegend.videopicker.dialogs.single.SingleVideoPickerBottomSheetDialog
 import com.crazylegend.videopicker.dialogs.single.SingleVideoPickerDialogFragment
 import com.crazylegend.videopicker.listeners.onVideoDSL
-import com.crazylegend.videopicker.modifiers.SingleVideoPickerModifier
 import com.crazylegend.videopicker.videos.VideoModel
 
 
@@ -36,7 +36,7 @@ object SingleVideoPicker {
     }
 
     @RequiresPermission(Manifest.permission.READ_EXTERNAL_STORAGE)
-    fun bottomSheetPicker(context: Context, pickerModifier: SingleVideoPickerModifier.()->Unit = {}, onPickedVideo: (video: VideoModel) -> Unit) {
+    fun bottomSheetPicker(context: Context, pickerModifier: SinglePickerModifier.()->Unit = {}, onPickedVideo: (video: VideoModel) -> Unit) {
         val modifier = setupModifier(pickerModifier)
         val manager = context.setupManager()
         with(SingleVideoPickerBottomSheetDialog()) {
@@ -47,7 +47,7 @@ object SingleVideoPicker {
     }
 
     @RequiresPermission(Manifest.permission.READ_EXTERNAL_STORAGE)
-    fun dialogPicker(context: Context, pickerModifier: SingleVideoPickerModifier.()->Unit = {}, onPickedVideo: (video: VideoModel) -> Unit) {
+    fun dialogPicker(context: Context, pickerModifier: SinglePickerModifier.()->Unit = {}, onPickedVideo: (video: VideoModel) -> Unit) {
         val manager = context.setupManager()
         val modifier = setupModifier(pickerModifier)
         with(SingleVideoPickerDialogFragment()) {
@@ -57,8 +57,8 @@ object SingleVideoPicker {
         }
     }
 
-    private fun setupModifier(videoPicker: SingleVideoPickerModifier.() -> Unit): SingleVideoPickerModifier {
-        val modifier = SingleVideoPickerModifier()
+    private fun setupModifier(videoPicker: SinglePickerModifier.() -> Unit): SinglePickerModifier {
+        val modifier = SinglePickerModifier()
         modifier.videoPicker()
         return modifier
     }

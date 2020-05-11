@@ -4,6 +4,7 @@ import android.Manifest.permission.READ_EXTERNAL_STORAGE
 import android.content.Context
 import android.util.Log
 import androidx.annotation.RequiresPermission
+import com.crazylegend.core.modifiers.single.SinglePickerModifier
 import com.crazylegend.core.setupManager
 import com.crazylegend.imagepicker.consts.SINGLE_PICKER_BOTTOM_SHEET
 import com.crazylegend.imagepicker.consts.SINGLE_PICKER_DIALOG
@@ -11,7 +12,7 @@ import com.crazylegend.imagepicker.dialogs.single.SingleImagePickerBottomSheetDi
 import com.crazylegend.imagepicker.dialogs.single.SingleImagePickerDialogFragment
 import com.crazylegend.imagepicker.images.ImageModel
 import com.crazylegend.imagepicker.listeners.onImageDSL
-import com.crazylegend.imagepicker.modifiers.single.SingleImagePickerModifier
+
 
 
 /**
@@ -37,9 +38,9 @@ object SingleImagePicker {
 
     @RequiresPermission(READ_EXTERNAL_STORAGE)
     fun bottomSheetPicker(
-        context: Context,
-        singleImagePickerModifier: SingleImagePickerModifier.() -> Unit = {},
-        onPickedImage: (image: ImageModel) -> Unit
+            context: Context,
+            singleImagePickerModifier: SinglePickerModifier.() -> Unit = {},
+            onPickedImage: (image: ImageModel) -> Unit
     ) {
         val modifier = setupModifier(singleImagePickerModifier)
         val manager = context.setupManager()
@@ -53,7 +54,7 @@ object SingleImagePicker {
     @RequiresPermission(READ_EXTERNAL_STORAGE)
     fun dialogPicker(
         context: Context,
-        singleImagePickerModifier: SingleImagePickerModifier.() -> Unit = {},
+        singleImagePickerModifier: SinglePickerModifier.() -> Unit = {},
         onPickedImage: (image: ImageModel) -> Unit
     ) {
         val modifier = setupModifier(singleImagePickerModifier)
@@ -65,8 +66,8 @@ object SingleImagePicker {
         }
     }
 
-    private inline fun setupModifier(singleImagePickerModifier: SingleImagePickerModifier.() -> Unit) =
-        SingleImagePickerModifier().also { it.singleImagePickerModifier() }
+    private inline fun setupModifier(singleImagePickerModifier: SinglePickerModifier.() -> Unit) =
+        SinglePickerModifier().also { it.singleImagePickerModifier() }
 
 
 }

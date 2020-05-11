@@ -24,9 +24,8 @@ import com.bumptech.glide.Glide
  * Created by crazy on 5/8/20 to long live and prosper !
  */
 
-const val MODIFIER_ARGUMENT_CONST = "modifier"
 
-fun AppCompatImageView.loadImage(uri: Uri) {
+internal fun AppCompatImageView.loadImage(uri: Uri) {
     Glide.with(this)
             .load(uri)
             .thumbnail(0.33f)
@@ -41,11 +40,6 @@ fun Cursor.getSafeColumn(column: String): Int? {
         null
     }
 }
-
-fun <T : Any> Cursor.mapToList(cursorPredicate: (Cursor) -> T): List<T> = generateSequence {
-    if (moveToNext()) cursorPredicate(this) else null
-}.toList()
-
 
 fun Context.setupManager(): FragmentManager {
     val manager = when (this) {
@@ -65,8 +59,8 @@ val AndroidViewModel.context: Context
 val ViewGroup.inflater: LayoutInflater get() = LayoutInflater.from(context)
 
 fun ContentResolver.registerObserver(
-    uri: Uri,
-    observer: (change: Boolean) -> Unit
+        uri: Uri,
+        observer: (change: Boolean) -> Unit
 ): ContentObserver {
     val contentObserver = object : ContentObserver(Handler()) {
         override fun onChange(selfChange: Boolean) {
@@ -86,16 +80,16 @@ fun View.gone() {
     this.visibility = View.GONE
 }
 
-fun View.invisible() {
+internal fun View.invisible() {
     this.visibility = View.INVISIBLE
 }
 
 
-fun <T : View> T.centerInParent(): T {
+internal fun <T : View> T.centerInParent(): T {
     return centerHorizontally().centerVertically()
 }
 
-fun <T : View> T.centerHorizontally(): T {
+internal fun <T : View> T.centerHorizontally(): T {
     (parent as? ConstraintLayout)?.let { constraintLayout ->
         constraintLayout.addConstraints {
             centerHorizontally(id, constraintLayout.id)
@@ -104,7 +98,7 @@ fun <T : View> T.centerHorizontally(): T {
     return this
 }
 
-fun <T : View> T.centerVertically(): T {
+internal fun <T : View> T.centerVertically(): T {
     (parent as? ConstraintLayout)?.let { constraintLayout ->
         constraintLayout.addConstraints {
             centerVertically(id, constraintLayout.id)
@@ -114,38 +108,38 @@ fun <T : View> T.centerVertically(): T {
 }
 
 
-fun <T : View> T.fillParent(padding: Int = 0): T {
+internal fun <T : View> T.fillParent(padding: Int = 0): T {
     return fillVertically(padding).fillHorizontally(padding)
 }
 
-fun <T : View> T.fillVertically(padding: Int = 0): T {
+internal fun <T : View> T.fillVertically(padding: Int = 0): T {
     layoutParams.height = ConstraintSet.MATCH_CONSTRAINT // Needed to "match constraints"
     return top(padding).bottom(padding)
 }
 
-fun <T : View> T.fillHorizontally(padding: Int = 0): T {
+internal fun <T : View> T.fillHorizontally(padding: Int = 0): T {
     layoutParams.width = ConstraintSet.MATCH_CONSTRAINT // Needed to "match constraints"
     return left(padding).right(padding)
 }
 
 
-fun <T : View> T.top(margin: Int): T {
+internal fun <T : View> T.top(margin: Int): T {
     return position(ConstraintLayout.LayoutParams.TOP, margin)
 }
 
-fun <T : View> T.left(margin: Int): T {
+internal fun <T : View> T.left(margin: Int): T {
     return position(ConstraintLayout.LayoutParams.LEFT, margin)
 }
 
-fun <T : View> T.right(margin: Int): T {
+internal fun <T : View> T.right(margin: Int): T {
     return position(ConstraintLayout.LayoutParams.RIGHT, margin)
 }
 
-fun <T : View> T.bottom(margin: Int): T {
+internal fun <T : View> T.bottom(margin: Int): T {
     return position(ConstraintLayout.LayoutParams.BOTTOM, margin)
 }
 
-fun <T : View> T.position(position: Int, margin: Int): T {
+internal fun <T : View> T.position(position: Int, margin: Int): T {
     (parent as? ConstraintLayout)?.let { constraintLayout ->
         constraintLayout.addConstraints {
             connect(id, position, ConstraintLayout.LayoutParams.PARENT_ID, position, margin.dp)
@@ -157,22 +151,22 @@ fun <T : View> T.position(position: Int, margin: Int): T {
 
 // Top
 
-fun <T : View> T.constrainTopToBottomOf(view: View, margin: Int = 0): T {
+internal fun <T : View> T.constrainTopToBottomOf(view: View, margin: Int = 0): T {
     return constrainTopToBottomOf(view.id, margin)
 }
 
-fun <T : View> T.constrainTopToBottomOf(viewId: Int, margin: Int = 0): T {
+internal fun <T : View> T.constrainTopToBottomOf(viewId: Int, margin: Int = 0): T {
     (parent as? ConstraintLayout)?.addConstraints {
         connect(id, ConstraintLayout.LayoutParams.TOP, viewId, ConstraintLayout.LayoutParams.BOTTOM, margin.dp)
     }
     return this
 }
 
-fun <T : View> T.constrainTopToTopOf(view: View, margin: Int = 0): T {
+internal fun <T : View> T.constrainTopToTopOf(view: View, margin: Int = 0): T {
     return constrainTopToTopOf(view.id, margin)
 }
 
-fun <T : View> T.constrainTopToTopOf(viewId: Int, margin: Int = 0): T {
+internal fun <T : View> T.constrainTopToTopOf(viewId: Int, margin: Int = 0): T {
     (parent as? ConstraintLayout)?.addConstraints {
         connect(id, ConstraintLayout.LayoutParams.TOP, viewId, ConstraintLayout.LayoutParams.TOP, margin.dp)
     }
@@ -182,11 +176,11 @@ fun <T : View> T.constrainTopToTopOf(viewId: Int, margin: Int = 0): T {
 
 // Left
 
-fun <T : View> T.constrainLeftToRightOf(view: View, margin: Int = 0): T {
+internal fun <T : View> T.constrainLeftToRightOf(view: View, margin: Int = 0): T {
     return constrainLeftToRightOf(view.id, margin)
 }
 
-fun <T : View> T.constrainLeftToRightOf(viewId: Int, margin: Int = 0): T {
+internal fun <T : View> T.constrainLeftToRightOf(viewId: Int, margin: Int = 0): T {
     (parent as? ConstraintLayout)?.addConstraints {
         connect(id, ConstraintLayout.LayoutParams.LEFT, viewId, ConstraintLayout.LayoutParams.RIGHT, margin.dp)
     }
@@ -194,11 +188,11 @@ fun <T : View> T.constrainLeftToRightOf(viewId: Int, margin: Int = 0): T {
     return this
 }
 
-fun <T : View> T.constrainLeftToLeftOf(view: View, margin: Int = 0): T {
+internal fun <T : View> T.constrainLeftToLeftOf(view: View, margin: Int = 0): T {
     return constrainLeftToLeftOf(view.id, margin)
 }
 
-fun <T : View> T.constrainLeftToLeftOf(viewId: Int, margin: Int = 0): T {
+internal fun <T : View> T.constrainLeftToLeftOf(viewId: Int, margin: Int = 0): T {
     (parent as? ConstraintLayout)?.addConstraints {
         connect(id, ConstraintLayout.LayoutParams.LEFT, viewId, ConstraintLayout.LayoutParams.LEFT, margin.dp)
     }
@@ -208,11 +202,11 @@ fun <T : View> T.constrainLeftToLeftOf(viewId: Int, margin: Int = 0): T {
 
 // Right
 
-fun <T : View> T.constrainRightToLeftOf(view: View, margin: Int = 0): T {
+internal fun <T : View> T.constrainRightToLeftOf(view: View, margin: Int = 0): T {
     return constrainRightToLeftOf(view.id, margin)
 }
 
-fun <T : View> T.constrainRightToLeftOf(viewId: Int, margin: Int = 0): T {
+internal fun <T : View> T.constrainRightToLeftOf(viewId: Int, margin: Int = 0): T {
     (parent as? ConstraintLayout)?.addConstraints {
         connect(id, ConstraintLayout.LayoutParams.RIGHT, viewId, ConstraintLayout.LayoutParams.LEFT, margin.dp)
     }
@@ -220,11 +214,11 @@ fun <T : View> T.constrainRightToLeftOf(viewId: Int, margin: Int = 0): T {
     return this
 }
 
-fun <T : View> T.constrainRightToRightOf(view: View, margin: Int = 0): T {
+internal fun <T : View> T.constrainRightToRightOf(view: View, margin: Int = 0): T {
     return constrainRightToRightOf(view.id, margin)
 }
 
-fun <T : View> T.constrainRightToRightOf(viewId: Int, margin: Int = 0): T {
+internal fun <T : View> T.constrainRightToRightOf(viewId: Int, margin: Int = 0): T {
     (parent as? ConstraintLayout)?.addConstraints {
         connect(id, ConstraintLayout.LayoutParams.RIGHT, viewId, ConstraintLayout.LayoutParams.RIGHT, margin.dp)
     }
@@ -234,22 +228,22 @@ fun <T : View> T.constrainRightToRightOf(viewId: Int, margin: Int = 0): T {
 
 // Bottom
 
-fun <T : View> T.constrainBottomToTopOf(view: View, margin: Int = 0): T {
+internal fun <T : View> T.constrainBottomToTopOf(view: View, margin: Int = 0): T {
     return constrainBottomToTopOf(view.id, margin)
 }
 
-fun <T : View> T.constrainBottomToTopOf(viewId: Int, margin: Int = 0): T {
+internal fun <T : View> T.constrainBottomToTopOf(viewId: Int, margin: Int = 0): T {
     (parent as? ConstraintLayout)?.addConstraints {
         connect(id, ConstraintLayout.LayoutParams.BOTTOM, viewId, ConstraintLayout.LayoutParams.TOP, margin.dp)
     }
     return this
 }
 
-fun <T : View> T.constrainBottomToBottomOf(view: View, margin: Int = 0): T {
+internal fun <T : View> T.constrainBottomToBottomOf(view: View, margin: Int = 0): T {
     return constrainBottomToBottomOf(view.id, margin)
 }
 
-fun <T : View> T.constrainBottomToBottomOf(viewId: Int, margin: Int = 0): T {
+internal fun <T : View> T.constrainBottomToBottomOf(viewId: Int, margin: Int = 0): T {
     (parent as? ConstraintLayout)?.addConstraints {
         connect(id, ConstraintLayout.LayoutParams.BOTTOM, viewId, ConstraintLayout.LayoutParams.BOTTOM, margin.dp)
     }
@@ -260,7 +254,7 @@ fun <T : View> T.constrainBottomToBottomOf(viewId: Int, margin: Int = 0): T {
 // Center Y
 
 // This is made possible by creating a "GONE" guideline and center on the guideline instead :)
-fun <T : View> T.constrainCenterYToBottomOf(view: View): T {
+internal fun <T : View> T.constrainCenterYToBottomOf(view: View): T {
     (parent as? ConstraintLayout)?.let { constraintLayout ->
         constraintLayout.addConstraints {
             val guideline = View(context)
@@ -274,7 +268,7 @@ fun <T : View> T.constrainCenterYToBottomOf(view: View): T {
     return this
 }
 
-fun <T : View> T.constrainCenterYToTopOf(view: View): T {
+internal fun <T : View> T.constrainCenterYToTopOf(view: View): T {
     (parent as? ConstraintLayout)?.let { constraintLayout ->
         constraintLayout.addConstraints {
             val guideline = View(context)
@@ -288,7 +282,7 @@ fun <T : View> T.constrainCenterYToTopOf(view: View): T {
     return this
 }
 
-fun <T : View> T.constrainCenterYToCenterYOf(view: View): T {
+internal fun <T : View> T.constrainCenterYToCenterYOf(view: View): T {
     (parent as? ConstraintLayout)?.addConstraints {
         centerVertically(id, view.id)
     }
@@ -298,7 +292,7 @@ fun <T : View> T.constrainCenterYToCenterYOf(view: View): T {
 
 // Center X
 
-fun <T : View> T.constrainCenterXToLeftOf(view: View): T {
+internal fun <T : View> T.constrainCenterXToLeftOf(view: View): T {
     (parent as? ConstraintLayout)?.let { constraintLayout ->
         constraintLayout.addConstraints {
             val guideline = View(context)
@@ -312,7 +306,7 @@ fun <T : View> T.constrainCenterXToLeftOf(view: View): T {
     return this
 }
 
-fun <T : View> T.constrainCenterXToRightOf(view: View): T {
+internal fun <T : View> T.constrainCenterXToRightOf(view: View): T {
     (parent as? ConstraintLayout)?.let { constraintLayout ->
         constraintLayout.addConstraints {
             val guideline = View(context)
@@ -327,7 +321,7 @@ fun <T : View> T.constrainCenterXToRightOf(view: View): T {
 }
 
 
-fun <T : View> T.constrainCenterXToCenterXOf(view: View): T {
+internal fun <T : View> T.constrainCenterXToCenterXOf(view: View): T {
     (parent as? ConstraintLayout)?.addConstraints {
         centerHorizontally(id, view.id)
     }
@@ -337,7 +331,7 @@ fun <T : View> T.constrainCenterXToCenterXOf(view: View): T {
 
 // Follow Edges
 
-fun <T : View> T.followEdgesOf(view: View): T {
+internal fun <T : View> T.followEdgesOf(view: View): T {
     constrainTopToTopOf(view)
     constrainBottomToBottomOf(view)
     constrainLeftToLeftOf(view)
@@ -348,19 +342,19 @@ fun <T : View> T.followEdgesOf(view: View): T {
 
 // Layout - Size
 
-fun <T : View> T.size(value: Int): T {
+internal fun <T : View> T.size(value: Int): T {
     return width(value).height(value)
 }
 
-fun <T : View> T.width(value: Int): T {
+internal fun <T : View> T.width(value: Int): T {
     return width(value.toFloat())
 }
 
-fun <T : View> T.height(value: Int): T {
+internal fun <T : View> T.height(value: Int): T {
     return height(value.toFloat())
 }
 
-fun <T : View> T.width(value: Float): T {
+internal fun <T : View> T.width(value: Float): T {
 
     if (value.toInt() == ConstraintSet.MATCH_CONSTRAINT) {
         layoutParams.width = value.toInt()
@@ -388,7 +382,7 @@ fun <T : View> T.width(value: Float): T {
     return this
 }
 
-fun <T : View> T.height(value: Float): T {
+internal fun <T : View> T.height(value: Float): T {
 
     if (value.toInt() == ConstraintSet.MATCH_CONSTRAINT) {
         layoutParams.height = value.toInt()
@@ -417,7 +411,7 @@ fun <T : View> T.height(value: Float): T {
 
 // Percent Size
 
-fun <T : View> T.percentWidth(value: Float): T {
+internal fun <T : View> T.percentWidth(value: Float): T {
     layoutParams.width = ConstraintSet.MATCH_CONSTRAINT
     (parent as? ConstraintLayout)?.let { constraintLayout ->
         constraintLayout.addConstraints {
@@ -427,7 +421,7 @@ fun <T : View> T.percentWidth(value: Float): T {
     return this
 }
 
-fun <T : View> T.percentHeight(value: Float): T {
+internal fun <T : View> T.percentHeight(value: Float): T {
     layoutParams.height = ConstraintSet.MATCH_CONSTRAINT
     (parent as? ConstraintLayout)?.let { constraintLayout ->
         constraintLayout.addConstraints {
@@ -438,7 +432,7 @@ fun <T : View> T.percentHeight(value: Float): T {
 }
 
 
-fun ConstraintLayout.addConstraints(block: ConstraintSet.() -> Unit) {
+internal fun ConstraintLayout.addConstraints(block: ConstraintSet.() -> Unit) {
     val cs = ConstraintSet()
     cs.clone(this)
     block(cs)
@@ -446,7 +440,7 @@ fun ConstraintLayout.addConstraints(block: ConstraintSet.() -> Unit) {
 }
 
 
-var Int.dp: Int
+internal var Int.dp: Int
     get() {
         val metrics = Resources.getSystem().displayMetrics
         return TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, this.toFloat(), metrics).toInt()
@@ -454,7 +448,7 @@ var Int.dp: Int
     set(_) {}
 
 
-var Float.dp: Float
+internal var Float.dp: Float
     get() {
         val metrics = Resources.getSystem().displayMetrics
         return TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, this, metrics)

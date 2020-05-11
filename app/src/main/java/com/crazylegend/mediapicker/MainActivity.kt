@@ -12,13 +12,13 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import com.bumptech.glide.Glide
+import com.crazylegend.core.modifiers.TitleTextModifier
+import com.crazylegend.core.modifiers.multi.MultiPickerModifier
 import com.crazylegend.imagepicker.images.ImageModel
-import com.crazylegend.imagepicker.modifiers.ImageTextModifier
-import com.crazylegend.imagepicker.modifiers.multi.MultiImagePickerModifier
+
 import com.crazylegend.imagepicker.pickers.MultiImagePicker
 import com.crazylegend.imagepicker.pickers.SingleImagePicker
-import com.crazylegend.videopicker.modifiers.VideoTextModifier
-import com.crazylegend.videopicker.modifiers.multi.MultiVideoPickerModifier
+
 import com.crazylegend.videopicker.pickers.MultiVideoPicker
 import com.crazylegend.videopicker.pickers.SingleVideoPicker
 import com.crazylegend.videopicker.videos.VideoModel
@@ -70,10 +70,10 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
     private fun showVideoMultiDialogPicker() {
         MultiVideoPicker.dialogPicker(this, {
             setup(
-                gravityForIndicators = MultiVideoPickerModifier.Gravity.TOP_LEFT,
+                gravityForIndicators = MultiPickerModifier.Gravity.TOP_LEFT,
                 titleText = {
                     textAlignment = TextView.TEXT_ALIGNMENT_VIEW_START
-                    textStyle = VideoTextModifier.TextStyle.ITALIC
+                    textStyle = TitleTextModifier.TextStyle.ITALIC
                     textColor = Color.RED
                     margin = 15 // use dp or sp this is only for demonstration purposes
                     textPadding = 5 // use dp or sp this is only for demonstration purposes
@@ -97,10 +97,10 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
     private fun showVideoMultiBottomSheetPicker() {
         MultiVideoPicker.bottomSheetPicker(this, {
             setup(
-                gravityForIndicators = MultiVideoPickerModifier.Gravity.BOTTOM_LEFT,
+                gravityForIndicators = MultiPickerModifier.Gravity.BOTTOM_LEFT,
                 titleText = {
                     textAlignment = TextView.TEXT_ALIGNMENT_VIEW_START
-                    textStyle = VideoTextModifier.TextStyle.ITALIC
+                    textStyle = TitleTextModifier.TextStyle.ITALIC
                     textColor = Color.MAGENTA
                     marginBottom = 30 // use dp or sp this is only for demonstration purposes
                     textPadding = 5 // use dp or sp this is only for demonstration purposes
@@ -121,7 +121,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         SingleVideoPicker.dialogPicker(this, {
             setup({
                 textAlignment = TextView.TEXT_ALIGNMENT_VIEW_START
-                textStyle = VideoTextModifier.TextStyle.BOLD
+                textStyle = TitleTextModifier.TextStyle.BOLD
                 textColor = Color.RED
                 margin = 12 // use dp or sp this is only for demonstration purposes
                 textPadding = 5 // use dp or sp this is only for demonstration purposes
@@ -141,6 +141,8 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         SingleVideoPicker.bottomSheetPicker(this, {
             setup({
                 textString = "Picking some of them videos"
+            },{
+                resID = R.drawable.ic_close
             })
         }, ::loadVideo)
     }
@@ -162,10 +164,10 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
     private fun showImageMultiDialogPicker() {
         MultiImagePicker.dialogPicker(this, {
             setup(
-                gravityForIndicators = MultiImagePickerModifier.Gravity.TOP_RIGHT,
+                gravityForIndicators = MultiPickerModifier.Gravity.TOP_RIGHT,
                 titleText = {
                     textAlignment = TextView.TEXT_ALIGNMENT_VIEW_START
-                    textStyle = ImageTextModifier.TextStyle.BOLD_ITALIC
+                    textStyle = TitleTextModifier.TextStyle.BOLD_ITALIC
                     textColor = Color.RED
                     margin = 12 // use dp or sp this is only for demonstration purposes
                     textPadding = 5 // use dp or sp this is only for demonstration purposes
@@ -190,10 +192,10 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
     private fun showImageMultiBottomSheetPicker() {
         MultiImagePicker.bottomSheetPicker(this, {
             setup(
-                gravityForIndicators = MultiImagePickerModifier.Gravity.BOTTOM_LEFT,
+                gravityForIndicators = MultiPickerModifier.Gravity.BOTTOM_LEFT,
                 titleText = {
                     textAlignment = TextView.TEXT_ALIGNMENT_VIEW_START
-                    textStyle = ImageTextModifier.TextStyle.BOLD_ITALIC
+                    textStyle = TitleTextModifier.TextStyle.BOLD_ITALIC
                     textColor = Color.RED
                     margin = 12 // use dp or sp this is only for demonstration purposes
                     textPadding = 5 // use dp or sp this is only for demonstration purposes
@@ -219,7 +221,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         SingleImagePicker.dialogPicker(this, {
             setup({
                 textAlignment = TextView.TEXT_ALIGNMENT_VIEW_START
-                textStyle = ImageTextModifier.TextStyle.BOLD
+                textStyle = TitleTextModifier.TextStyle.BOLD
                 textColor = Color.RED
                 margin = 12 // use dp or sp this is only for demonstration purposes
                 textPadding = 5 // use dp or sp this is only for demonstration purposes
@@ -238,12 +240,14 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         SingleImagePicker.bottomSheetPicker(this, {
             setup({
                 textAlignment = TextView.TEXT_ALIGNMENT_CENTER
-                textStyle = ImageTextModifier.TextStyle.BOLD_ITALIC
+                textStyle = TitleTextModifier.TextStyle.BOLD_ITALIC
                 margin = 22 // use dp or sp this is only for demonstration purposes
                 textColor = Color.MAGENTA
                 textPadding = 5 // use dp or sp this is only for demonstration purposes
                 textSize = 20f  // use sp this is only for demonstration purposes
                 textString = "Bottom sheet pick images"
+            },{
+                resID = R.drawable.ic_close
             })
         }, ::loadImage)
     }

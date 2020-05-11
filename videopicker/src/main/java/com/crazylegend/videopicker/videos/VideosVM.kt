@@ -32,7 +32,6 @@ internal class VideosVM(application: Application) : AndroidViewModel(application
 
     private var contentObserver: ContentObserver? = null
 
-
     fun loadVideos(sortOrder: SortOrder = SortOrder.DATE_ADDED_DESC) {
         viewModelScope.launch {
             videoData.postValue(queryVideos(sortOrder))
@@ -82,8 +81,6 @@ internal class VideosVM(application: Application) : AndroidViewModel(application
                             MediaStore.Video.Media.HEIGHT
                     )
 
-
-
             contentResolver.query(MediaStore.Video.Media.EXTERNAL_CONTENT_URI, projection, null, null, sortOrder)?.use { cursor ->
 
                 val idColumn = cursor.getColumnIndexOrThrow(MediaStore.Video.Media._ID)
@@ -123,9 +120,9 @@ internal class VideosVM(application: Application) : AndroidViewModel(application
                     val height = heightColumn?.let { cursor.getIntOrNull(it) }
 
                     val contentUri = ContentUris.withAppendedId(MediaStore.Video.Media.EXTERNAL_CONTENT_URI, id)
-                    val image = VideoModel(id, displayName, dateAdded, contentUri, dateModified, description, size, width, height,
+                    val videoModel = VideoModel(id, displayName, dateAdded, contentUri, dateModified, description, size, width, height,
                     resolution, isPrivate, artist, album, category, tags, language, bookmark)
-                    video += image
+                    video += videoModel
                 }
             }
         }

@@ -13,14 +13,14 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.observe
 import androidx.recyclerview.widget.GridLayoutManager
 import com.crazylegend.core.abstracts.AbstractDialogFragment
+import com.crazylegend.core.adapters.multi.MultiSelectAdapter
+import com.crazylegend.core.databinding.FragmentImagesGalleryLayoutMultiBinding
 import com.crazylegend.core.gone
-import com.crazylegend.core.viewBinding.viewBinding
-import com.crazylegend.videopicker.adapters.multi.VideosMultiSelectAdapter
+import com.crazylegend.core.modifiers.multi.MultiPickerModifier
+import com.crazylegend.extensions.viewBinding
 import com.crazylegend.videopicker.consts.LIST_STATE
 import com.crazylegend.videopicker.contracts.MultiPickerContracts
-import com.crazylegend.videopicker.databinding.FragmentVideoGalleryLayoutMultiBinding
 import com.crazylegend.videopicker.listeners.onVideosPicked
-import com.crazylegend.videopicker.modifiers.multi.MultiVideoPickerModifier
 import com.crazylegend.videopicker.videos.VideoModel
 import com.crazylegend.videopicker.videos.VideosVM
 import com.google.android.material.button.MaterialButton
@@ -35,12 +35,12 @@ internal class MultiVideoPickerDialogFragment : AbstractDialogFragment(),
     override val layout: Int
         get() = super.layout
     override var onVideosPicked: onVideosPicked? = null
-    override val binding by viewBinding(FragmentVideoGalleryLayoutMultiBinding::bind)
+    override val binding by viewBinding(FragmentImagesGalleryLayoutMultiBinding::bind)
     override val videosVM by viewModels<VideosVM>()
-    override val modifier: MultiVideoPickerModifier?
+    override val modifier: MultiPickerModifier?
         get() = arguments?.getParcelable(modifierTag)
-    override val videosMultiSelectAdapter by lazy {
-        VideosMultiSelectAdapter(modifier)
+    override val multiSelectAdapter by lazy {
+        MultiSelectAdapter(modifier)
     }
     override val askForStoragePermission =
             registerForActivityResult(ActivityResultContracts.RequestPermission()) {
@@ -55,15 +55,15 @@ internal class MultiVideoPickerDialogFragment : AbstractDialogFragment(),
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.topIndicator.gone()
-        savedInstanceState?.getIntegerArrayList(LIST_STATE)?.asSequence()?.forEach { videosMultiSelectAdapter.selectedPositions.put(it, true) }
+        savedInstanceState?.getIntegerArrayList(LIST_STATE)?.asSequence()?.forEach { multiSelectAdapter.selectedPositions.put(it, true) }
         askForStoragePermission(Manifest.permission.READ_EXTERNAL_STORAGE)
         binding.gallery.apply {
             layoutManager = GridLayoutManager(requireContext(), 3)
-            adapter = videosMultiSelectAdapter
+            adapter = multiSelectAdapter
         }
 
         videosVM.videos.observe(viewLifecycleOwner) {
-            videosMultiSelectAdapter.submitList(it)
+            multiSelectAdapter.submitList(it)
         }
         applyDoneButtonModifications(binding.doneButton)
         applyTitleModifications(binding.title)
@@ -71,7 +71,7 @@ internal class MultiVideoPickerDialogFragment : AbstractDialogFragment(),
         binding.doneButton.setOnClickListener {
             val videosList = videosVM.videos.value ?: emptyList()
             val pickedList = mutableListOf<VideoModel>()
-            videosMultiSelectAdapter.selectedPositions.keyIterator().asSequence().forEach {
+            multiSelectAdapter.selectedPositions.keyIterator().asSequence().forEach {
                 pickedList += videosList[it]
             }
             onVideosPicked?.onVideosPicked(pickedList)
@@ -81,7 +81,7 @@ internal class MultiVideoPickerDialogFragment : AbstractDialogFragment(),
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
-        val positionList = videosMultiSelectAdapter.selectedPositions.keyIterator().asSequence().map { it }.toList()
+        val positionList = multiSelectAdapter.selectedPositions.keyIterator().asSequence().map { it }.toList()
         outState.putIntegerArrayList(LIST_STATE, ArrayList(positionList))
     }
 
@@ -90,7 +90,7 @@ internal class MultiVideoPickerDialogFragment : AbstractDialogFragment(),
         onVideosPicked = null
     }
 
-    override fun addModifier(modifier: MultiVideoPickerModifier) {
+    override fun addModifier(modifier: MultiPickerModifier) {
         arguments = bundleOf(modifierTag to modifier)
     }
     override fun applyTitleModifications(appCompatTextView: AppCompatTextView) {

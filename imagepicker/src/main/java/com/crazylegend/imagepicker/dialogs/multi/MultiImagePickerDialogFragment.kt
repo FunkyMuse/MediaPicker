@@ -13,16 +13,16 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.observe
 import androidx.recyclerview.widget.GridLayoutManager
 import com.crazylegend.core.abstracts.AbstractDialogFragment
+import com.crazylegend.core.adapters.multi.MultiSelectAdapter
+import com.crazylegend.core.databinding.FragmentImagesGalleryLayoutMultiBinding
 import com.crazylegend.core.gone
-import com.crazylegend.core.viewBinding.viewBinding
-import com.crazylegend.imagepicker.adapters.multi.ImagesMultiSelectAdapter
+import com.crazylegend.core.modifiers.multi.MultiPickerModifier
+import com.crazylegend.extensions.viewBinding
 import com.crazylegend.imagepicker.consts.LIST_STATE
 import com.crazylegend.imagepicker.contracts.MultiPickerContracts
-import com.crazylegend.imagepicker.databinding.FragmentImagesGalleryLayoutMultiBinding
 import com.crazylegend.imagepicker.images.ImageModel
 import com.crazylegend.imagepicker.images.ImagesVM
 import com.crazylegend.imagepicker.listeners.onImagesPicked
-import com.crazylegend.imagepicker.modifiers.multi.MultiImagePickerModifier
 import com.google.android.material.button.MaterialButton
 
 
@@ -37,10 +37,10 @@ internal class MultiImagePickerDialogFragment : AbstractDialogFragment(),
     override var onImagesPicked: onImagesPicked? = null
     override val binding by viewBinding(FragmentImagesGalleryLayoutMultiBinding::bind)
     override val imagesVM by viewModels<ImagesVM>()
-    override val imagesAdapter by lazy {
-        ImagesMultiSelectAdapter(modifier)
+    override val multiSelectAdapter by lazy {
+        MultiSelectAdapter(modifier)
     }
-    override val modifier: MultiImagePickerModifier?
+    override val modifier: MultiPickerModifier?
         get() = arguments?.getParcelable(modifierTag)
 
     override val askForStoragePermission =
@@ -57,15 +57,15 @@ internal class MultiImagePickerDialogFragment : AbstractDialogFragment(),
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.topIndicator.gone()
-        savedInstanceState?.getIntegerArrayList(LIST_STATE)?.asSequence()?.forEach { imagesAdapter.selectedPositions.put(it, true) }
+        savedInstanceState?.getIntegerArrayList(LIST_STATE)?.asSequence()?.forEach { multiSelectAdapter.selectedPositions.put(it, true) }
         askForStoragePermission(Manifest.permission.READ_EXTERNAL_STORAGE)
         binding.gallery.apply {
             layoutManager = GridLayoutManager(requireContext(), 3)
-            adapter = imagesAdapter
+            adapter = multiSelectAdapter
         }
 
         imagesVM.images.observe(viewLifecycleOwner) {
-            imagesAdapter.submitList(it)
+            multiSelectAdapter.submitList(it)
         }
 
         applyDoneButtonModifications(binding.doneButton)
@@ -74,7 +74,7 @@ internal class MultiImagePickerDialogFragment : AbstractDialogFragment(),
         binding.doneButton.setOnClickListener {
             val imagesList = imagesVM.images.value ?: emptyList()
             val pickedList = mutableListOf<ImageModel>()
-            imagesAdapter.selectedPositions.keyIterator().asSequence().forEach {
+            multiSelectAdapter.selectedPositions.keyIterator().asSequence().forEach {
                 pickedList += imagesList[it]
             }
             onImagesPicked?.onImagesPicked(pickedList)
@@ -84,7 +84,7 @@ internal class MultiImagePickerDialogFragment : AbstractDialogFragment(),
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
-        val positionList = imagesAdapter.selectedPositions.keyIterator().asSequence().map { it }.toList()
+        val positionList = multiSelectAdapter.selectedPositions.keyIterator().asSequence().map { it }.toList()
         outState.putIntegerArrayList(LIST_STATE, ArrayList(positionList))
     }
 
@@ -93,7 +93,7 @@ internal class MultiImagePickerDialogFragment : AbstractDialogFragment(),
         onImagesPicked = null
     }
 
-    override fun addModifier(modifier: MultiImagePickerModifier) {
+    override fun addModifier(modifier: MultiPickerModifier) {
         arguments = bundleOf(modifierTag to modifier)
     }
     override fun applyTitleModifications(appCompatTextView: AppCompatTextView) {

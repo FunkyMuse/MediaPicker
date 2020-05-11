@@ -2,36 +2,21 @@ package com.crazylegend.imagepicker.images
 
 import android.net.Uri
 import android.os.Parcelable
+import com.crazylegend.core.dto.BaseCursorModel
 import kotlinx.android.parcel.Parcelize
-import java.util.*
-import java.util.concurrent.TimeUnit
 
 /**
  * Simple data class to hold information about an image included in the device's MediaStore.
  */
 
 @Parcelize
-data class ImageModel(
-        val id: Long,
-        val displayName: String?,
-        val dateAdded: Long?,
-        val contentUri: Uri,
-        val dateModified: Long?,
-        val description: String?,
-        val size: Int?,
-        val width: Int?,
-        val height: Int?
-) : Parcelable {
-
-    val getImageExtension get() = displayName?.substringAfterLast(".")
-
-    val addedDateAsDate
-        get() = dateAdded?.let {
-            Date(TimeUnit.SECONDS.toMillis(it))
-        }
-    val dateModifiedAsDate
-        get() = dateModified?.let {
-            Date(TimeUnit.SECONDS.toMillis(it))
-        }
-
-}
+data class ImageModel(override val id: Long,
+                 override val displayName: String?,
+                 override val dateAdded: Long?,
+                 override val contentUri: Uri,
+                 override val dateModified: Long?,
+                 override val description: String?,
+                 override val size: Int?,
+                 override val width: Int?,
+                 override val height: Int?) :
+        BaseCursorModel(id, displayName, dateAdded, contentUri, dateModified, description, size, width, height), Parcelable

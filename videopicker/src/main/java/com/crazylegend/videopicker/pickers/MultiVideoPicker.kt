@@ -4,13 +4,14 @@ import android.Manifest
 import android.content.Context
 import android.util.Log
 import androidx.annotation.RequiresPermission
+import com.crazylegend.core.modifiers.multi.MultiPickerModifier
 import com.crazylegend.core.setupManager
 import com.crazylegend.videopicker.consts.MULTI_PICKER_BOTTOM_SHEET
 import com.crazylegend.videopicker.consts.MULTI_PICKER_DIALOG
 import com.crazylegend.videopicker.dialogs.multi.MultiVideoPickerBottomSheetDialog
 import com.crazylegend.videopicker.dialogs.multi.MultiVideoPickerDialogFragment
 import com.crazylegend.videopicker.listeners.onVideosDSL
-import com.crazylegend.videopicker.modifiers.multi.MultiVideoPickerModifier
+
 import com.crazylegend.videopicker.videos.VideoModel
 
 
@@ -37,7 +38,7 @@ object MultiVideoPicker {
     }
 
     @RequiresPermission(Manifest.permission.READ_EXTERNAL_STORAGE)
-    fun bottomSheetPicker(context: Context, modifier: MultiVideoPickerModifier.() -> Unit ={},videoList: (list: List<VideoModel>) -> Unit) {
+    fun bottomSheetPicker(context: Context, modifier: MultiPickerModifier.() -> Unit ={}, videoList: (list: List<VideoModel>) -> Unit) {
         val manager = context.setupManager()
         val setupModifier = setupModifier(modifier)
         with(MultiVideoPickerBottomSheetDialog()) {
@@ -48,7 +49,7 @@ object MultiVideoPicker {
     }
 
     @RequiresPermission(Manifest.permission.READ_EXTERNAL_STORAGE)
-    fun dialogPicker(context: Context, modifier: MultiVideoPickerModifier.() -> Unit ={}, videoList: (list: List<VideoModel>) -> Unit) {
+    fun dialogPicker(context: Context, modifier: MultiPickerModifier.() -> Unit ={}, videoList: (list: List<VideoModel>) -> Unit) {
         val setupModifier = setupModifier(modifier)
         val manager = context.setupManager()
         with(MultiVideoPickerDialogFragment()) {
@@ -59,6 +60,6 @@ object MultiVideoPicker {
     }
 
 
-    private inline fun setupModifier(modifier: MultiVideoPickerModifier.() -> Unit) =
-        MultiVideoPickerModifier().also { it.modifier() }
+    private inline fun setupModifier(modifier: MultiPickerModifier.() -> Unit) =
+        MultiPickerModifier().also { it.modifier() }
 }

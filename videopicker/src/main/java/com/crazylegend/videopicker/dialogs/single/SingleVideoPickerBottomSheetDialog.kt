@@ -12,13 +12,14 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.observe
 import androidx.recyclerview.widget.GridLayoutManager
 import com.crazylegend.core.abstracts.AbstractBottomSheetDialogFragment
+import com.crazylegend.core.adapters.single.SingleAdapter
+import com.crazylegend.core.databinding.FragmentImagesGalleryLayoutBinding
 import com.crazylegend.core.gone
-import com.crazylegend.core.viewBinding.viewBinding
-import com.crazylegend.videopicker.adapters.single.VideoAdapter
+import com.crazylegend.core.modifiers.single.SinglePickerModifier
+import com.crazylegend.extensions.viewBinding
 import com.crazylegend.videopicker.contracts.SinglePickerContracts
-import com.crazylegend.videopicker.databinding.FragmentVideoGalleryLayoutBinding
 import com.crazylegend.videopicker.listeners.onVideoPicked
-import com.crazylegend.videopicker.modifiers.SingleVideoPickerModifier
+import com.crazylegend.videopicker.videos.VideoModel
 import com.crazylegend.videopicker.videos.VideosVM
 
 
@@ -30,13 +31,13 @@ internal class SingleVideoPickerBottomSheetDialog : AbstractBottomSheetDialogFra
     override val layout: Int
         get() = super.layout
     override var onVideoPicked: onVideoPicked? = null
-    override val binding by viewBinding(FragmentVideoGalleryLayoutBinding::bind)
+    override val binding by viewBinding(FragmentImagesGalleryLayoutBinding::bind)
     override val videosVM by viewModels<VideosVM>()
-    override val modifier: SingleVideoPickerModifier? get() = arguments?.getParcelable(modifierTag)
+    override val modifier: SinglePickerModifier? get() = arguments?.getParcelable(modifierTag)
 
-    override val videoAdapter by lazy {
-        VideoAdapter {
-            onVideoPicked?.forVideo(it)
+    override val singleAdapter by lazy {
+        SingleAdapter {
+            onVideoPicked?.forVideo(it as VideoModel)
             dismissAllowingStateLoss()
         }
     }
@@ -57,11 +58,11 @@ internal class SingleVideoPickerBottomSheetDialog : AbstractBottomSheetDialogFra
         binding.close.gone()
         binding.gallery.apply {
             layoutManager = GridLayoutManager(requireContext(), 3)
-            adapter = videoAdapter
+            adapter = singleAdapter
         }
         applyTitleModifications(binding.title)
         videosVM.videos.observe(viewLifecycleOwner) {
-            videoAdapter.submitList(it)
+            singleAdapter.submitList(it)
         }
     }
 
@@ -74,7 +75,7 @@ internal class SingleVideoPickerBottomSheetDialog : AbstractBottomSheetDialogFra
         modifier?.titleTextModifier?.applyTextParams(appCompatTextView)
     }
 
-    override fun addModifier(modifier: SingleVideoPickerModifier) {
+    override fun addModifier(modifier: SinglePickerModifier) {
         arguments = bundleOf(modifierTag to modifier)
     }
 
