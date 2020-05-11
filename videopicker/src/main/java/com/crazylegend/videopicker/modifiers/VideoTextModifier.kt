@@ -17,19 +17,20 @@ import kotlinx.android.parcel.Parcelize
  */
 
 
+
 @Parcelize
 data class VideoTextModifier(
-        var textColor: Int? = null,
-        var textPadding: Int? = null,
-        var textSize: Float? = null,
-        var textString: String? = null,
-        var startMargin: Int? = null,
-        var endMargin: Int? = null,
-        var marginTop: Int? = null,
-        var marginBottom: Int? = null,
-        var margin: Int? = null,
-        var textStyle: TextStyle = TextStyle.NORMAL,
-        var textAlignment: Int = TextView.TEXT_ALIGNMENT_VIEW_START
+    var textColor: Int? = null,
+    var textPadding: Int? = null,
+    var textSize: Float? = null,
+    var textString: String? = null,
+    var startMargin: Int? = null,
+    var endMargin: Int? = null,
+    var marginTop: Int? = null,
+    var marginBottom: Int? = null,
+    var margin: Int? = null,
+    var textStyle: TextStyle = TextStyle.NORMAL,
+    var textAlignment: Int = TextView.TEXT_ALIGNMENT_VIEW_START
 ) : Parcelable {
 
     private val allSizeMarginCondition get() = margin != null

@@ -18,6 +18,7 @@ import com.crazylegend.imagepicker.modifiers.multi.MultiImagePickerModifier
 import com.crazylegend.imagepicker.pickers.MultiImagePicker
 import com.crazylegend.imagepicker.pickers.SingleImagePicker
 import com.crazylegend.videopicker.modifiers.VideoTextModifier
+import com.crazylegend.videopicker.modifiers.multi.MultiVideoPickerModifier
 import com.crazylegend.videopicker.pickers.MultiVideoPicker
 import com.crazylegend.videopicker.pickers.SingleVideoPicker
 import com.crazylegend.videopicker.videos.VideoModel
@@ -67,11 +68,53 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
 
     //videos
     private fun showVideoMultiDialogPicker() {
-        MultiVideoPicker.dialogPicker(this, ::doSomethingWithVideoList)
+        MultiVideoPicker.dialogPicker(this, {
+            setup(
+                gravityForIndicators = MultiVideoPickerModifier.Gravity.TOP_LEFT,
+                titleText = {
+                    textAlignment = TextView.TEXT_ALIGNMENT_VIEW_START
+                    textStyle = VideoTextModifier.TextStyle.ITALIC
+                    textColor = Color.RED
+                    margin = 15 // use dp or sp this is only for demonstration purposes
+                    textPadding = 5 // use dp or sp this is only for demonstration purposes
+                    textSize = 16f  // use sp this is only for demonstration purposes
+                    textString = "Pick some multi videos"
+                },
+                selectIcon = {
+                    tint = Color.YELLOW
+                    marginBottom = 5
+                    endMargin = 5
+                },
+                unSelectIcon = {
+                    tint = Color.YELLOW
+                    marginBottom = 5
+                    endMargin = 5
+                }
+            )
+        },::doSomethingWithVideoList)
     }
 
     private fun showVideoMultiBottomSheetPicker() {
-        MultiVideoPicker.bottomSheetPicker(this, ::doSomethingWithVideoList)
+        MultiVideoPicker.bottomSheetPicker(this, {
+            setup(
+                gravityForIndicators = MultiVideoPickerModifier.Gravity.BOTTOM_LEFT,
+                titleText = {
+                    textAlignment = TextView.TEXT_ALIGNMENT_VIEW_START
+                    textStyle = VideoTextModifier.TextStyle.ITALIC
+                    textColor = Color.MAGENTA
+                    marginBottom = 30 // use dp or sp this is only for demonstration purposes
+                    textPadding = 5 // use dp or sp this is only for demonstration purposes
+                    textSize = 30f  // use sp this is only for demonstration purposes
+                    textString = "Pick multi videos"
+                },
+                selectIcon = {
+                    tint = Color.MAGENTA
+                },
+                unSelectIcon = {
+                    tint = Color.MAGENTA
+                }
+            )
+        }, ::doSomethingWithVideoList)
     }
 
     private fun showSingleVideoDialogPicker() {

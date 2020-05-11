@@ -10,6 +10,7 @@ import com.crazylegend.videopicker.consts.MULTI_PICKER_DIALOG
 import com.crazylegend.videopicker.dialogs.multi.MultiVideoPickerBottomSheetDialog
 import com.crazylegend.videopicker.dialogs.multi.MultiVideoPickerDialogFragment
 import com.crazylegend.videopicker.listeners.onVideosDSL
+import com.crazylegend.videopicker.modifiers.multi.MultiVideoPickerModifier
 import com.crazylegend.videopicker.videos.VideoModel
 
 
@@ -36,20 +37,28 @@ object MultiVideoPicker {
     }
 
     @RequiresPermission(Manifest.permission.READ_EXTERNAL_STORAGE)
-    fun bottomSheetPicker(context: Context, videoList: (list: List<VideoModel>) -> Unit) {
+    fun bottomSheetPicker(context: Context, modifier: MultiVideoPickerModifier.() -> Unit ={},videoList: (list: List<VideoModel>) -> Unit) {
         val manager = context.setupManager()
+        val setupModifier = setupModifier(modifier)
         with(MultiVideoPickerBottomSheetDialog()) {
+            addModifier(setupModifier)
             onVideosPicked = onVideosDSL(videoList)
             show(manager, MULTI_PICKER_BOTTOM_SHEET)
         }
     }
 
     @RequiresPermission(Manifest.permission.READ_EXTERNAL_STORAGE)
-    fun dialogPicker(context: Context, videoList: (list: List<VideoModel>) -> Unit) {
+    fun dialogPicker(context: Context, modifier: MultiVideoPickerModifier.() -> Unit ={}, videoList: (list: List<VideoModel>) -> Unit) {
+        val setupModifier = setupModifier(modifier)
         val manager = context.setupManager()
         with(MultiVideoPickerDialogFragment()) {
+            addModifier(setupModifier)
             onVideosPicked = onVideosDSL(videoList)
             show(manager, MULTI_PICKER_DIALOG)
         }
     }
+
+
+    private inline fun setupModifier(modifier: MultiVideoPickerModifier.() -> Unit) =
+        MultiVideoPickerModifier().also { it.modifier() }
 }

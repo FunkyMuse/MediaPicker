@@ -6,6 +6,8 @@ import android.util.Log
 import android.view.View
 import androidx.activity.invoke
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.widget.AppCompatTextView
+import androidx.core.os.bundleOf
 import androidx.core.util.keyIterator
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.observe
@@ -18,8 +20,10 @@ import com.crazylegend.videopicker.consts.LIST_STATE
 import com.crazylegend.videopicker.contracts.MultiPickerContracts
 import com.crazylegend.videopicker.databinding.FragmentVideoGalleryLayoutMultiBinding
 import com.crazylegend.videopicker.listeners.onVideosPicked
+import com.crazylegend.videopicker.modifiers.multi.MultiVideoPickerModifier
 import com.crazylegend.videopicker.videos.VideoModel
 import com.crazylegend.videopicker.videos.VideosVM
+import com.google.android.material.button.MaterialButton
 
 
 /**
@@ -33,8 +37,10 @@ internal class MultiVideoPickerDialogFragment : AbstractDialogFragment(),
     override var onVideosPicked: onVideosPicked? = null
     override val binding by viewBinding(FragmentVideoGalleryLayoutMultiBinding::bind)
     override val videosVM by viewModels<VideosVM>()
+    override val modifier: MultiVideoPickerModifier?
+        get() = arguments?.getParcelable(modifierTag)
     override val videosMultiSelectAdapter by lazy {
-        VideosMultiSelectAdapter()
+        VideosMultiSelectAdapter(modifier)
     }
     override val askForStoragePermission =
             registerForActivityResult(ActivityResultContracts.RequestPermission()) {
@@ -59,7 +65,8 @@ internal class MultiVideoPickerDialogFragment : AbstractDialogFragment(),
         videosVM.videos.observe(viewLifecycleOwner) {
             videosMultiSelectAdapter.submitList(it)
         }
-
+        applyDoneButtonModifications(binding.doneButton)
+        applyTitleModifications(binding.title)
 
         binding.doneButton.setOnClickListener {
             val videosList = videosVM.videos.value ?: emptyList()
@@ -81,5 +88,16 @@ internal class MultiVideoPickerDialogFragment : AbstractDialogFragment(),
     override fun onDestroyView() {
         super.onDestroyView()
         onVideosPicked = null
+    }
+
+    override fun addModifier(modifier: MultiVideoPickerModifier) {
+        arguments = bundleOf(modifierTag to modifier)
+    }
+    override fun applyTitleModifications(appCompatTextView: AppCompatTextView) {
+        modifier?.titleTextModifier?.applyTextParams(appCompatTextView)
+    }
+
+    override fun applyDoneButtonModifications(doneButton: MaterialButton) {
+        modifier?.doneButtonModifier?.applyImageParams(doneButton)
     }
 }
