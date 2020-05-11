@@ -167,7 +167,9 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
                 unSelectIcon = {
                     resID = R.drawable.ic_unchecked
                 })
-        }, ::doSomethingWithImageList)
+        }) { list ->
+            doSomethingWithImageList(list)
+        }
     }
 
     private fun showSingleImageDialogPicker() {

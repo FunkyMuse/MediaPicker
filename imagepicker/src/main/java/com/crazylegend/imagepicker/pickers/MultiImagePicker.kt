@@ -17,12 +17,12 @@ import com.crazylegend.imagepicker.modifiers.multi.MultiImagePickerModifier
 /**
  * Created by crazy on 5/8/20 to long live and prosper !
  */
-object MultiImagePicker  {
+object MultiImagePicker {
 
     fun restoreListener(context: Context, imagesList: (list: List<ImageModel>) -> Unit) {
         val manager = context.setupManager()
         when (val fragment = manager.findFragmentByTag(MULTI_PICKER_BOTTOM_SHEET)
-                ?: manager.findFragmentByTag(MULTI_PICKER_DIALOG)) {
+            ?: manager.findFragmentByTag(MULTI_PICKER_DIALOG)) {
             is MultiImagePickerDialogFragment -> {
                 fragment.onImagesPicked = onImagesDSL(imagesList)
             }
@@ -36,8 +36,10 @@ object MultiImagePicker  {
     }
 
     @RequiresPermission(READ_EXTERNAL_STORAGE)
-    fun bottomSheetPicker(context: Context, multiImagePickerModifier: MultiImagePickerModifier.()->Unit = {},
-                          imagesList: (list: List<ImageModel>) -> Unit) {
+    fun bottomSheetPicker(
+        context: Context, multiImagePickerModifier: MultiImagePickerModifier.() -> Unit = {},
+        imagesList: (list: List<ImageModel>) -> Unit
+    ) {
         val manager = context.setupManager()
         val modifier = setupModifier(multiImagePickerModifier)
         with(MultiImagePickerBottomSheetDialog()) {
@@ -48,8 +50,10 @@ object MultiImagePicker  {
     }
 
     @RequiresPermission(READ_EXTERNAL_STORAGE)
-    fun dialogPicker(context: Context, multiImagePickerModifier: MultiImagePickerModifier.()->Unit = {},
-                     imagesList: (list: List<ImageModel>) -> Unit) {
+    fun dialogPicker(
+        context: Context, multiImagePickerModifier: MultiImagePickerModifier.() -> Unit = {},
+        imagesList: (list: List<ImageModel>) -> Unit
+    ) {
         val manager = context.setupManager()
         val modifier = setupModifier(multiImagePickerModifier)
         with(MultiImagePickerDialogFragment()) {
@@ -59,9 +63,6 @@ object MultiImagePicker  {
         }
     }
 
-    private fun setupModifier(modifier: MultiImagePickerModifier.() -> Unit): MultiImagePickerModifier {
-        val pickerModifier = MultiImagePickerModifier()
-        pickerModifier.modifier()
-        return pickerModifier
-    }
+    private inline fun setupModifier(modifier: MultiImagePickerModifier.() -> Unit) =
+        MultiImagePickerModifier().also { it.modifier() }
 }

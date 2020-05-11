@@ -22,7 +22,7 @@ object SingleImagePicker {
     fun restoreListener(context: Context, onPickedImage: (image: ImageModel) -> Unit) {
         val manager = context.setupManager()
         when (val fragment = manager.findFragmentByTag(SINGLE_PICKER_BOTTOM_SHEET)
-                ?: manager.findFragmentByTag(SINGLE_PICKER_DIALOG)) {
+            ?: manager.findFragmentByTag(SINGLE_PICKER_DIALOG)) {
             is SingleImagePickerBottomSheetDialog -> {
                 fragment.onImagePicked = onImageDSL(onPickedImage)
             }
@@ -36,7 +36,11 @@ object SingleImagePicker {
     }
 
     @RequiresPermission(READ_EXTERNAL_STORAGE)
-    fun bottomSheetPicker(context: Context, singleImagePickerModifier: SingleImagePickerModifier.() -> Unit = {}, onPickedImage: (image: ImageModel) -> Unit) {
+    fun bottomSheetPicker(
+        context: Context,
+        singleImagePickerModifier: SingleImagePickerModifier.() -> Unit = {},
+        onPickedImage: (image: ImageModel) -> Unit
+    ) {
         val modifier = setupModifier(singleImagePickerModifier)
         val manager = context.setupManager()
         with(SingleImagePickerBottomSheetDialog()) {
@@ -47,7 +51,11 @@ object SingleImagePicker {
     }
 
     @RequiresPermission(READ_EXTERNAL_STORAGE)
-    fun dialogPicker(context: Context, singleImagePickerModifier: SingleImagePickerModifier.() -> Unit = {}, onPickedImage: (image: ImageModel) -> Unit) {
+    fun dialogPicker(
+        context: Context,
+        singleImagePickerModifier: SingleImagePickerModifier.() -> Unit = {},
+        onPickedImage: (image: ImageModel) -> Unit
+    ) {
         val modifier = setupModifier(singleImagePickerModifier)
         val manager = context.setupManager()
         with(SingleImagePickerDialogFragment()) {
@@ -57,11 +65,8 @@ object SingleImagePicker {
         }
     }
 
-    private fun setupModifier(singleImagePickerModifier: SingleImagePickerModifier.() -> Unit): SingleImagePickerModifier {
-        val modifier =
-            SingleImagePickerModifier()
-        modifier.singleImagePickerModifier()
-        return modifier
-    }
+    private inline fun setupModifier(singleImagePickerModifier: SingleImagePickerModifier.() -> Unit) =
+        SingleImagePickerModifier().also { it.singleImagePickerModifier() }
+
 
 }
