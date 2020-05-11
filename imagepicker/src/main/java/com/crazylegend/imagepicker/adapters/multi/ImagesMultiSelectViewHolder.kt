@@ -23,9 +23,9 @@ internal class ImagesMultiSelectViewHolder(
         binding.image.loadImage(imageModel.contentUri)
 
         if (selected) {
-            binding.selection.setImageResource(R.drawable.ic_checked)
+            binding.selection.setImageResource(R.drawable.ic_checked_default)
         } else {
-            binding.selection.setImageResource(R.drawable.ic_unchecked)
+            binding.selection.setImageResource(R.drawable.ic_unchecked_default)
         }
     }
 }

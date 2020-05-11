@@ -11,6 +11,7 @@ import com.crazylegend.imagepicker.dialogs.single.SingleImagePickerBottomSheetDi
 import com.crazylegend.imagepicker.dialogs.single.SingleImagePickerDialogFragment
 import com.crazylegend.imagepicker.images.ImageModel
 import com.crazylegend.imagepicker.listeners.onImageDSL
+import com.crazylegend.imagepicker.modifiers.SingleImagePickerModifier
 
 
 /**
@@ -35,21 +36,31 @@ object SingleImagePicker {
     }
 
     @RequiresPermission(READ_EXTERNAL_STORAGE)
-    fun bottomSheetPicker(context: Context, onPickedImage: (image: ImageModel) -> Unit) {
+    fun bottomSheetPicker(context: Context, singleImagePickerModifier: SingleImagePickerModifier.() -> Unit = {}, onPickedImage: (image: ImageModel) -> Unit) {
+        val modifier = setupModifier(singleImagePickerModifier)
         val manager = context.setupManager()
         with(SingleImagePickerBottomSheetDialog()) {
+            addModifier(modifier)
             onImagePicked = onImageDSL(onPickedImage)
             show(manager, SINGLE_PICKER_BOTTOM_SHEET)
         }
     }
 
     @RequiresPermission(READ_EXTERNAL_STORAGE)
-    fun dialogPicker(context: Context, onPickedImage: (image: ImageModel) -> Unit) {
+    fun dialogPicker(context: Context, singleImagePickerModifier: SingleImagePickerModifier.() -> Unit = {}, onPickedImage: (image: ImageModel) -> Unit) {
+        val modifier = setupModifier(singleImagePickerModifier)
         val manager = context.setupManager()
         with(SingleImagePickerDialogFragment()) {
+            addModifier(modifier)
             onImagePicked = onImageDSL(onPickedImage)
             show(manager, SINGLE_PICKER_DIALOG)
         }
+    }
+
+    private fun setupModifier(singleImagePickerModifier: SingleImagePickerModifier.() -> Unit): SingleImagePickerModifier {
+        val modifier = SingleImagePickerModifier()
+        modifier.singleImagePickerModifier()
+        return modifier
     }
 
 }

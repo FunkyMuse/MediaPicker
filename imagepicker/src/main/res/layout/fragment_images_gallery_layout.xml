@@ -4,26 +4,32 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <com.google.android.material.textview.MaterialTextView
-        android:id="@+id/title"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_below="@id/topIndicator"
-        android:padding="10dp"
-        android:layout_toStartOf="@id/close"
-        android:layout_marginEnd="8dp"
-        android:text="@string/pick_an_image"
-        android:textSize="18sp" />
+        android:id="@+id/titleLayout"
+        android:layout_height="wrap_content">
 
-    <androidx.appcompat.widget.AppCompatImageView
-        android:id="@+id/close"
-        android:layout_alignParentEnd="true"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:layout_below="@id/topIndicator"
-        android:layout_marginEnd="8dp"
-        app:srcCompat="@drawable/ic_close" />
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:layout_marginStart="8dp"
+            android:layout_toStartOf="@id/close"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="8dp"
+            android:text="@string/pick_an_image"
+            android:textSize="18sp" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/close"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="8dp"
+            app:srcCompat="@drawable/ic_close" />
+    </RelativeLayout>
 
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/topIndicator"
@@ -35,7 +41,7 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/gallery"
-        android:layout_below="@id/title"
+        android:layout_below="@id/titleLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layoutManager="androidx.recyclerview.widget.GridLayoutManager" />

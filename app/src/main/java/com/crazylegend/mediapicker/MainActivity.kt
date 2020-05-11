@@ -2,14 +2,17 @@ package com.crazylegend.mediapicker
 
 import android.Manifest.permission.READ_EXTERNAL_STORAGE
 import android.annotation.SuppressLint
+import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.widget.TextView
 import androidx.activity.invoke
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import com.bumptech.glide.Glide
 import com.crazylegend.imagepicker.images.ImageModel
+import com.crazylegend.imagepicker.modifiers.TextModifier
 import com.crazylegend.imagepicker.pickers.MultiImagePicker
 import com.crazylegend.imagepicker.pickers.SingleImagePicker
 import com.crazylegend.videopicker.pickers.MultiVideoPicker
@@ -100,11 +103,36 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
     }
 
     private fun showSingleImageDialogPicker() {
-        SingleImagePicker.dialogPicker(this, ::loadImage)
+        SingleImagePicker.dialogPicker(this, {
+            invoke({
+                textAlignment = TextView.TEXT_ALIGNMENT_VIEW_START
+                textStyle = TextModifier.TextStyle.BOLD
+                textColor = Color.RED
+                margin = 12 // use dp or sp this is only for demonstration purposes
+                textPadding = 5 // use dp or sp this is only for demonstration purposes
+                textSize = 16f  // use sp this is only for demonstration purposes
+                textString = "Pick some images"
+            }, {
+                endMargin = 20  // use dp or sp this is only for demonstration purposes
+                marginBottom = 20 // use dp or sp this is only for demonstration purposes
+                padding = 10 // use dp or sp this is only for demonstration purposes
+                resID = R.drawable.ic_close
+            })
+        }, ::loadImage)
     }
 
     private fun showSingleImageBottomSheetPicker() {
-        SingleImagePicker.bottomSheetPicker(this, ::loadImage)
+        SingleImagePicker.bottomSheetPicker(this,  {
+            invoke({
+                textAlignment = TextView.TEXT_ALIGNMENT_CENTER
+                textStyle = TextModifier.TextStyle.BOLD_ITALIC
+                margin = 22 // use dp or sp this is only for demonstration purposes
+                textColor = Color.MAGENTA
+                textPadding = 5 // use dp or sp this is only for demonstration purposes
+                textSize = 20f  // use sp this is only for demonstration purposes
+                textString = "Bottom sheet pick"
+            })
+        }, ::loadImage)
     }
 
     private fun loadImage(imageModel: ImageModel) {

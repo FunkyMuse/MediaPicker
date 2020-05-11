@@ -1,11 +1,13 @@
 package com.crazylegend.imagepicker.contracts
 
 import androidx.activity.result.ActivityResultLauncher
+import androidx.appcompat.widget.AppCompatTextView
 import com.crazylegend.imagepicker.R
 import com.crazylegend.imagepicker.adapters.single.ImagesAdapter
 import com.crazylegend.imagepicker.databinding.FragmentImagesGalleryLayoutBinding
 import com.crazylegend.imagepicker.images.ImagesVM
 import com.crazylegend.imagepicker.listeners.onImagePicked
+import com.crazylegend.imagepicker.modifiers.SingleImagePickerModifier
 import com.crazylegend.imagepicker.pickers.SingleImagePicker
 
 
@@ -13,6 +15,7 @@ import com.crazylegend.imagepicker.pickers.SingleImagePicker
  * Created by crazy on 5/8/20 to long live and prosper !
  */
 internal interface SinglePickerContracts {
+    val modifierTag get() = "modifier"
     val imagesVM: ImagesVM
     val binding: FragmentImagesGalleryLayoutBinding
     val askForStoragePermission: ActivityResultLauncher<String>
@@ -20,5 +23,7 @@ internal interface SinglePickerContracts {
     val imagesAdapter: ImagesAdapter
     var onImagePicked: onImagePicked?
     val errorTag : String get() = SingleImagePicker::javaClass.name
-
+    fun addModifier(modifier: SingleImagePickerModifier)
+    val modifier :SingleImagePickerModifier?
+    fun applyTitleModifications(appCompatTextView: AppCompatTextView)
 }
