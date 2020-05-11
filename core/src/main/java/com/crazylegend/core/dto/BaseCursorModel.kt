@@ -24,7 +24,7 @@ open class BaseCursorModel(
         open val height: Int?
 ) : Parcelable {
 
-    val getImageExtension get() = displayName?.substringAfterLast(".")
+    val extension get() = displayName?.substringAfterLast(".")
 
     val addedDateAsDate
         get() = dateAdded?.let {
