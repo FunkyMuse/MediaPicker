@@ -5,7 +5,7 @@ import android.content.Context
 import android.util.Log
 import androidx.annotation.RequiresPermission
 import com.crazylegend.core.modifiers.multi.MultiPickerModifier
-import com.crazylegend.core.setupManager
+import com.crazylegend.extensions.setupManager
 import com.crazylegend.imagepicker.consts.MULTI_PICKER_BOTTOM_SHEET
 import com.crazylegend.imagepicker.consts.MULTI_PICKER_DIALOG
 import com.crazylegend.imagepicker.dialogs.multi.MultiImagePickerBottomSheetDialog

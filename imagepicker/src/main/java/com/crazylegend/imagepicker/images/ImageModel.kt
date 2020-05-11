@@ -11,12 +11,12 @@ import kotlinx.android.parcel.Parcelize
 
 @Parcelize
 data class ImageModel(override val id: Long,
-                 override val displayName: String?,
-                 override val dateAdded: Long?,
-                 override val contentUri: Uri,
-                 override val dateModified: Long?,
-                 override val description: String?,
-                 override val size: Int?,
-                 override val width: Int?,
-                 override val height: Int?) :
+                      override val displayName: String?,
+                      override val dateAdded: Long?,
+                      override val contentUri: Uri,
+                      override val dateModified: Long?,
+                      override val description: String?,
+                      override val size: Int?,
+                      override val width: Int?,
+                      override val height: Int?) :
         BaseCursorModel(id, displayName, dateAdded, contentUri, dateModified, description, size, width, height), Parcelable

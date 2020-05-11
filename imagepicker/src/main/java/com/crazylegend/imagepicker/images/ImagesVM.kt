@@ -11,10 +11,10 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import com.crazylegend.core.context
-import com.crazylegend.core.getSafeColumn
-import com.crazylegend.core.registerObserver
 import com.crazylegend.core.sorting.SortOrder
+import com.crazylegend.extensions.context
+import com.crazylegend.extensions.getSafeColumn
+import com.crazylegend.extensions.registerObserver
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -94,10 +94,12 @@ internal class ImagesVM(application: Application) : AndroidViewModel(application
                 val sizeColumn = cursor.getSafeColumn(MediaStore.Images.Media.SIZE)
                 val widthColumn = cursor.getSafeColumn(MediaStore.Images.Media.WIDTH)
                 val heightColumn = cursor.getSafeColumn(MediaStore.Images.Media.HEIGHT)
+                val relativePathColumn = cursor.getSafeColumn(MediaStore.Images.Media.RELATIVE_PATH)
 
 
                 while (cursor.moveToNext()) {
                     val id = cursor.getLong(idColumn)
+                    val relativePath = relativePathColumn?.let { cursor.getStringOrNull(it) }
                     val displayName = cursor.getStringOrNull(displayNameColumn)
                     val dateAdded = dateAddedColumn?.let { cursor.getLongOrNull(it) }
                     val dateModified = dateModifiedColumn?.let { cursor.getLongOrNull(it) }

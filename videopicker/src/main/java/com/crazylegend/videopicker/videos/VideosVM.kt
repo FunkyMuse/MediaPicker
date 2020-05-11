@@ -11,10 +11,10 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import com.crazylegend.core.context
-import com.crazylegend.core.getSafeColumn
-import com.crazylegend.core.registerObserver
 import com.crazylegend.core.sorting.SortOrder
+import com.crazylegend.extensions.context
+import com.crazylegend.extensions.getSafeColumn
+import com.crazylegend.extensions.registerObserver
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext

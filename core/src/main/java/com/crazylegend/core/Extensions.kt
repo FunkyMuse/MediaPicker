@@ -1,23 +1,14 @@
 package com.crazylegend.core
 
-import android.content.ContentResolver
-import android.content.Context
 import android.content.res.Resources
-import android.database.ContentObserver
-import android.database.Cursor
 import android.net.Uri
-import android.os.Handler
 import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.constraintlayout.widget.ConstraintSet
-import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentManager
-import androidx.lifecycle.AndroidViewModel
 import com.bumptech.glide.Glide
 
 /**
@@ -33,43 +24,9 @@ internal fun AppCompatImageView.loadImage(uri: Uri) {
             .into(this)
 }
 
-fun Cursor.getSafeColumn(column: String): Int? {
-    return try {
-        getColumnIndexOrThrow(column)
-    } catch (e: Exception) {
-        null
-    }
-}
-
-fun Context.setupManager(): FragmentManager {
-    val manager = when (this) {
-        is Fragment -> this.childFragmentManager
-        is AppCompatActivity -> this.supportFragmentManager
-        else -> null
-    }
-    requireNotNull(manager) {
-        "Use a Fragment or AppCompat activity"
-    }
-    return manager
-}
-
-val AndroidViewModel.context: Context
-    get() = getApplication()
-
 val ViewGroup.inflater: LayoutInflater get() = LayoutInflater.from(context)
 
-fun ContentResolver.registerObserver(
-        uri: Uri,
-        observer: (change: Boolean) -> Unit
-): ContentObserver {
-    val contentObserver = object : ContentObserver(Handler()) {
-        override fun onChange(selfChange: Boolean) {
-            observer(selfChange)
-        }
-    }
-    registerContentObserver(uri, true, contentObserver)
-    return contentObserver
-}
+
 
 
 fun View.visible() {
