@@ -28,41 +28,41 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
     private var clickedID = R.id.singleImageBottomSheetPick
 
     private val askForStoragePermission =
-            registerForActivityResult(ActivityResultContracts.RequestPermission()) {
-                if (it) {
-                    when (clickedID) {
-                        //images
-                        R.id.singleImageBottomSheetPick -> {
-                            showSingleImageBottomSheetPicker()
-                        }
-                        R.id.singleImageDialogPick -> {
-                            showSingleImageDialogPicker()
-                        }
-                        R.id.imageBottomSheetMultiPick -> {
-                            showImageMultiBottomSheetPicker()
-                        }
-                        R.id.imagePickDialogMultiPick -> {
-                            showImageMultiDialogPicker()
-                        }
-
-                        //videos
-                        R.id.singleVideoBottomSheetPick -> {
-                            showSingleVideoBottomSheetPicker()
-                        }
-                        R.id.singleVideoDialogPick -> {
-                            showSingleVideoDialogPicker()
-                        }
-                        R.id.videoBottomSheetMultiPick -> {
-                            showVideoMultiBottomSheetPicker()
-                        }
-                        R.id.videoPickDialogMultiPick -> {
-                            showVideoMultiDialogPicker()
-                        }
+        registerForActivityResult(ActivityResultContracts.RequestPermission()) {
+            if (it) {
+                when (clickedID) {
+                    //images
+                    R.id.singleImageBottomSheetPick -> {
+                        showSingleImageBottomSheetPicker()
                     }
-                } else {
-                    Log.e("PERMISSION", "NOT ALLOWED!")
+                    R.id.singleImageDialogPick -> {
+                        showSingleImageDialogPicker()
+                    }
+                    R.id.imageBottomSheetMultiPick -> {
+                        showImageMultiBottomSheetPicker()
+                    }
+                    R.id.imagePickDialogMultiPick -> {
+                        showImageMultiDialogPicker()
+                    }
+
+                    //videos
+                    R.id.singleVideoBottomSheetPick -> {
+                        showSingleVideoBottomSheetPicker()
+                    }
+                    R.id.singleVideoDialogPick -> {
+                        showSingleVideoDialogPicker()
+                    }
+                    R.id.videoBottomSheetMultiPick -> {
+                        showVideoMultiBottomSheetPicker()
+                    }
+                    R.id.videoPickDialogMultiPick -> {
+                        showVideoMultiDialogPicker()
+                    }
                 }
+            } else {
+                Log.e("PERMISSION", "NOT ALLOWED!")
             }
+        }
 
     //videos
     private fun showVideoMultiDialogPicker() {
@@ -94,13 +94,17 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
     }
 
     private fun showSingleVideoBottomSheetPicker() {
-        SingleVideoPicker.bottomSheetPicker(this, {}, ::loadVideo)
+        SingleVideoPicker.bottomSheetPicker(this, {
+            invoke({
+                textString = "Picking some of them videos"
+            })
+        }, ::loadVideo)
     }
 
     private fun loadVideo(videoModel: VideoModel) {
         Glide.with(this)
-                .load(videoModel.contentUri)
-                .into(video)
+            .load(videoModel.contentUri)
+            .into(video)
         Log.d("VIDEO_PICKED", videoModel.toString())
     }
 
@@ -140,7 +144,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
     }
 
     private fun showSingleImageBottomSheetPicker() {
-        SingleImagePicker.bottomSheetPicker(this,  {
+        SingleImagePicker.bottomSheetPicker(this, {
             invoke({
                 textAlignment = TextView.TEXT_ALIGNMENT_CENTER
                 textStyle = ImageTextModifier.TextStyle.BOLD_ITALIC
@@ -148,15 +152,15 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
                 textColor = Color.MAGENTA
                 textPadding = 5 // use dp or sp this is only for demonstration purposes
                 textSize = 20f  // use sp this is only for demonstration purposes
-                textString = "Bottom sheet pick"
+                textString = "Bottom sheet pick images"
             })
         }, ::loadImage)
     }
 
     private fun loadImage(imageModel: ImageModel) {
         Glide.with(this)
-                .load(imageModel.contentUri)
-                .into(image)
+            .load(imageModel.contentUri)
+            .into(image)
         Log.d("IMAGE_PICKED", imageModel.toString())
     }
 
