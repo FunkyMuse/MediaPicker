@@ -4,31 +4,39 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <com.google.android.material.textview.MaterialTextView
-        android:id="@+id/title"
+    <RelativeLayout
+        android:layout_below="@id/topIndicator"
+        android:id="@+id/titleLayout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_below="@id/topIndicator"
-        android:padding="10dp"
-        android:layout_marginTop="4dp"
-        android:layout_marginBottom="4dp"
-        android:layout_toStartOf="@id/doneButton"
-        android:layout_marginEnd="8dp"
-        android:text="@string/pick_videos"
-        android:textSize="18sp" />
+        android:layout_height="wrap_content">
 
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/doneButton"
-        android:layout_below="@id/topIndicator"
-        android:layout_alignParentEnd="true"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:layout_marginTop="4dp"
-        app:cornerRadius="8dp"
-        android:layout_marginBottom="4dp"
-        android:text="@string/done" />
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:padding="10dp"
+            android:layout_centerVertical="true"
+            android:layout_marginTop="4dp"
+            android:layout_marginBottom="4dp"
+            android:layout_toStartOf="@id/doneButton"
+            android:layout_marginEnd="8dp"
+            android:text="@string/pick_videos"
+            android:textSize="18sp" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/doneButton"
+            android:layout_alignParentEnd="true"
+            android:layout_width="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:layout_marginTop="4dp"
+            app:cornerRadius="8dp"
+            android:layout_marginBottom="4dp"
+            android:text="@string/done" />
+
+    </RelativeLayout>
 
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/topIndicator"
@@ -40,7 +48,7 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/gallery"
-        android:layout_below="@id/doneButton"
+        android:layout_below="@id/titleLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layoutManager="androidx.recyclerview.widget.GridLayoutManager" />

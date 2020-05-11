@@ -12,14 +12,14 @@ import kotlinx.android.parcel.Parcelize
 @Parcelize
 data class SingleImagePickerModifier(
         private val closeButtonModifier: CloseButtonModifier = CloseButtonModifier(),
-        private val textModifier: TextModifier = TextModifier()
+        private val videoTextModifier: ImageTextModifier = ImageTextModifier()
 ) : Parcelable {
 
-    val getTextModifier get() = textModifier
+    val getTextModifier get() = videoTextModifier
     val getCloseButtonModifier get() = closeButtonModifier
 
-    operator fun invoke(text: TextModifier.() -> Unit, close: CloseButtonModifier.() -> Unit = {}) {
-        textModifier.text()
+    operator fun invoke(imageText: ImageTextModifier.() -> Unit, close: CloseButtonModifier.() -> Unit = {}) {
+        videoTextModifier.imageText()
         closeButtonModifier.close()
     }
 }

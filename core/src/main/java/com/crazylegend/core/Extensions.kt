@@ -24,6 +24,8 @@ import com.bumptech.glide.Glide
  * Created by crazy on 5/8/20 to long live and prosper !
  */
 
+const val MODIFIER_ARGUMENT_CONST = "modifier"
+
 fun AppCompatImageView.loadImage(uri: Uri) {
     Glide.with(this)
             .load(uri)
@@ -335,7 +337,7 @@ fun <T : View> T.constrainCenterXToCenterXOf(view: View): T {
 
 // Follow Edges
 
-fun <T : View> T.followEdgesOf(view: View, margin: Int = 0): T {
+fun <T : View> T.followEdgesOf(view: View): T {
     constrainTopToTopOf(view)
     constrainBottomToBottomOf(view)
     constrainLeftToLeftOf(view)

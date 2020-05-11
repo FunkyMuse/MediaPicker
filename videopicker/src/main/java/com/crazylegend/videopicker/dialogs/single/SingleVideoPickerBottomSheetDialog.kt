@@ -6,6 +6,8 @@ import android.util.Log
 import android.view.View
 import androidx.activity.invoke
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.widget.AppCompatTextView
+import androidx.core.os.bundleOf
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.observe
 import androidx.recyclerview.widget.GridLayoutManager
@@ -16,6 +18,7 @@ import com.crazylegend.videopicker.adapters.single.VideoAdapter
 import com.crazylegend.videopicker.contracts.SinglePickerContracts
 import com.crazylegend.videopicker.databinding.FragmentVideoGalleryLayoutBinding
 import com.crazylegend.videopicker.listeners.onVideoPicked
+import com.crazylegend.videopicker.modifiers.SingleVideoPickerModifier
 import com.crazylegend.videopicker.videos.VideosVM
 
 
@@ -29,6 +32,8 @@ internal class SingleVideoPickerBottomSheetDialog : AbstractBottomSheetDialogFra
     override var onVideoPicked: onVideoPicked? = null
     override val binding by viewBinding(FragmentVideoGalleryLayoutBinding::bind)
     override val videosVM by viewModels<VideosVM>()
+    override val modifier: SingleVideoPickerModifier? get() = arguments?.getParcelable(modifierTag)
+
     override val videoAdapter by lazy {
         VideoAdapter {
             onVideoPicked?.forVideo(it)
@@ -54,7 +59,7 @@ internal class SingleVideoPickerBottomSheetDialog : AbstractBottomSheetDialogFra
             layoutManager = GridLayoutManager(requireContext(), 3)
             adapter = videoAdapter
         }
-
+        applyTitleModifications(binding.title)
         videosVM.videos.observe(viewLifecycleOwner) {
             videoAdapter.submitList(it)
         }
@@ -63,6 +68,14 @@ internal class SingleVideoPickerBottomSheetDialog : AbstractBottomSheetDialogFra
     override fun onDestroyView() {
         super.onDestroyView()
         onVideoPicked = null
+    }
+
+    override fun applyTitleModifications(appCompatTextView: AppCompatTextView) {
+        modifier?.getTextModifier?.applyTextParams(appCompatTextView)
+    }
+
+    override fun addModifier(modifier: SingleVideoPickerModifier) {
+        arguments = bundleOf(modifierTag to modifier)
     }
 
 }

@@ -59,10 +59,11 @@ internal class SingleImagePickerDialogFragment : AbstractDialogFragment(), Singl
         askForStoragePermission(Manifest.permission.READ_EXTERNAL_STORAGE)
 
         modifier?.getCloseButtonModifier?.applyImageParams(binding.close)
+        applyTitleModifications(binding.title)
+
         binding.close.setOnClickListener {
             dismissAllowingStateLoss()
         }
-        applyTitleModifications(binding.title)
         binding.gallery.apply {
             layoutManager = GridLayoutManager(requireContext(), 3)
             adapter = imagesAdapter

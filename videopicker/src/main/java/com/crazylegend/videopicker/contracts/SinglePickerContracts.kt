@@ -1,10 +1,13 @@
 package com.crazylegend.videopicker.contracts
 
 import androidx.activity.result.ActivityResultLauncher
+import androidx.appcompat.widget.AppCompatTextView
+import com.crazylegend.core.MODIFIER_ARGUMENT_CONST
 import com.crazylegend.videopicker.R
 import com.crazylegend.videopicker.adapters.single.VideoAdapter
 import com.crazylegend.videopicker.databinding.FragmentVideoGalleryLayoutBinding
 import com.crazylegend.videopicker.listeners.onVideoPicked
+import com.crazylegend.videopicker.modifiers.SingleVideoPickerModifier
 import com.crazylegend.videopicker.pickers.SingleVideoPicker
 import com.crazylegend.videopicker.videos.VideosVM
 
@@ -19,6 +22,9 @@ internal interface SinglePickerContracts {
     val layout get() = R.layout.fragment_video_gallery_layout
     val videoAdapter: VideoAdapter
     var onVideoPicked: onVideoPicked?
-    val errorTag : String get() = SingleVideoPicker::javaClass.name
-
+    val errorTag  get() = SingleVideoPicker::javaClass.name
+    fun addModifier(modifier: SingleVideoPickerModifier)
+    val modifier :SingleVideoPickerModifier?
+    fun applyTitleModifications(appCompatTextView: AppCompatTextView)
+    val modifierTag get() = MODIFIER_ARGUMENT_CONST
 }

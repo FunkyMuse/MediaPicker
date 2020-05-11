@@ -66,13 +66,13 @@ internal class SingleImagePickerBottomSheetDialog : AbstractBottomSheetDialogFra
         }
     }
 
-    override fun applyTitleModifications(appCompatTextView: AppCompatTextView) {
-        modifier?.getTextModifier?.applyTextParams(appCompatTextView)
-    }
-
     override fun onDestroyView() {
         super.onDestroyView()
         onImagePicked = null
+    }
+
+    override fun applyTitleModifications(appCompatTextView: AppCompatTextView) {
+        modifier?.getTextModifier?.applyTextParams(appCompatTextView)
     }
 
     override fun addModifier(modifier: SingleImagePickerModifier) {

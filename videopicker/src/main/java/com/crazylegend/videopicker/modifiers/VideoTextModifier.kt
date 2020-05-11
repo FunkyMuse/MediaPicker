@@ -1,4 +1,4 @@
-package com.crazylegend.imagepicker.modifiers
+package com.crazylegend.videopicker.modifiers
 
 import android.graphics.Paint
 import android.graphics.Typeface
@@ -18,7 +18,7 @@ import kotlinx.android.parcel.Parcelize
 
 
 @Parcelize
-data class TextModifier(
+data class VideoTextModifier(
         var textColor: Int? = null,
         var textPadding: Int? = null,
         var textSize: Float? = null,

@@ -10,11 +10,13 @@ import android.widget.TextView
 import androidx.activity.invoke
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import com.bumptech.glide.Glide
 import com.crazylegend.imagepicker.images.ImageModel
-import com.crazylegend.imagepicker.modifiers.TextModifier
+import com.crazylegend.imagepicker.modifiers.ImageTextModifier
 import com.crazylegend.imagepicker.pickers.MultiImagePicker
 import com.crazylegend.imagepicker.pickers.SingleImagePicker
+import com.crazylegend.videopicker.modifiers.VideoTextModifier
 import com.crazylegend.videopicker.pickers.MultiVideoPicker
 import com.crazylegend.videopicker.pickers.SingleVideoPicker
 import com.crazylegend.videopicker.videos.VideoModel
@@ -72,11 +74,27 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
     }
 
     private fun showSingleVideoDialogPicker() {
-        SingleVideoPicker.dialogPicker(this, ::loadVideo)
+        SingleVideoPicker.dialogPicker(this, {
+            invoke({
+                textAlignment = TextView.TEXT_ALIGNMENT_VIEW_START
+                textStyle = VideoTextModifier.TextStyle.BOLD
+                textColor = Color.RED
+                margin = 12 // use dp or sp this is only for demonstration purposes
+                textPadding = 5 // use dp or sp this is only for demonstration purposes
+                textSize = 16f  // use sp this is only for demonstration purposes
+                textString = "Pick some videos"
+            }, {
+                endMargin = 20  // use dp or sp this is only for demonstration purposes
+                marginBottom = 20 // use dp or sp this is only for demonstration purposes
+                padding = 10 // use dp or sp this is only for demonstration purposes
+                resID = R.drawable.ic_close
+                tint = ContextCompat.getColor(this@MainActivity, R.color.colorAccent)
+            })
+        }, ::loadVideo)
     }
 
     private fun showSingleVideoBottomSheetPicker() {
-        SingleVideoPicker.bottomSheetPicker(this, ::loadVideo)
+        SingleVideoPicker.bottomSheetPicker(this, {}, ::loadVideo)
     }
 
     private fun loadVideo(videoModel: VideoModel) {
@@ -106,7 +124,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         SingleImagePicker.dialogPicker(this, {
             invoke({
                 textAlignment = TextView.TEXT_ALIGNMENT_VIEW_START
-                textStyle = TextModifier.TextStyle.BOLD
+                textStyle = ImageTextModifier.TextStyle.BOLD
                 textColor = Color.RED
                 margin = 12 // use dp or sp this is only for demonstration purposes
                 textPadding = 5 // use dp or sp this is only for demonstration purposes
@@ -125,7 +143,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         SingleImagePicker.bottomSheetPicker(this,  {
             invoke({
                 textAlignment = TextView.TEXT_ALIGNMENT_CENTER
-                textStyle = TextModifier.TextStyle.BOLD_ITALIC
+                textStyle = ImageTextModifier.TextStyle.BOLD_ITALIC
                 margin = 22 // use dp or sp this is only for demonstration purposes
                 textColor = Color.MAGENTA
                 textPadding = 5 // use dp or sp this is only for demonstration purposes
