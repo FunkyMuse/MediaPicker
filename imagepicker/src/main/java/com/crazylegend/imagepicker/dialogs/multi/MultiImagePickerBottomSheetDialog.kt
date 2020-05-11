@@ -6,6 +6,8 @@ import android.util.Log
 import android.view.View
 import androidx.activity.invoke
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.widget.AppCompatTextView
+import androidx.core.os.bundleOf
 import androidx.core.util.keyIterator
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.observe
@@ -19,6 +21,8 @@ import com.crazylegend.imagepicker.databinding.FragmentImagesGalleryLayoutMultiB
 import com.crazylegend.imagepicker.images.ImageModel
 import com.crazylegend.imagepicker.images.ImagesVM
 import com.crazylegend.imagepicker.listeners.onImagesPicked
+import com.crazylegend.imagepicker.modifiers.multi.MultiImagePickerModifier
+import com.google.android.material.button.MaterialButton
 
 
 /**
@@ -33,8 +37,11 @@ internal class MultiImagePickerBottomSheetDialog : AbstractBottomSheetDialogFrag
     override var onImagesPicked: onImagesPicked? = null
     override val binding by viewBinding(FragmentImagesGalleryLayoutMultiBinding::bind)
     override val imagesVM by viewModels<ImagesVM>()
+    override val modifier: MultiImagePickerModifier?
+        get() = arguments?.getParcelable(modifierTag)
+
     override val imagesAdapter by lazy {
-        ImagesMultiSelectAdapter()
+        ImagesMultiSelectAdapter(modifier)
     }
     override val askForStoragePermission =
             registerForActivityResult(ActivityResultContracts.RequestPermission()) {
@@ -59,6 +66,8 @@ internal class MultiImagePickerBottomSheetDialog : AbstractBottomSheetDialogFrag
             imagesAdapter.submitList(it)
         }
 
+        applyDoneButtonModifications(binding.doneButton)
+        applyTitleModifications(binding.title)
 
         binding.doneButton.setOnClickListener {
             val imagesList = imagesVM.images.value ?: emptyList()
@@ -80,5 +89,15 @@ internal class MultiImagePickerBottomSheetDialog : AbstractBottomSheetDialogFrag
     override fun onDestroyView() {
         super.onDestroyView()
         onImagesPicked = null
+    }
+
+    override fun addModifier(modifier: MultiImagePickerModifier) {
+        arguments = bundleOf(modifierTag to modifier)
+    }
+    override fun applyTitleModifications(appCompatTextView: AppCompatTextView) {
+        modifier?.titleTextModifier?.applyTextParams(appCompatTextView)
+    }
+    override fun applyDoneButtonModifications(doneButton: MaterialButton) {
+        modifier?.doneButtonModifier?.applyImageParams(doneButton)
     }
 }

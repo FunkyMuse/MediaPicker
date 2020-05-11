@@ -11,7 +11,7 @@ import com.crazylegend.imagepicker.dialogs.single.SingleImagePickerBottomSheetDi
 import com.crazylegend.imagepicker.dialogs.single.SingleImagePickerDialogFragment
 import com.crazylegend.imagepicker.images.ImageModel
 import com.crazylegend.imagepicker.listeners.onImageDSL
-import com.crazylegend.imagepicker.modifiers.SingleImagePickerModifier
+import com.crazylegend.imagepicker.modifiers.single.SingleImagePickerModifier
 
 
 /**
@@ -58,7 +58,8 @@ object SingleImagePicker {
     }
 
     private fun setupModifier(singleImagePickerModifier: SingleImagePickerModifier.() -> Unit): SingleImagePickerModifier {
-        val modifier = SingleImagePickerModifier()
+        val modifier =
+            SingleImagePickerModifier()
         modifier.singleImagePickerModifier()
         return modifier
     }

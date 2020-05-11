@@ -14,6 +14,7 @@ import androidx.core.content.ContextCompat
 import com.bumptech.glide.Glide
 import com.crazylegend.imagepicker.images.ImageModel
 import com.crazylegend.imagepicker.modifiers.ImageTextModifier
+import com.crazylegend.imagepicker.modifiers.multi.MultiImagePickerModifier
 import com.crazylegend.imagepicker.pickers.MultiImagePicker
 import com.crazylegend.imagepicker.pickers.SingleImagePicker
 import com.crazylegend.videopicker.modifiers.VideoTextModifier
@@ -75,7 +76,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
 
     private fun showSingleVideoDialogPicker() {
         SingleVideoPicker.dialogPicker(this, {
-            invoke({
+            setup({
                 textAlignment = TextView.TEXT_ALIGNMENT_VIEW_START
                 textStyle = VideoTextModifier.TextStyle.BOLD
                 textColor = Color.RED
@@ -95,7 +96,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
 
     private fun showSingleVideoBottomSheetPicker() {
         SingleVideoPicker.bottomSheetPicker(this, {
-            invoke({
+            setup({
                 textString = "Picking some of them videos"
             })
         }, ::loadVideo)
@@ -116,17 +117,62 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
 
     //images
     private fun showImageMultiDialogPicker() {
-        MultiImagePicker.dialogPicker(this, ::doSomethingWithImageList)
+        MultiImagePicker.dialogPicker(this, {
+            setup(
+                gravityForIndicators = MultiImagePickerModifier.Gravity.TOP_RIGHT,
+                titleText = {
+                    textAlignment = TextView.TEXT_ALIGNMENT_VIEW_START
+                    textStyle = ImageTextModifier.TextStyle.BOLD_ITALIC
+                    textColor = Color.RED
+                    margin = 12 // use dp or sp this is only for demonstration purposes
+                    textPadding = 5 // use dp or sp this is only for demonstration purposes
+                    textSize = 16f  // use sp this is only for demonstration purposes
+                    textString = "Pick some multi images"
+                },
+                doneButton = {
+                    cornerRadius = 20  // use dp/sp/px this is only for demonstration purposes
+                },
+                selectIcon = {
+                    margin = 15 // use dp or sp this is only for demonstration purposes
+                    tint = ContextCompat.getColor(this@MainActivity, R.color.colorPrimary)
+                },
+                unSelectIcon = {
+                    margin = 15 // use dp or sp this is only for demonstration purposes
+                    tint = ContextCompat.getColor(this@MainActivity, R.color.colorPrimary)
+                })
+        }, ::doSomethingWithImageList)
     }
 
 
     private fun showImageMultiBottomSheetPicker() {
-        MultiImagePicker.bottomSheetPicker(this, ::doSomethingWithImageList)
+        MultiImagePicker.bottomSheetPicker(this, {
+            setup(
+                gravityForIndicators = MultiImagePickerModifier.Gravity.BOTTOM_LEFT,
+                titleText = {
+                    textAlignment = TextView.TEXT_ALIGNMENT_VIEW_START
+                    textStyle = ImageTextModifier.TextStyle.BOLD_ITALIC
+                    textColor = Color.RED
+                    margin = 12 // use dp or sp this is only for demonstration purposes
+                    textPadding = 5 // use dp or sp this is only for demonstration purposes
+                    textSize = 16f  // use sp this is only for demonstration purposes
+                    textString = "Pick some multi images"
+                },
+                doneButton = {
+                    cornerRadius = 20  // use dp/sp/px this is only for demonstration purposes
+                    tint = ContextCompat.getColor(this@MainActivity, R.color.colorAccent)
+                },
+                selectIcon = {
+                    resID = R.drawable.ic_checked
+                },
+                unSelectIcon = {
+                    resID = R.drawable.ic_unchecked
+                })
+        }, ::doSomethingWithImageList)
     }
 
     private fun showSingleImageDialogPicker() {
         SingleImagePicker.dialogPicker(this, {
-            invoke({
+            setup({
                 textAlignment = TextView.TEXT_ALIGNMENT_VIEW_START
                 textStyle = ImageTextModifier.TextStyle.BOLD
                 textColor = Color.RED
@@ -145,7 +191,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
 
     private fun showSingleImageBottomSheetPicker() {
         SingleImagePicker.bottomSheetPicker(this, {
-            invoke({
+            setup({
                 textAlignment = TextView.TEXT_ALIGNMENT_CENTER
                 textStyle = ImageTextModifier.TextStyle.BOLD_ITALIC
                 margin = 22 // use dp or sp this is only for demonstration purposes

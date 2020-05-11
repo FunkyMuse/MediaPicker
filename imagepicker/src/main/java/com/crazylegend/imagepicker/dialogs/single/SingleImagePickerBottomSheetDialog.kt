@@ -19,7 +19,7 @@ import com.crazylegend.imagepicker.contracts.SinglePickerContracts
 import com.crazylegend.imagepicker.databinding.FragmentImagesGalleryLayoutBinding
 import com.crazylegend.imagepicker.images.ImagesVM
 import com.crazylegend.imagepicker.listeners.onImagePicked
-import com.crazylegend.imagepicker.modifiers.SingleImagePickerModifier
+import com.crazylegend.imagepicker.modifiers.single.SingleImagePickerModifier
 
 
 /**
@@ -72,7 +72,7 @@ internal class SingleImagePickerBottomSheetDialog : AbstractBottomSheetDialogFra
     }
 
     override fun applyTitleModifications(appCompatTextView: AppCompatTextView) {
-        modifier?.getTextModifier?.applyTextParams(appCompatTextView)
+        modifier?.titleTextModifier?.applyTextParams(appCompatTextView)
     }
 
     override fun addModifier(modifier: SingleImagePickerModifier) {

@@ -56,7 +56,7 @@ internal class SingleVideoPickerDialogFragment : AbstractDialogFragment(), Singl
         binding.topIndicator.gone()
         askForStoragePermission(Manifest.permission.READ_EXTERNAL_STORAGE)
 
-        modifier?.getCloseButtonModifier?.applyImageParams(binding.close)
+        modifier?.closeButtonModifier?.applyImageParams(binding.close)
         applyTitleModifications(binding.title)
 
         binding.gallery.apply {
@@ -79,7 +79,7 @@ internal class SingleVideoPickerDialogFragment : AbstractDialogFragment(), Singl
     }
 
     override fun applyTitleModifications(appCompatTextView: AppCompatTextView) {
-        modifier?.getTextModifier?.applyTextParams(appCompatTextView)
+        modifier?.titleTextModifier?.applyTextParams(appCompatTextView)
     }
 
     override fun addModifier(modifier: SingleVideoPickerModifier) {

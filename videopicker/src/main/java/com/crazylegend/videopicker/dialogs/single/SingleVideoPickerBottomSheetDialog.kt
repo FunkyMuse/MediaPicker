@@ -71,7 +71,7 @@ internal class SingleVideoPickerBottomSheetDialog : AbstractBottomSheetDialogFra
     }
 
     override fun applyTitleModifications(appCompatTextView: AppCompatTextView) {
-        modifier?.getTextModifier?.applyTextParams(appCompatTextView)
+        modifier?.titleTextModifier?.applyTextParams(appCompatTextView)
     }
 
     override fun addModifier(modifier: SingleVideoPickerModifier) {

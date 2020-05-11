@@ -7,18 +7,20 @@ import com.crazylegend.core.inflater
 import com.crazylegend.imagepicker.adapters.ImagesDiffUtil
 import com.crazylegend.imagepicker.databinding.ItemviewImageBinding
 import com.crazylegend.imagepicker.images.ImageModel
+import com.crazylegend.imagepicker.modifiers.multi.MultiImagePickerModifier
 
 
 /**
  * Created by crazy on 5/8/20 to long live and prosper !
  */
-internal class ImagesMultiSelectAdapter :
+internal class ImagesMultiSelectAdapter(private val modifier: MultiImagePickerModifier?) :
         ListAdapter<ImageModel, ImagesMultiSelectViewHolder>(ImagesDiffUtil()) {
 
     var selectedPositions = SparseBooleanArray()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ImagesMultiSelectViewHolder {
-        val holder = ImagesMultiSelectViewHolder(ItemviewImageBinding.inflate(parent.inflater, parent, false))
+        val holder = ImagesMultiSelectViewHolder(ItemviewImageBinding.inflate(parent.inflater, parent, false),
+        modifier)
         holder.itemView.setOnClickListener {
             putPosition(holder.adapterPosition)
             notifyItemChanged(holder.adapterPosition)

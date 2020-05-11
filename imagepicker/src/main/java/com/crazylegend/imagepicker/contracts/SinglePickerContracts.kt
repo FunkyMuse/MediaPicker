@@ -8,7 +8,7 @@ import com.crazylegend.imagepicker.adapters.single.ImagesAdapter
 import com.crazylegend.imagepicker.databinding.FragmentImagesGalleryLayoutBinding
 import com.crazylegend.imagepicker.images.ImagesVM
 import com.crazylegend.imagepicker.listeners.onImagePicked
-import com.crazylegend.imagepicker.modifiers.SingleImagePickerModifier
+import com.crazylegend.imagepicker.modifiers.single.SingleImagePickerModifier
 import com.crazylegend.imagepicker.pickers.SingleImagePicker
 
 
@@ -24,7 +24,7 @@ internal interface SinglePickerContracts {
     var onImagePicked: onImagePicked?
     val errorTag  get() = SingleImagePicker::javaClass.name
     fun addModifier(modifier: SingleImagePickerModifier)
-    val modifier :SingleImagePickerModifier?
+    val modifier : SingleImagePickerModifier?
     fun applyTitleModifications(appCompatTextView: AppCompatTextView)
     val modifierTag get() = MODIFIER_ARGUMENT_CONST
 }

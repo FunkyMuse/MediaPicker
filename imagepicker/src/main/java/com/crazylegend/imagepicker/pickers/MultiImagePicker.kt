@@ -11,6 +11,7 @@ import com.crazylegend.imagepicker.dialogs.multi.MultiImagePickerBottomSheetDial
 import com.crazylegend.imagepicker.dialogs.multi.MultiImagePickerDialogFragment
 import com.crazylegend.imagepicker.images.ImageModel
 import com.crazylegend.imagepicker.listeners.onImagesDSL
+import com.crazylegend.imagepicker.modifiers.multi.MultiImagePickerModifier
 
 
 /**
@@ -35,21 +36,32 @@ object MultiImagePicker  {
     }
 
     @RequiresPermission(READ_EXTERNAL_STORAGE)
-    fun bottomSheetPicker(context: Context, imagesList: (list: List<ImageModel>) -> Unit) {
+    fun bottomSheetPicker(context: Context, multiImagePickerModifier: MultiImagePickerModifier.()->Unit = {},
+                          imagesList: (list: List<ImageModel>) -> Unit) {
         val manager = context.setupManager()
+        val modifier = setupModifier(multiImagePickerModifier)
         with(MultiImagePickerBottomSheetDialog()) {
+            addModifier(modifier)
             onImagesPicked = onImagesDSL(imagesList)
             show(manager, MULTI_PICKER_BOTTOM_SHEET)
         }
     }
 
     @RequiresPermission(READ_EXTERNAL_STORAGE)
-    fun dialogPicker(context: Context, imagesList: (list: List<ImageModel>) -> Unit) {
+    fun dialogPicker(context: Context, multiImagePickerModifier: MultiImagePickerModifier.()->Unit = {},
+                     imagesList: (list: List<ImageModel>) -> Unit) {
         val manager = context.setupManager()
+        val modifier = setupModifier(multiImagePickerModifier)
         with(MultiImagePickerDialogFragment()) {
+            addModifier(modifier)
             onImagesPicked = onImagesDSL(imagesList)
             show(manager, MULTI_PICKER_DIALOG)
         }
     }
 
+    private fun setupModifier(modifier: MultiImagePickerModifier.() -> Unit): MultiImagePickerModifier {
+        val pickerModifier = MultiImagePickerModifier()
+        pickerModifier.modifier()
+        return pickerModifier
+    }
 }

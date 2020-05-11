@@ -1,4 +1,4 @@
-package com.crazylegend.imagepicker.modifiers
+package com.crazylegend.imagepicker.modifiers.single
 
 import android.content.res.ColorStateList
 import android.os.Parcelable
