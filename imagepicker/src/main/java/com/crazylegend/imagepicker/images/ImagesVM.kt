@@ -94,12 +94,10 @@ internal class ImagesVM(application: Application) : AndroidViewModel(application
                 val sizeColumn = cursor.getSafeColumn(MediaStore.Images.Media.SIZE)
                 val widthColumn = cursor.getSafeColumn(MediaStore.Images.Media.WIDTH)
                 val heightColumn = cursor.getSafeColumn(MediaStore.Images.Media.HEIGHT)
-                val relativePathColumn = cursor.getSafeColumn(MediaStore.Images.Media.RELATIVE_PATH)
 
 
                 while (cursor.moveToNext()) {
                     val id = cursor.getLong(idColumn)
-                    val relativePath = relativePathColumn?.let { cursor.getStringOrNull(it) }
                     val displayName = cursor.getStringOrNull(displayNameColumn)
                     val dateAdded = dateAddedColumn?.let { cursor.getLongOrNull(it) }
                     val dateModified = dateModifiedColumn?.let { cursor.getLongOrNull(it) }
