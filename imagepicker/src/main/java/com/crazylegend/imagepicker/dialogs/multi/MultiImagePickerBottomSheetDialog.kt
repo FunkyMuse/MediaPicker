@@ -8,7 +8,6 @@ import androidx.activity.invoke
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.core.os.bundleOf
-import androidx.core.util.keyIterator
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.observe
 import androidx.recyclerview.widget.GridLayoutManager
@@ -19,10 +18,8 @@ import com.crazylegend.core.modifiers.multi.MultiPickerModifier
 import com.crazylegend.extensions.viewBinding
 import com.crazylegend.imagepicker.consts.LIST_STATE
 import com.crazylegend.imagepicker.contracts.MultiPickerContracts
-import com.crazylegend.imagepicker.images.ImageModel
 import com.crazylegend.imagepicker.images.ImagesVM
 import com.crazylegend.imagepicker.listeners.onImagesPicked
-
 import com.google.android.material.button.MaterialButton
 
 
@@ -71,20 +68,17 @@ internal class MultiImagePickerBottomSheetDialog : AbstractBottomSheetDialogFrag
         applyTitleModifications(binding.title)
 
         binding.doneButton.setOnClickListener {
-            val imagesList = imagesVM.images.value ?: emptyList()
-            val pickedList = mutableListOf<ImageModel>()
-            multiSelectAdapter.selectedPositions.keyIterator().asSequence().forEach {
-                pickedList += imagesList[it]
+            onValuesPicked(multiSelectAdapter.selectedPositions, imagesVM.images.value ?: emptyList()) { list ->
+                onImagesPicked?.onImagesPicked(list)
             }
-            onImagesPicked?.onImagesPicked(pickedList)
-            dismissAllowingStateLoss()
         }
     }
 
+
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
-        val positionList = multiSelectAdapter.selectedPositions.keyIterator().asSequence().map { it }.toList()
-        outState.putIntegerArrayList(LIST_STATE, ArrayList(positionList))
+        saveSelectedPositionsState(multiSelectAdapter.selectedPositions, outState, LIST_STATE)
+
     }
 
     override fun onDestroyView() {
@@ -95,9 +89,11 @@ internal class MultiImagePickerBottomSheetDialog : AbstractBottomSheetDialogFrag
     override fun addModifier(modifier: MultiPickerModifier) {
         arguments = bundleOf(modifierTag to modifier)
     }
+
     override fun applyTitleModifications(appCompatTextView: AppCompatTextView) {
         modifier?.titleTextModifier?.applyTextParams(appCompatTextView)
     }
+
     override fun applyDoneButtonModifications(doneButton: MaterialButton) {
         modifier?.doneButtonModifier?.applyImageParams(doneButton)
     }

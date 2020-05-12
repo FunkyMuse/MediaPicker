@@ -6,6 +6,7 @@ import android.database.ContentObserver
 import android.database.Cursor
 import android.net.Uri
 import android.os.Handler
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
@@ -16,6 +17,13 @@ import androidx.lifecycle.AndroidViewModel
  * Created by crazy on 5/11/20 to long live and prosper !
  */
 
+fun View.visible() {
+    this.visibility = View.VISIBLE
+}
+
+fun View.gone() {
+    this.visibility = View.GONE
+}
 
 fun Cursor.getSafeColumn(column: String): Int? {
     return try {
@@ -28,7 +36,7 @@ fun Cursor.getSafeColumn(column: String): Int? {
 fun Context.setupManager(): FragmentManager {
     val manager = when (this) {
         is Fragment -> this.childFragmentManager
-        is AppCompatActivity -> this.supportFragmentManager
+        is AppCompatActivity -> if (isFinishing) null else this.supportFragmentManager
         else -> null
     }
     requireNotNull(manager) {
@@ -36,7 +44,6 @@ fun Context.setupManager(): FragmentManager {
     }
     return manager
 }
-
 
 
 val AndroidViewModel.context: Context

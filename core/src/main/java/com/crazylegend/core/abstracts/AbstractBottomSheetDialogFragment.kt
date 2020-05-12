@@ -2,9 +2,11 @@ package com.crazylegend.core.abstracts
 
 import android.content.res.Configuration
 import android.os.Bundle
+import android.util.SparseBooleanArray
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.util.keyIterator
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 
 
@@ -23,4 +25,20 @@ abstract class AbstractBottomSheetDialogFragment : BottomSheetDialogFragment() {
         overrideConfiguration.uiMode = uiMode
         super.onConfigurationChanged(overrideConfiguration)
     }
+
+
+    inline fun <T> onValuesPicked(selectedPositions: SparseBooleanArray, loadedList: List<T>, onPickedList: (list: MutableList<T>) -> Unit) {
+        val pickedList = mutableListOf<T>()
+        selectedPositions.keyIterator().asSequence().forEach {
+            pickedList += loadedList[it]
+        }
+        onPickedList(pickedList)
+        dismissAllowingStateLoss()
+    }
+
+    fun saveSelectedPositionsState(selectedPositions: SparseBooleanArray, outState: Bundle, LIST_STATE: String) {
+        val positionList = selectedPositions.keyIterator().asSequence().map { it }.toList()
+        outState.putIntegerArrayList(LIST_STATE, ArrayList(positionList))
+    }
+
 }

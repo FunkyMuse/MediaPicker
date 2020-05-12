@@ -29,11 +29,11 @@ val ViewGroup.inflater: LayoutInflater get() = LayoutInflater.from(context)
 
 
 
-fun View.visible() {
+internal fun View.visible() {
     this.visibility = View.VISIBLE
 }
 
-fun View.gone() {
+internal fun View.gone() {
     this.visibility = View.GONE
 }
 

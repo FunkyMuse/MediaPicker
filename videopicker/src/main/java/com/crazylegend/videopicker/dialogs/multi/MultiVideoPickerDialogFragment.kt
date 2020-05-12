@@ -8,20 +8,19 @@ import androidx.activity.invoke
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.core.os.bundleOf
-import androidx.core.util.keyIterator
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.observe
 import androidx.recyclerview.widget.GridLayoutManager
+import com.crazylegend.core.R
 import com.crazylegend.core.abstracts.AbstractDialogFragment
 import com.crazylegend.core.adapters.multi.MultiSelectAdapter
 import com.crazylegend.core.databinding.FragmentImagesGalleryLayoutMultiBinding
-import com.crazylegend.core.gone
 import com.crazylegend.core.modifiers.multi.MultiPickerModifier
+import com.crazylegend.extensions.gone
 import com.crazylegend.extensions.viewBinding
 import com.crazylegend.videopicker.consts.LIST_STATE
 import com.crazylegend.videopicker.contracts.MultiPickerContracts
 import com.crazylegend.videopicker.listeners.onVideosPicked
-import com.crazylegend.videopicker.videos.VideoModel
 import com.crazylegend.videopicker.videos.VideosVM
 import com.google.android.material.button.MaterialButton
 
@@ -29,7 +28,7 @@ import com.google.android.material.button.MaterialButton
 /**
  * Created by crazy on 5/8/20 to long live and prosper !
  */
-internal class MultiVideoPickerDialogFragment : AbstractDialogFragment(),
+internal class MultiVideoPickerDialogFragment : AbstractDialogFragment(R.layout.fragment_images_gallery_layout_multi),
         MultiPickerContracts {
 
     override val layout: Int
@@ -69,20 +68,15 @@ internal class MultiVideoPickerDialogFragment : AbstractDialogFragment(),
         applyTitleModifications(binding.title)
 
         binding.doneButton.setOnClickListener {
-            val videosList = videosVM.videos.value ?: emptyList()
-            val pickedList = mutableListOf<VideoModel>()
-            multiSelectAdapter.selectedPositions.keyIterator().asSequence().forEach {
-                pickedList += videosList[it]
+            onValuesPicked(multiSelectAdapter.selectedPositions, videosVM.videos.value ?: emptyList()) { list ->
+                onVideosPicked?.onVideosPicked(list)
             }
-            onVideosPicked?.onVideosPicked(pickedList)
-            dismissAllowingStateLoss()
         }
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
-        val positionList = multiSelectAdapter.selectedPositions.keyIterator().asSequence().map { it }.toList()
-        outState.putIntegerArrayList(LIST_STATE, ArrayList(positionList))
+        saveSelectedPositionsState(multiSelectAdapter.selectedPositions, outState, LIST_STATE)
     }
 
     override fun onDestroyView() {
@@ -93,6 +87,7 @@ internal class MultiVideoPickerDialogFragment : AbstractDialogFragment(),
     override fun addModifier(modifier: MultiPickerModifier) {
         arguments = bundleOf(modifierTag to modifier)
     }
+
     override fun applyTitleModifications(appCompatTextView: AppCompatTextView) {
         modifier?.titleTextModifier?.applyTextParams(appCompatTextView)
     }

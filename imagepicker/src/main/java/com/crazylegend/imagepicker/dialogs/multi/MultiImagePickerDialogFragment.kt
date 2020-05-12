@@ -8,19 +8,18 @@ import androidx.activity.invoke
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.core.os.bundleOf
-import androidx.core.util.keyIterator
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.observe
 import androidx.recyclerview.widget.GridLayoutManager
+import com.crazylegend.core.R
 import com.crazylegend.core.abstracts.AbstractDialogFragment
 import com.crazylegend.core.adapters.multi.MultiSelectAdapter
 import com.crazylegend.core.databinding.FragmentImagesGalleryLayoutMultiBinding
-import com.crazylegend.core.gone
 import com.crazylegend.core.modifiers.multi.MultiPickerModifier
+import com.crazylegend.extensions.gone
 import com.crazylegend.extensions.viewBinding
 import com.crazylegend.imagepicker.consts.LIST_STATE
 import com.crazylegend.imagepicker.contracts.MultiPickerContracts
-import com.crazylegend.imagepicker.images.ImageModel
 import com.crazylegend.imagepicker.images.ImagesVM
 import com.crazylegend.imagepicker.listeners.onImagesPicked
 import com.google.android.material.button.MaterialButton
@@ -29,11 +28,9 @@ import com.google.android.material.button.MaterialButton
 /**
  * Created by crazy on 5/8/20 to long live and prosper !
  */
-internal class MultiImagePickerDialogFragment : AbstractDialogFragment(),
+internal class MultiImagePickerDialogFragment : AbstractDialogFragment(R.layout.fragment_images_gallery_layout_multi),
         MultiPickerContracts {
 
-    override val layout: Int
-        get() = super.layout
     override var onImagesPicked: onImagesPicked? = null
     override val binding by viewBinding(FragmentImagesGalleryLayoutMultiBinding::bind)
     override val imagesVM by viewModels<ImagesVM>()
@@ -72,20 +69,16 @@ internal class MultiImagePickerDialogFragment : AbstractDialogFragment(),
         applyTitleModifications(binding.title)
 
         binding.doneButton.setOnClickListener {
-            val imagesList = imagesVM.images.value ?: emptyList()
-            val pickedList = mutableListOf<ImageModel>()
-            multiSelectAdapter.selectedPositions.keyIterator().asSequence().forEach {
-                pickedList += imagesList[it]
+            onValuesPicked(multiSelectAdapter.selectedPositions, imagesVM.images.value ?: emptyList()) { list ->
+                onImagesPicked?.onImagesPicked(list)
             }
-            onImagesPicked?.onImagesPicked(pickedList)
-            dismissAllowingStateLoss()
         }
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
-        val positionList = multiSelectAdapter.selectedPositions.keyIterator().asSequence().map { it }.toList()
-        outState.putIntegerArrayList(LIST_STATE, ArrayList(positionList))
+        saveSelectedPositionsState(multiSelectAdapter.selectedPositions, outState, LIST_STATE)
+
     }
 
     override fun onDestroyView() {

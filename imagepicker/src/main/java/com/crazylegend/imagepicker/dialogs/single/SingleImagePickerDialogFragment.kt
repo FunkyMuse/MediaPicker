@@ -11,11 +11,12 @@ import androidx.core.os.bundleOf
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.observe
 import androidx.recyclerview.widget.GridLayoutManager
+import com.crazylegend.core.R
 import com.crazylegend.core.abstracts.AbstractDialogFragment
 import com.crazylegend.core.adapters.single.SingleAdapter
 import com.crazylegend.core.databinding.FragmentImagesGalleryLayoutBinding
-import com.crazylegend.core.gone
 import com.crazylegend.core.modifiers.single.SinglePickerModifier
+import com.crazylegend.extensions.gone
 import com.crazylegend.extensions.viewBinding
 import com.crazylegend.imagepicker.contracts.SinglePickerContracts
 import com.crazylegend.imagepicker.images.ImageModel
@@ -26,12 +27,9 @@ import com.crazylegend.imagepicker.listeners.onImagePicked
 /**
  * Created by crazy on 5/8/20 to long live and prosper !
  */
-internal class SingleImagePickerDialogFragment : AbstractDialogFragment(), SinglePickerContracts {
+internal class SingleImagePickerDialogFragment : AbstractDialogFragment(R.layout.fragment_images_gallery_layout), SinglePickerContracts {
 
     override var onImagePicked: onImagePicked? = null
-    override val layout: Int
-        get() = super.layout
-
     override val binding by viewBinding(FragmentImagesGalleryLayoutBinding::bind)
     override val imagesVM by viewModels<ImagesVM>()
     override val modifier: SinglePickerModifier?
