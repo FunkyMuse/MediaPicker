@@ -10,7 +10,7 @@ internal interface onVideoPicked {
     fun forVideo(videoModel: VideoModel)
 }
 
-internal fun onVideoDSL(videoCallback: (video: VideoModel) -> Unit) = object : onVideoPicked {
+internal inline fun onVideoDSL(crossinline videoCallback: (video: VideoModel) -> Unit) = object : onVideoPicked {
     override fun forVideo(videoModel: VideoModel) {
         videoCallback(videoModel)
     }

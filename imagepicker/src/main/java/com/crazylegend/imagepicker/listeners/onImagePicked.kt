@@ -10,7 +10,7 @@ internal interface onImagePicked {
     fun forImage(imageModel: ImageModel)
 }
 
-internal fun onImageDSL(imageCallback: (image: ImageModel) -> Unit) = object : onImagePicked {
+internal inline fun onImageDSL(crossinline imageCallback: (image: ImageModel) -> Unit) = object : onImagePicked {
     override fun forImage(imageModel: ImageModel) {
         imageCallback(imageModel)
     }

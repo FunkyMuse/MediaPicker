@@ -10,7 +10,7 @@ internal interface onVideosPicked {
     fun onVideosPicked(videos: List<VideoModel> = emptyList())
 }
 
-internal fun onVideosDSL(callback: (list: List<VideoModel>) -> Unit) = object : onVideosPicked {
+internal inline fun onVideosDSL(crossinline callback: (list: List<VideoModel>) -> Unit) = object : onVideosPicked {
     override fun onVideosPicked(videos: List<VideoModel>) {
         callback(videos)
     }

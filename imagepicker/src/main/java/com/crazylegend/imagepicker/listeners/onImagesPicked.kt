@@ -10,7 +10,7 @@ internal interface onImagesPicked {
     fun onImagesPicked(images: List<ImageModel> = emptyList())
 }
 
-internal fun onImagesDSL(callback: (list: List<ImageModel>) -> Unit) = object : onImagesPicked {
+internal inline fun onImagesDSL(crossinline callback: (list: List<ImageModel>) -> Unit) = object : onImagesPicked {
     override fun onImagesPicked(images: List<ImageModel>) {
         callback(images)
     }
