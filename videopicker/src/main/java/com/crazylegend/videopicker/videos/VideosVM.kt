@@ -32,16 +32,26 @@ internal class VideosVM(application: Application) : AndroidViewModel(application
 
     private var contentObserver: ContentObserver? = null
 
+    /**
+     * Using this instead of event since it serves the same purpose thus it's needed here
+     */
+    private var canLoad = true
+
     fun loadVideos(sortOrder: SortOrder = SortOrder.DATE_ADDED_DESC) {
-        viewModelScope.launch {
-            videoData.postValue(queryVideos(sortOrder))
-            initializeContentObserver(sortOrder)
+        if (canLoad) {
+            viewModelScope.launch {
+                videoData.postValue(queryVideos(sortOrder))
+                initializeContentObserver(sortOrder)
+            }
         }
     }
 
     private fun initializeContentObserver(sortOrder: SortOrder) {
         if (contentObserver == null) {
-            contentObserver = contentResolver.registerObserver(MediaStore.Video.Media.EXTERNAL_CONTENT_URI) { loadVideos(sortOrder) }
+            contentObserver = contentResolver.registerObserver(MediaStore.Video.Media.EXTERNAL_CONTENT_URI) {
+                canLoad = true
+                loadVideos(sortOrder)
+            }
         }
     }
 
@@ -121,11 +131,12 @@ internal class VideosVM(application: Application) : AndroidViewModel(application
 
                     val contentUri = ContentUris.withAppendedId(MediaStore.Video.Media.EXTERNAL_CONTENT_URI, id)
                     val videoModel = VideoModel(id, displayName, dateAdded, contentUri, dateModified, description, size, width, height,
-                    resolution, isPrivate, artist, album, category, tags, language, bookmark)
+                            resolution, isPrivate, artist, album, category, tags, language, bookmark)
                     video += videoModel
                 }
             }
         }
+        canLoad = false
         return video
     }
 }

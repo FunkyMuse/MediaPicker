@@ -32,17 +32,25 @@ internal class ImagesVM(application: Application) : AndroidViewModel(application
 
     private var contentObserver: ContentObserver? = null
 
+    /**
+     * Using this instead of event since it serves the same purpose thus it's needed here
+     */
+    private var canLoad = true
 
     fun loadImages(sortOrder: SortOrder = SortOrder.DATE_ADDED_DESC) {
-        viewModelScope.launch {
-            imagesData.postValue(queryImages(sortOrder))
-            initializeContentObserver(sortOrder)
+        if (canLoad){
+            viewModelScope.launch {
+                imagesData.postValue(queryImages(sortOrder))
+                initializeContentObserver(sortOrder)
+            }
         }
     }
 
     private fun initializeContentObserver(sortOrder: SortOrder) {
         if (contentObserver == null) {
-            contentObserver = contentResolver.registerObserver(MediaStore.Images.Media.EXTERNAL_CONTENT_URI) { loadImages(sortOrder) }
+            contentObserver = contentResolver.registerObserver(MediaStore.Images.Media.EXTERNAL_CONTENT_URI) {
+                canLoad = true
+                loadImages(sortOrder) }
         }
     }
 
@@ -112,6 +120,7 @@ internal class ImagesVM(application: Application) : AndroidViewModel(application
                 }
             }
         }
+        canLoad = false
         return images
     }
 }
