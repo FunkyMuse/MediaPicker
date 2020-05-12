@@ -14,8 +14,8 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.crazylegend.core.abstracts.AbstractBottomSheetDialogFragment
 import com.crazylegend.core.adapters.single.SingleAdapter
 import com.crazylegend.core.databinding.FragmentImagesGalleryLayoutBinding
-import com.crazylegend.core.gone
 import com.crazylegend.core.modifiers.single.SinglePickerModifier
+import com.crazylegend.extensions.gone
 import com.crazylegend.extensions.viewBinding
 import com.crazylegend.videopicker.contracts.SinglePickerContracts
 import com.crazylegend.videopicker.listeners.onVideoPicked
