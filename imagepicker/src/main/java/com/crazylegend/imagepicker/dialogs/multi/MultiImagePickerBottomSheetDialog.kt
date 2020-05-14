@@ -10,7 +10,6 @@ import androidx.appcompat.widget.AppCompatTextView
 import androidx.core.os.bundleOf
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.observe
-import androidx.recyclerview.widget.GridLayoutManager
 import com.crazylegend.core.abstracts.AbstractBottomSheetDialogFragment
 import com.crazylegend.core.adapters.multi.MultiSelectAdapter
 import com.crazylegend.core.databinding.FragmentImagesGalleryLayoutMultiBinding
@@ -53,19 +52,17 @@ internal class MultiImagePickerBottomSheetDialog : AbstractBottomSheetDialogFrag
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        savedInstanceState?.getIntegerArrayList(LIST_STATE)?.asSequence()?.forEach { multiSelectAdapter.selectedPositions.put(it, true) }
         askForStoragePermission(Manifest.permission.READ_EXTERNAL_STORAGE)
-        binding.gallery.apply {
-            layoutManager = GridLayoutManager(requireContext(), 3)
-            adapter = multiSelectAdapter
-        }
+
+        setupUIForMultiPicker(savedInstanceState, LIST_STATE, multiSelectAdapter.selectedPositions,
+                binding.gallery, multiSelectAdapter, binding.doneButton, binding.title,
+                ::applyDoneButtonModifications, ::applyTitleModifications)
 
         imagesVM.images.observe(viewLifecycleOwner) {
             multiSelectAdapter.submitList(it)
         }
+        handleUIIndicator(imagesVM.loadingIndicator, binding.loadingIndicator)
 
-        applyDoneButtonModifications(binding.doneButton)
-        applyTitleModifications(binding.title)
 
         binding.doneButton.setOnClickListener {
             onValuesPicked(multiSelectAdapter.selectedPositions, imagesVM.images.value ?: emptyList()) { list ->

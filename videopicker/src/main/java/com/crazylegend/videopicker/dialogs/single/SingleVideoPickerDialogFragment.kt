@@ -10,13 +10,11 @@ import androidx.appcompat.widget.AppCompatTextView
 import androidx.core.os.bundleOf
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.observe
-import androidx.recyclerview.widget.GridLayoutManager
 import com.crazylegend.core.R
 import com.crazylegend.core.abstracts.AbstractDialogFragment
 import com.crazylegend.core.adapters.single.SingleAdapter
 import com.crazylegend.core.databinding.FragmentImagesGalleryLayoutBinding
 import com.crazylegend.core.modifiers.single.SinglePickerModifier
-import com.crazylegend.extensions.gone
 import com.crazylegend.extensions.viewBinding
 import com.crazylegend.videopicker.contracts.SinglePickerContracts
 import com.crazylegend.videopicker.listeners.onVideoPicked
@@ -54,24 +52,18 @@ internal class SingleVideoPickerDialogFragment : AbstractDialogFragment(R.layout
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.topIndicator.gone()
         askForStoragePermission(Manifest.permission.READ_EXTERNAL_STORAGE)
 
-        modifier?.closeButtonModifier?.applyImageParams(binding.close)
-        applyTitleModifications(binding.title)
-
-        binding.gallery.apply {
-            layoutManager = GridLayoutManager(requireContext(), 3)
-            adapter = singleAdapter
-        }
-
-        binding.close.setOnClickListener {
-            dismissAllowingStateLoss()
+        setupUIForSinglePicker(binding.topIndicator, binding.gallery, singleAdapter, binding.title, binding.close,
+                ::applyTitleModifications){
+            modifier?.closeButtonModifier?.applyImageParamsRelativeLayout(it)
         }
         
         videosVM.videos.observe(viewLifecycleOwner) {
             singleAdapter.submitList(it)
         }
+        handleUIIndicator(videosVM.loadingIndicator, binding.loadingIndicator)
+
     }
 
     override fun onDestroyView() {

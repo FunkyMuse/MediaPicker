@@ -1,5 +1,6 @@
 package com.crazylegend.core
 
+import android.content.Context
 import android.content.res.Resources
 import android.net.Uri
 import android.util.TypedValue
@@ -9,6 +10,7 @@ import android.view.ViewGroup
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.constraintlayout.widget.ConstraintSet
+import androidx.lifecycle.AndroidViewModel
 import com.bumptech.glide.Glide
 
 /**
@@ -41,6 +43,8 @@ internal fun View.invisible() {
     this.visibility = View.INVISIBLE
 }
 
+internal val AndroidViewModel.context: Context
+    get() = getApplication()
 
 internal fun <T : View> T.centerInParent(): T {
     return centerHorizontally().centerVertically()

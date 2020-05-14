@@ -10,7 +10,7 @@ import com.crazylegend.audiopicker.consts.SINGLE_PICKER_DIALOG
 import com.crazylegend.audiopicker.dialogs.single.SingleAudioPickerBottomSheetDialog
 import com.crazylegend.audiopicker.dialogs.single.SingleAudioPickerDialogFragment
 import com.crazylegend.audiopicker.listeners.onAudioDSL
-import com.crazylegend.core.modifiers.single.SinglePickerModifier
+import com.crazylegend.audiopicker.modifiers.SingleAudioPickerModifier
 import com.crazylegend.extensions.setupManager
 
 
@@ -36,7 +36,7 @@ object SingleAudioPicker {
     }
 
     @RequiresPermission(Manifest.permission.READ_EXTERNAL_STORAGE)
-    fun bottomSheetPicker(context: Context, pickerModifier: SinglePickerModifier.()->Unit = {}, onPickedAudio: (audio: AudioModel) -> Unit) {
+    fun bottomSheetPicker(context: Context, pickerModifier: SingleAudioPickerModifier.() -> Unit = {}, onPickedAudio: (audio: AudioModel) -> Unit) {
         val modifier = setupModifier(pickerModifier)
         val manager = context.setupManager()
         with(SingleAudioPickerBottomSheetDialog()) {
@@ -47,7 +47,7 @@ object SingleAudioPicker {
     }
 
     @RequiresPermission(Manifest.permission.READ_EXTERNAL_STORAGE)
-    fun dialogPicker(context: Context, pickerModifier: SinglePickerModifier.()->Unit = {}, onPickedAudio: (audio: AudioModel) -> Unit) {
+    fun dialogPicker(context: Context, pickerModifier: SingleAudioPickerModifier.() -> Unit = {}, onPickedAudio: (audio: AudioModel) -> Unit) {
         val manager = context.setupManager()
         val modifier = setupModifier(pickerModifier)
         with(SingleAudioPickerDialogFragment()) {
@@ -57,8 +57,8 @@ object SingleAudioPicker {
         }
     }
 
-    private fun setupModifier(audioPicker: SinglePickerModifier.() -> Unit): SinglePickerModifier {
-        val modifier = SinglePickerModifier()
+    private fun setupModifier(audioPicker: SingleAudioPickerModifier.() -> Unit): SingleAudioPickerModifier {
+        val modifier = SingleAudioPickerModifier()
         modifier.audioPicker()
         return modifier
     }

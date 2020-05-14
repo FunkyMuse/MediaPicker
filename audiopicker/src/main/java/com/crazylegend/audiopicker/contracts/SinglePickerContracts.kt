@@ -5,11 +5,11 @@ import androidx.appcompat.widget.AppCompatTextView
 import com.crazylegend.audiopicker.adapters.single.AudioSingleAdapter
 import com.crazylegend.audiopicker.audios.AudiosVM
 import com.crazylegend.audiopicker.listeners.onAudioPicked
+import com.crazylegend.audiopicker.modifiers.SingleAudioPickerModifier
 import com.crazylegend.audiopicker.pickers.SingleAudioPicker
 import com.crazylegend.core.R
 import com.crazylegend.core.consts.MODIFIER_ARGUMENT_CONST
 import com.crazylegend.core.databinding.FragmentImagesGalleryLayoutBinding
-import com.crazylegend.core.modifiers.single.SinglePickerModifier
 
 
 /**
@@ -20,8 +20,8 @@ internal interface SinglePickerContracts  {
     var onAudioPicked: onAudioPicked?
     val errorTag: String get() = SingleAudioPicker::javaClass.name
 
-    fun addModifier(modifier: SinglePickerModifier)
-    val modifier : SinglePickerModifier?
+    fun addModifier(modifier: SingleAudioPickerModifier)
+    val modifier : SingleAudioPickerModifier?
     fun applyTitleModifications(appCompatTextView: AppCompatTextView)
     val modifierTag get() = MODIFIER_ARGUMENT_CONST
     val binding: FragmentImagesGalleryLayoutBinding

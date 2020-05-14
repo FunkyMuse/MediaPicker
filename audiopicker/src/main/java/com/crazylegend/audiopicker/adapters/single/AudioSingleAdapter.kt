@@ -6,16 +6,20 @@ import com.crazylegend.audiopicker.adapters.AudioDiffUtil
 import com.crazylegend.audiopicker.audios.AudioModel
 import com.crazylegend.audiopicker.databinding.ItemviewAudioBinding
 import com.crazylegend.core.inflater
-import kotlinx.coroutines.CoroutineScope
+import com.crazylegend.core.modifiers.TitleTextModifier
+import com.crazylegend.core.modifiers.single.ImageButtonModifier
 
 
 /**
  * Created by crazy on 5/8/20 to long live and prosper !
  */
 
-internal class AudioSingleAdapter (private val coroutineScope: CoroutineScope,private val onClick: (AudioModel) -> Unit) : ListAdapter<AudioModel, AudioSingleViewHolder>(AudioDiffUtil()) {
+internal class AudioSingleAdapter(private val viewHolderPlaceholderModifier: ImageButtonModifier?,
+                                  private val viewHolderTitleTextModifier: TitleTextModifier?,
+                                  private val onClick: (AudioModel) -> Unit) : ListAdapter<AudioModel, AudioSingleViewHolder>(AudioDiffUtil()) {
     override fun onCreateViewHolder(parent: ViewGroup, type: Int) =
-            AudioSingleViewHolder(ItemviewAudioBinding.inflate(parent.inflater, parent, false), onClick, coroutineScope)
+            AudioSingleViewHolder(ItemviewAudioBinding.inflate(parent.inflater, parent, false), onClick,
+                    viewHolderPlaceholderModifier,viewHolderTitleTextModifier)
 
     override fun onBindViewHolder(holderAudio: AudioSingleViewHolder, position: Int) {
         val item = getItem(position)

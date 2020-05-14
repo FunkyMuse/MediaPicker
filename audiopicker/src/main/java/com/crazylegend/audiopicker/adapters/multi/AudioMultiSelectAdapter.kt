@@ -7,21 +7,24 @@ import com.crazylegend.audiopicker.adapters.AudioDiffUtil
 import com.crazylegend.audiopicker.audios.AudioModel
 import com.crazylegend.audiopicker.databinding.ItemviewAudioBinding
 import com.crazylegend.core.inflater
+import com.crazylegend.core.modifiers.TitleTextModifier
 import com.crazylegend.core.modifiers.multi.MultiPickerModifier
-import kotlinx.coroutines.CoroutineScope
+import com.crazylegend.core.modifiers.single.ImageButtonModifier
 
 
 /**
  * Created by crazy on 5/8/20 to long live and prosper !
  */
 internal class AudioMultiSelectAdapter(private val modifier: MultiPickerModifier?,
-                                       private val coroutineScope: CoroutineScope) :
+                                       private val viewHolderPlaceholderModifier: ImageButtonModifier?,
+                                       private val viewHolderTitleTextModifier: TitleTextModifier?) :
         ListAdapter<AudioModel, AudioMultiSelectViewHolder>(AudioDiffUtil()) {
 
     var selectedPositions = SparseBooleanArray()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AudioMultiSelectViewHolder {
-        val holder = AudioMultiSelectViewHolder(ItemviewAudioBinding.inflate(parent.inflater, parent, false), modifier, coroutineScope)
+        val holder = AudioMultiSelectViewHolder(ItemviewAudioBinding.inflate(parent.inflater, parent, false), modifier
+        ,viewHolderPlaceholderModifier, viewHolderTitleTextModifier)
         holder.itemView.setOnClickListener {
             putPosition(holder.adapterPosition)
             notifyItemChanged(holder.adapterPosition)

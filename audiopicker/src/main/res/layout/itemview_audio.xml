@@ -14,8 +14,8 @@
         android:id="@+id/selection"
         android:layout_width="30dp"
         android:layout_height="30dp"
-        android:visibility="gone"
         android:elevation="4dp"
+        android:visibility="gone"
         app:srcCompat="@drawable/ic_unchecked_default"
         tools:ignore="MissingConstraints" />
 

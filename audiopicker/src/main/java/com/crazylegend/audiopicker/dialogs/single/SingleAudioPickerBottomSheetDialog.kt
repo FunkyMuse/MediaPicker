@@ -9,17 +9,14 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.core.os.bundleOf
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.observe
-import androidx.recyclerview.widget.GridLayoutManager
 import com.crazylegend.audiopicker.adapters.single.AudioSingleAdapter
 import com.crazylegend.audiopicker.audios.AudiosVM
 import com.crazylegend.audiopicker.contracts.SinglePickerContracts
 import com.crazylegend.audiopicker.listeners.onAudioPicked
+import com.crazylegend.audiopicker.modifiers.SingleAudioPickerModifier
 import com.crazylegend.core.abstracts.AbstractBottomSheetDialogFragment
 import com.crazylegend.core.databinding.FragmentImagesGalleryLayoutBinding
-import com.crazylegend.core.modifiers.single.SinglePickerModifier
-import com.crazylegend.extensions.gone
 import com.crazylegend.extensions.viewBinding
 
 
@@ -33,10 +30,10 @@ internal class SingleAudioPickerBottomSheetDialog : AbstractBottomSheetDialogFra
     override var onAudioPicked: onAudioPicked?=null
     override val binding by viewBinding(FragmentImagesGalleryLayoutBinding::bind)
     override val audiosVM by viewModels<AudiosVM>()
-    override val modifier: SinglePickerModifier? get() = arguments?.getParcelable(modifierTag)
+    override val modifier: SingleAudioPickerModifier? get() = arguments?.getParcelable(modifierTag)
 
     override val singleAdapter by lazy {
-        AudioSingleAdapter(lifecycleScope) {
+        AudioSingleAdapter(modifier?.viewHolderPlaceholderModifier, modifier?.viewHolderTitleModifier) {
             onAudioPicked?.forAudio(it)
             dismissAllowingStateLoss()
         }
@@ -55,16 +52,16 @@ internal class SingleAudioPickerBottomSheetDialog : AbstractBottomSheetDialogFra
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         askForStoragePermission(Manifest.permission.READ_EXTERNAL_STORAGE)
-        binding.close.gone()
-        binding.gallery.apply {
-            layoutManager = GridLayoutManager(requireContext(), 3)
-            adapter = singleAdapter
-        }
-        applyTitleModifications(binding.title)
+
+        setupUIForSinglePicker(binding.close, binding.gallery, singleAdapter, binding.title, ::applyTitleModifications)
         audiosVM.audio.observe(viewLifecycleOwner) {
             singleAdapter.submitList(it)
         }
+
+        handleUIIndicator(audiosVM.loadingIndicator, binding.loadingIndicator)
     }
+
+
 
     override fun onDestroyView() {
         super.onDestroyView()
@@ -73,16 +70,15 @@ internal class SingleAudioPickerBottomSheetDialog : AbstractBottomSheetDialogFra
     }
 
     override fun applyTitleModifications(appCompatTextView: AppCompatTextView) {
-        modifier?.titleTextModifier?.applyTextParams(appCompatTextView)
+        modifier?.singlePickerModifier?.titleTextModifier?.applyTextParams(appCompatTextView)
     }
 
-    override fun addModifier(modifier: SinglePickerModifier) {
+    override fun addModifier(modifier: SingleAudioPickerModifier) {
         arguments = bundleOf(modifierTag to modifier)
     }
 
     override fun recycleBitmaps() {
         singleAdapter.currentList.asSequence().forEach {
-            Log.d(this::class.java.simpleName, "RECYCLING FOR ${it.displayName.toString()}")
             it?.thumbnail?.apply {
                 if (!isRecycled)
                     recycle()

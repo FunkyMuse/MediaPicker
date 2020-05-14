@@ -10,13 +10,11 @@ import androidx.appcompat.widget.AppCompatTextView
 import androidx.core.os.bundleOf
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.observe
-import androidx.recyclerview.widget.GridLayoutManager
 import com.crazylegend.core.R
 import com.crazylegend.core.abstracts.AbstractDialogFragment
 import com.crazylegend.core.adapters.multi.MultiSelectAdapter
 import com.crazylegend.core.databinding.FragmentImagesGalleryLayoutMultiBinding
 import com.crazylegend.core.modifiers.multi.MultiPickerModifier
-import com.crazylegend.extensions.gone
 import com.crazylegend.extensions.viewBinding
 import com.crazylegend.imagepicker.consts.LIST_STATE
 import com.crazylegend.imagepicker.contracts.MultiPickerContracts
@@ -53,20 +51,16 @@ internal class MultiImagePickerDialogFragment : AbstractDialogFragment(R.layout.
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.topIndicator.gone()
-        savedInstanceState?.getIntegerArrayList(LIST_STATE)?.asSequence()?.forEach { multiSelectAdapter.selectedPositions.put(it, true) }
         askForStoragePermission(Manifest.permission.READ_EXTERNAL_STORAGE)
-        binding.gallery.apply {
-            layoutManager = GridLayoutManager(requireContext(), 3)
-            adapter = multiSelectAdapter
-        }
+
+        setupUIForMultiPicker(binding.topIndicator, savedInstanceState, LIST_STATE, multiSelectAdapter.selectedPositions,
+                binding.gallery, multiSelectAdapter, binding.doneButton, binding.title,
+                ::applyDoneButtonModifications, ::applyTitleModifications)
 
         imagesVM.images.observe(viewLifecycleOwner) {
             multiSelectAdapter.submitList(it)
         }
-
-        applyDoneButtonModifications(binding.doneButton)
-        applyTitleModifications(binding.title)
+        handleUIIndicator(imagesVM.loadingIndicator, binding.loadingIndicator)
 
         binding.doneButton.setOnClickListener {
             onValuesPicked(multiSelectAdapter.selectedPositions, imagesVM.images.value ?: emptyList()) { list ->

@@ -12,16 +12,16 @@ import kotlinx.android.parcel.Parcelize
 
 @Parcelize
 data class SinglePickerModifier(
-        val closeButtonModifier: CloseButtonModifier = CloseButtonModifier(),
+        val closeButtonModifier: ImageButtonModifier = ImageButtonModifier(),
         val titleTextModifier: TitleTextModifier = TitleTextModifier()
 ) : Parcelable {
 
-    inline fun setup(imageText: TitleTextModifier.() -> Unit = {}, closeButton: CloseButtonModifier.() -> Unit = {}) {
+    inline fun setup(imageText: TitleTextModifier.() -> Unit = {}, closeButton: ImageButtonModifier.() -> Unit = {}) {
         titleTextModifier.imageText()
         closeButtonModifier.closeButton()
     }
 
-    inline fun setup(imageText: TitleTextModifier.() -> Unit = {}) {
+    inline fun setupTitleOnly(imageText: TitleTextModifier.() -> Unit = {}) {
         titleTextModifier.imageText()
     }
 

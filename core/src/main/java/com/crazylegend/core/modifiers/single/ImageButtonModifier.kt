@@ -1,13 +1,12 @@
 package com.crazylegend.core.modifiers.single
 
-import android.content.res.ColorStateList
 import android.os.Parcelable
 import android.widget.RelativeLayout
 import androidx.appcompat.widget.AppCompatImageView
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.setMargins
 import androidx.core.view.setPadding
 import androidx.core.view.updateLayoutParams
-import androidx.core.widget.ImageViewCompat
 import kotlinx.android.parcel.Parcelize
 
 
@@ -19,31 +18,40 @@ import kotlinx.android.parcel.Parcelize
  * Only works for dialog fragment since there it's visible
  */
 @Parcelize
-data class CloseButtonModifier(
+data class ImageButtonModifier(
         var resID: Int? = null,
         var padding: Int? = null,
         var startMargin: Int? = null,
         var endMargin: Int? = null,
         var marginTop: Int? = null,
         var marginBottom: Int? = null,
-        var margin: Int? = null,
-        var tint: Int? = null
+        var margin: Int? = null
 ) : Parcelable {
 
     private val allSizeMarginCondition get() = margin != null
 
-    fun applyImageParams(imageView: AppCompatImageView) {
+    fun applyImageParamsRelativeLayout(imageView: AppCompatImageView) {
         resID?.let { imageView.setImageResource(it) }
         padding?.let { imageView.setPadding(it) }
         if (allSizeMarginCondition) {
-            updateAllMargins(imageView)
+            updateAllMarginsRelative(imageView)
         } else {
-            updateMargins(imageView)
+            updateMarginsRelative(imageView)
         }
-        tint?.let { ImageViewCompat.setImageTintList(imageView, ColorStateList.valueOf(it)) }
     }
 
-    private fun updateMargins(imageView: AppCompatImageView) {
+    fun applyImageParamsConstraintLayout(imageView: AppCompatImageView) {
+        resID?.let { imageView.setImageResource(it) }
+        padding?.let { imageView.setPadding(it) }
+        if (allSizeMarginCondition) {
+            updateAllMarginsConstraint(imageView)
+        } else {
+            updateMarginsConstraint(imageView)
+        }
+    }
+
+
+    private fun updateMarginsRelative(imageView: AppCompatImageView) {
         imageView.updateLayoutParams<RelativeLayout.LayoutParams> {
             startMargin?.let { marginStart = it }
             endMargin?.let { marginEnd = it }
@@ -52,8 +60,23 @@ data class CloseButtonModifier(
         }
     }
 
-    private fun updateAllMargins(imageView: AppCompatImageView) {
+    private fun updateMarginsConstraint(imageView: AppCompatImageView) {
+        imageView.updateLayoutParams<ConstraintLayout.LayoutParams> {
+            startMargin?.let { marginStart = it }
+            endMargin?.let { marginEnd = it }
+            marginTop?.let { topMargin = it }
+            marginBottom?.let { bottomMargin = it }
+        }
+    }
+
+    private fun updateAllMarginsRelative(imageView: AppCompatImageView) {
         imageView.updateLayoutParams<RelativeLayout.LayoutParams> {
+            margin?.let { setMargins(it) }
+        }
+    }
+
+    private fun updateAllMarginsConstraint(imageView: AppCompatImageView) {
+        imageView.updateLayoutParams<ConstraintLayout.LayoutParams> {
             margin?.let { setMargins(it) }
         }
     }

@@ -2,17 +2,15 @@ package com.crazylegend.imagepicker.images
 
 import android.app.Application
 import android.content.ContentUris
-import android.database.ContentObserver
 import android.provider.MediaStore
 import androidx.core.database.getIntOrNull
 import androidx.core.database.getLongOrNull
 import androidx.core.database.getStringOrNull
-import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import com.crazylegend.core.abstracts.AbstractAVM
 import com.crazylegend.core.sorting.SortOrder
-import com.crazylegend.extensions.context
 import com.crazylegend.extensions.getSafeColumn
 import com.crazylegend.extensions.registerObserver
 import kotlinx.coroutines.Dispatchers
@@ -23,19 +21,11 @@ import kotlinx.coroutines.withContext
 /**
  * Created by crazy on 5/8/20 to long live and prosper !
  */
-internal class ImagesVM(application: Application) : AndroidViewModel(application) {
-
-    private val contentResolver get() = context.contentResolver
+internal class ImagesVM(application: Application) : AbstractAVM(application) {
 
     private val imagesData = MutableLiveData<List<ImageModel>>()
     val images: LiveData<List<ImageModel>> = imagesData
 
-    private var contentObserver: ContentObserver? = null
-
-    /**
-     * Using this instead of event since it serves the same purpose thus it's needed here
-     */
-    private var canLoad = true
 
     fun loadImages(sortOrder: SortOrder = SortOrder.DATE_ADDED_DESC) {
         if (canLoad){
@@ -54,14 +44,9 @@ internal class ImagesVM(application: Application) : AndroidViewModel(application
         }
     }
 
-    override fun onCleared() {
-        super.onCleared()
-        contentObserver?.apply {
-            contentResolver.unregisterContentObserver(this)
-        }
-    }
-
     private suspend fun queryImages(order: SortOrder): List<ImageModel> {
+        loadingIndicatorData.value = true
+
         val images = mutableListOf<ImageModel>()
 
         val sortOrder = when (order) {
@@ -121,6 +106,7 @@ internal class ImagesVM(application: Application) : AndroidViewModel(application
             }
         }
         canLoad = false
+        loadingIndicatorData.value = false
         return images
     }
 }

@@ -136,6 +136,19 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/divider2"/>
 
+        <com.google.android.material.textview.MaterialTextView
+            android:layout_width="match_parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/audio"
+            android:id="@+id/audioTitle"
+            android:textAlignment="center"
+            android:textSize="20sp"
+            android:padding="10dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="4dp"
+            android:layout_height="wrap_content"/>
+
         <com.google.android.material.button.MaterialButton
             android:id="@+id/singleAudioBottomSheetPick"
             android:layout_width="match_parent"
@@ -144,7 +157,7 @@
             android:text="Audio Pick bottom sheet (single selection)"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/audio" />
+            app:layout_constraintTop_toBottomOf="@+id/audioTitle" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/singleAudioDialogPick"

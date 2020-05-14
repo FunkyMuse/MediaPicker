@@ -6,6 +6,7 @@ import android.os.Parcelable
 import android.widget.RelativeLayout
 import android.widget.TextView
 import androidx.appcompat.widget.AppCompatTextView
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.setMargins
 import androidx.core.view.setPadding
 import androidx.core.view.updateLayoutParams
@@ -32,6 +33,8 @@ data class TitleTextModifier(
         var textAlignment: Int = TextView.TEXT_ALIGNMENT_VIEW_START
 ) : Parcelable {
 
+
+
     private val allSizeMarginCondition get() = margin != null
 
     enum class TextStyle {
@@ -47,8 +50,23 @@ data class TitleTextModifier(
         }
     }
 
+ private fun updateMarginsConstraint(textView: AppCompatTextView) {
+        textView.updateLayoutParams<ConstraintLayout.LayoutParams> {
+            startMargin?.let { marginStart = it }
+            endMargin?.let { marginEnd = it }
+            marginTop?.let { topMargin = it }
+            marginBottom?.let { bottomMargin = it }
+        }
+    }
+
     private fun updateAllMargins(textView: AppCompatTextView) {
         textView.updateLayoutParams<RelativeLayout.LayoutParams> {
+            margin?.let { setMargins(it) }
+        }
+    }
+
+    private fun updateAllMarginsConstraint(textView: AppCompatTextView) {
+        textView.updateLayoutParams<ConstraintLayout.LayoutParams> {
             margin?.let { setMargins(it) }
         }
     }
@@ -66,6 +84,22 @@ data class TitleTextModifier(
             updateMargins(text)
         }
     }
+
+    fun applyTextParamsConstraint(text: AppCompatTextView) {
+        textSize?.let { text.textSize = it }
+        textPadding?.let { text.setPadding(it) }
+        textColor?.let { text.setTextColor(it) }
+        text.textAlignment = textAlignment
+        applyTextStyle(text)
+        textString?.let { text.text = it }
+        if (allSizeMarginCondition){
+            updateAllMarginsConstraint(text)
+        } else {
+            updateMarginsConstraint(text)
+        }
+    }
+
+
 
     private fun applyTextStyle(text: AppCompatTextView) {
         when (textStyle) {

@@ -1,34 +1,43 @@
-package com.crazylegend.core.dto
+package com.crazylegend.core.abstracts
 
+import android.app.Application
 import android.content.ContentResolver
+import android.database.ContentObserver
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Build
-import android.os.Parcelable
 import android.provider.MediaStore
 import android.util.Size
-import kotlinx.android.parcel.Parcelize
-import java.util.*
-import java.util.concurrent.TimeUnit
+import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import com.crazylegend.core.context
 
 
 /**
- * Created by crazy on 5/11/20 to long live and prosper !
+ * Created by crazy on 5/14/20 to long live and prosper !
  */
+abstract class AbstractAVM(application: Application) : AndroidViewModel(application) {
 
-@Parcelize
-open class BaseCursorModel(
-        open val id: Long,
-        open val displayName: String?,
-        open val dateAdded: Long?,
-        open val contentUri: Uri,
-        open val dateModified: Long?,
-        open val description: String?,
-        open val size: Int?,
-        open val width: Int?,
-        open val height: Int?
-) : Parcelable {
+    protected val contentResolver get() = context.contentResolver
+    protected var contentObserver: ContentObserver? = null
+
+    protected val loadingIndicatorData = MutableLiveData<Boolean>()
+    val loadingIndicator: LiveData<Boolean> = loadingIndicatorData
+
+    /**
+     * Using this instead of event since it serves the same purpose thus it's needed here
+     */
+    protected var canLoad = true
+
+
+    override fun onCleared() {
+        super.onCleared()
+        contentObserver?.apply {
+            contentResolver.unregisterContentObserver(this)
+        }
+    }
 
 
     /**
@@ -40,7 +49,9 @@ open class BaseCursorModel(
      */
     @Suppress("DEPRECATION")
     fun loadThumbnail(contentResolver: ContentResolver,
-                      customSize: Size = Size(size ?: 150, size ?: 150),
+                      contentUri: Uri,
+                      id:Long,
+                      customSize: Size = Size( 150, 150),
                       legacyKind: Int = MediaStore.Video.Thumbnails.MICRO_KIND,
                       options: BitmapFactory.Options? = null): Bitmap? {
         return tryOrNull {
@@ -60,15 +71,4 @@ open class BaseCursorModel(
             null
         }
     }
-
-    val extension get() = displayName?.substringAfterLast(".")
-
-    val addedDateAsDate
-        get() = dateAdded?.let {
-            Date(TimeUnit.SECONDS.toMillis(it))
-        }
-    val dateModifiedAsDate
-        get() = dateModified?.let {
-            Date(TimeUnit.SECONDS.toMillis(it))
-        }
 }

@@ -10,13 +10,11 @@ import androidx.appcompat.widget.AppCompatTextView
 import androidx.core.os.bundleOf
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.observe
-import androidx.recyclerview.widget.GridLayoutManager
 import com.crazylegend.core.R
 import com.crazylegend.core.abstracts.AbstractDialogFragment
 import com.crazylegend.core.adapters.multi.MultiSelectAdapter
 import com.crazylegend.core.databinding.FragmentImagesGalleryLayoutMultiBinding
 import com.crazylegend.core.modifiers.multi.MultiPickerModifier
-import com.crazylegend.extensions.gone
 import com.crazylegend.extensions.viewBinding
 import com.crazylegend.videopicker.consts.LIST_STATE
 import com.crazylegend.videopicker.contracts.MultiPickerContracts
@@ -53,19 +51,17 @@ internal class MultiVideoPickerDialogFragment : AbstractDialogFragment(R.layout.
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.topIndicator.gone()
-        savedInstanceState?.getIntegerArrayList(LIST_STATE)?.asSequence()?.forEach { multiSelectAdapter.selectedPositions.put(it, true) }
+
+        setupUIForMultiPicker(binding.topIndicator, savedInstanceState, LIST_STATE, multiSelectAdapter.selectedPositions,
+        binding.gallery, multiSelectAdapter, binding.doneButton, binding.title,
+        ::applyDoneButtonModifications, ::applyTitleModifications)
+
         askForStoragePermission(Manifest.permission.READ_EXTERNAL_STORAGE)
-        binding.gallery.apply {
-            layoutManager = GridLayoutManager(requireContext(), 3)
-            adapter = multiSelectAdapter
-        }
+        handleUIIndicator(videosVM.loadingIndicator, binding.loadingIndicator)
 
         videosVM.videos.observe(viewLifecycleOwner) {
             multiSelectAdapter.submitList(it)
         }
-        applyDoneButtonModifications(binding.doneButton)
-        applyTitleModifications(binding.title)
 
         binding.doneButton.setOnClickListener {
             onValuesPicked(multiSelectAdapter.selectedPositions, videosVM.videos.value ?: emptyList()) { list ->
@@ -73,6 +69,7 @@ internal class MultiVideoPickerDialogFragment : AbstractDialogFragment(R.layout.
             }
         }
     }
+
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)

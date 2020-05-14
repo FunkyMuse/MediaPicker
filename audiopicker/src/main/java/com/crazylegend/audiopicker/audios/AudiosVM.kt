@@ -2,17 +2,15 @@ package com.crazylegend.audiopicker.audios
 
 import android.app.Application
 import android.content.ContentUris
-import android.database.ContentObserver
 import android.provider.MediaStore
 import androidx.core.database.getIntOrNull
 import androidx.core.database.getLongOrNull
 import androidx.core.database.getStringOrNull
-import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import com.crazylegend.core.abstracts.AbstractAVM
 import com.crazylegend.core.sorting.SortOrder
-import com.crazylegend.extensions.context
 import com.crazylegend.extensions.getSafeColumn
 import com.crazylegend.extensions.registerObserver
 import kotlinx.coroutines.Dispatchers
@@ -23,24 +21,16 @@ import kotlinx.coroutines.withContext
 /**
  * Created by crazy on 5/8/20 to long live and prosper !
  */
-internal class AudiosVM(application: Application) : AndroidViewModel(application) {
-
-    private val contentResolver get() = context.contentResolver
+internal class AudiosVM(application: Application) : AbstractAVM(application) {
 
     private val audioData = MutableLiveData<List<AudioModel>>()
     val audio: LiveData<List<AudioModel>> = audioData
 
-    private var contentObserver: ContentObserver? = null
-
-    /**
-     * Using this instead of event since it serves the same purpose thus it's needed here
-     */
-    private var canLoad = true
 
     fun loadAudios(sortOrder: SortOrder = SortOrder.DATE_ADDED_DESC) {
         if (canLoad) {
             viewModelScope.launch {
-                audioData.postValue(queryImages(sortOrder))
+                audioData.postValue(queryAudios(sortOrder))
                 initializeContentObserver(sortOrder)
             }
         }
@@ -55,14 +45,8 @@ internal class AudiosVM(application: Application) : AndroidViewModel(application
         }
     }
 
-    override fun onCleared() {
-        super.onCleared()
-        contentObserver?.apply {
-            contentResolver.unregisterContentObserver(this)
-        }
-    }
-
-    private suspend fun queryImages(order: SortOrder): List<AudioModel> {
+    private suspend fun queryAudios(order: SortOrder): List<AudioModel> {
+        loadingIndicatorData.value = true
         val audio = mutableListOf<AudioModel>()
 
         val sortOrder = when (order) {
@@ -138,12 +122,16 @@ internal class AudiosVM(application: Application) : AndroidViewModel(application
 
                     val contentUri = ContentUris.withAppendedId(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, id)
                     val audioModel = AudioModel(id, displayName, dateAdded, contentUri, dateModified, null, size, width, height,
-                            album, composer, artist, isNotification, isAlarm, isRingtone, track, year)
+                            album, composer, artist, isNotification, isAlarm, isRingtone, track, year, thumbnail = loadThumbnail(
+                            contentResolver, contentUri, id
+                    ))
                     audio += audioModel
                 }
             }
         }
         canLoad = false
+        loadingIndicatorData.value = false
         return audio
     }
+
 }

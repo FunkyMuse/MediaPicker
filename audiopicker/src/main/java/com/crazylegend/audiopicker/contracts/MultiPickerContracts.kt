@@ -5,11 +5,11 @@ import androidx.appcompat.widget.AppCompatTextView
 import com.crazylegend.audiopicker.adapters.multi.AudioMultiSelectAdapter
 import com.crazylegend.audiopicker.audios.AudiosVM
 import com.crazylegend.audiopicker.listeners.onAudiosPicked
+import com.crazylegend.audiopicker.modifiers.MultiAudioPickerModifier
 import com.crazylegend.audiopicker.pickers.MultiAudioPicker
 import com.crazylegend.core.R
 import com.crazylegend.core.consts.MODIFIER_ARGUMENT_CONST
 import com.crazylegend.core.databinding.FragmentImagesGalleryLayoutMultiBinding
-import com.crazylegend.core.modifiers.multi.MultiPickerModifier
 import com.google.android.material.button.MaterialButton
 
 
@@ -22,8 +22,8 @@ internal interface MultiPickerContracts  {
     var onAudiosPicked: onAudiosPicked?
     val errorTag : String get() = MultiAudioPicker::javaClass.name
 
-    fun addModifier(modifier: MultiPickerModifier)
-    val modifier : MultiPickerModifier?
+    fun addModifier(modifier: MultiAudioPickerModifier)
+    val modifier : MultiAudioPickerModifier?
     val binding: FragmentImagesGalleryLayoutMultiBinding
     val askForStoragePermission: ActivityResultLauncher<String>
     val layout get() = R.layout.fragment_images_gallery_layout_multi

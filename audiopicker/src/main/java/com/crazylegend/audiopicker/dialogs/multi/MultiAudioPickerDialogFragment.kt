@@ -9,18 +9,16 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.core.os.bundleOf
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.observe
-import androidx.recyclerview.widget.GridLayoutManager
 import com.crazylegend.audiopicker.adapters.multi.AudioMultiSelectAdapter
 import com.crazylegend.audiopicker.audios.AudiosVM
 import com.crazylegend.audiopicker.consts.LIST_STATE
 import com.crazylegend.audiopicker.contracts.MultiPickerContracts
 import com.crazylegend.audiopicker.listeners.onAudiosPicked
+import com.crazylegend.audiopicker.modifiers.MultiAudioPickerModifier
 import com.crazylegend.core.R
 import com.crazylegend.core.abstracts.AbstractDialogFragment
 import com.crazylegend.core.databinding.FragmentImagesGalleryLayoutMultiBinding
-import com.crazylegend.core.modifiers.multi.MultiPickerModifier
 import com.crazylegend.extensions.viewBinding
 import com.google.android.material.button.MaterialButton
 
@@ -36,10 +34,10 @@ internal class MultiAudioPickerDialogFragment : AbstractDialogFragment(R.layout.
     override var onAudiosPicked: onAudiosPicked? = null
     override val binding by viewBinding(FragmentImagesGalleryLayoutMultiBinding::bind)
     override val audiosVM by viewModels<AudiosVM>()
-    override val modifier: MultiPickerModifier?
+    override val modifier: MultiAudioPickerModifier?
         get() = arguments?.getParcelable(modifierTag)
     override val multiSelectAdapter by lazy {
-        AudioMultiSelectAdapter(modifier, lifecycleScope)
+        AudioMultiSelectAdapter(modifier?.multiPickerModifier, modifier?.viewHolderPlaceholderModifier, modifier?.viewHolderTitleModifier)
     }
     override val askForStoragePermission =
             registerForActivityResult(ActivityResultContracts.RequestPermission()) {
@@ -53,25 +51,22 @@ internal class MultiAudioPickerDialogFragment : AbstractDialogFragment(R.layout.
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        savedInstanceState?.getIntegerArrayList(LIST_STATE)?.asSequence()?.forEach { multiSelectAdapter.selectedPositions.put(it, true) }
         askForStoragePermission(Manifest.permission.READ_EXTERNAL_STORAGE)
-        binding.gallery.apply {
-            layoutManager = GridLayoutManager(requireContext(), 3)
-            adapter = multiSelectAdapter
-        }
 
+        setupUIForMultiPicker(binding.topIndicator, savedInstanceState, LIST_STATE, multiSelectAdapter.selectedPositions,
+                binding.gallery, multiSelectAdapter, binding.doneButton, binding.title,
+                ::applyDoneButtonModifications, ::applyTitleModifications)
         audiosVM.audio.observe(viewLifecycleOwner) {
             multiSelectAdapter.submitList(it)
         }
-
-        applyDoneButtonModifications(binding.doneButton)
-        applyTitleModifications(binding.title)
 
         binding.doneButton.setOnClickListener {
             onValuesPicked(multiSelectAdapter.selectedPositions, audiosVM.audio.value ?: emptyList()) { list ->
                 onAudiosPicked?.forAudios(list)
             }
         }
+        handleUIIndicator(audiosVM.loadingIndicator, binding.loadingIndicator)
+
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
@@ -86,15 +81,15 @@ internal class MultiAudioPickerDialogFragment : AbstractDialogFragment(R.layout.
         onAudiosPicked = null
     }
 
-    override fun addModifier(modifier: MultiPickerModifier) {
+    override fun addModifier(modifier: MultiAudioPickerModifier) {
         arguments = bundleOf(modifierTag to modifier)
     }
     override fun applyTitleModifications(appCompatTextView: AppCompatTextView) {
-        modifier?.titleTextModifier?.applyTextParams(appCompatTextView)
+        modifier?.multiPickerModifier?.titleTextModifier?.applyTextParams(appCompatTextView)
     }
 
     override fun applyDoneButtonModifications(doneButton: MaterialButton) {
-        modifier?.doneButtonModifier?.applyImageParams(doneButton)
+        modifier?.multiPickerModifier?.doneButtonModifier?.applyImageParams(doneButton)
     }
 
     override fun recycleBitmaps() {
