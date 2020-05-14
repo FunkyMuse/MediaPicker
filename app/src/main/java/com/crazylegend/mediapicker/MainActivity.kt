@@ -11,7 +11,11 @@ import androidx.activity.invoke
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import androidx.lifecycle.lifecycleScope
 import com.bumptech.glide.Glide
+import com.crazylegend.audiopicker.audios.AudioModel
+import com.crazylegend.audiopicker.pickers.MultiAudioPicker
+import com.crazylegend.audiopicker.pickers.SingleAudioPicker
 import com.crazylegend.core.modifiers.TitleTextModifier
 import com.crazylegend.core.modifiers.multi.MultiPickerModifier
 import com.crazylegend.imagepicker.images.ImageModel
@@ -60,11 +64,47 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
                     R.id.videoPickDialogMultiPick -> {
                         showVideoMultiDialogPicker()
                     }
+
+                    //audios
+                    R.id.singleAudioBottomSheetPick -> {
+                        showSingleAudioBottomSheetPicker()
+                    }
+                    R.id.singleAudioDialogPick -> {
+                        //showSingleAudioDialogPicker()
+                    }
+                    R.id.audioBottomSheetMultiPick -> {
+                        //showAudioMultiBottomSheetPicker()
+                    }
+                    R.id.audioPickDialogMultiPick -> {
+                        //showAudioMultiDialogPicker()
+                    }
                 }
             } else {
                 Log.e("PERMISSION", "NOT ALLOWED!")
             }
         }
+    //audios
+
+    private fun showSingleAudioBottomSheetPicker(){
+        SingleAudioPicker.bottomSheetPicker(this, {
+            setup(imageText = { textString = "Select an audio" })
+        }, ::loadAudio)
+    }
+
+
+    private fun loadAudio(audioModel: AudioModel) {
+        audioModel.loadThumbnailScoped(contentResolver, lifecycleScope){
+            Glide.with(this)
+                    .load(it)
+                    .error(R.drawable.ic_album)
+                    .into(audio)
+        }
+        Log.d("AUDIO_PICKED", audioModel.toString())
+    }
+
+    private fun doSomethingWithAudioList(list: List<AudioModel>) {
+        TODO("Not yet implemented")
+    }
 
     //videos
     private fun showVideoMultiDialogPicker() {
@@ -281,6 +321,12 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         videoBottomSheetMultiPick.setOnClickListener(this)
         videoPickDialogMultiPick.setOnClickListener(this)
 
+         //audios
+        singleAudioBottomSheetPick.setOnClickListener(this)
+        singleAudioDialogPick.setOnClickListener(this)
+        audioBottomSheetMultiPick.setOnClickListener(this)
+        audioPickDialogMultiPick.setOnClickListener(this)
+
     }
 
     override fun onRestoreInstanceState(savedInstanceState: Bundle) {
@@ -292,7 +338,13 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         //videos
         MultiVideoPicker.restoreListener(this, ::doSomethingWithVideoList)
         SingleVideoPicker.restoreListener(this, ::loadVideo)
+
+        //audios
+        MultiAudioPicker.restoreListener(this, ::doSomethingWithAudioList)
+        SingleAudioPicker.restoreListener(this, ::loadAudio)
     }
+
+
 
     override fun onClick(clickedview: View?) {
         clickedview ?: return

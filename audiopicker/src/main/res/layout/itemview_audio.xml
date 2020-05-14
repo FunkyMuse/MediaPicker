@@ -5,6 +5,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:id="@+id/rootLayout"
+    android:layout_marginBottom="5dp"
+    android:layout_marginStart="3dp"
+    android:layout_marginEnd="3dp"
     android:layout_height="wrap_content">
 
     <androidx.appcompat.widget.AppCompatImageView
@@ -28,8 +31,8 @@
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/bottomText"
         android:padding="5dp"
-        android:visibility="gone"
         android:maxLines="2"
+        android:minLines="2"
         android:ellipsize="end"
         android:textSize="16sp"
         android:layout_width="match_parent"

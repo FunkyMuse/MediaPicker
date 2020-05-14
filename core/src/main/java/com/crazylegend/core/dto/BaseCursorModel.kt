@@ -41,13 +41,23 @@ open class BaseCursorModel(
     @Suppress("DEPRECATION")
     fun loadThumbnail(contentResolver: ContentResolver,
                       customSize: Size = Size(size ?: 150, size ?: 150),
-                      legacyKind:Int = MediaStore.Video.Thumbnails.MICRO_KIND,
+                      legacyKind: Int = MediaStore.Video.Thumbnails.MICRO_KIND,
                       options: BitmapFactory.Options? = null): Bitmap? {
-        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-            contentResolver.loadThumbnail(contentUri, customSize, null)
-        } else {
-            MediaStore.Video.Thumbnails.getThumbnail(contentResolver, id, legacyKind,
-                    options ?: BitmapFactory.Options())
+        return tryOrNull {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                contentResolver.loadThumbnail(contentUri, customSize, null)
+            } else {
+                MediaStore.Video.Thumbnails.getThumbnail(contentResolver, id, legacyKind,
+                        options ?: BitmapFactory.Options())
+            }
+        }
+    }
+
+    fun tryOrNull(function: () -> Bitmap): Bitmap? {
+        return try {
+            function()
+        } catch (e: Exception) {
+            null
         }
     }
 
