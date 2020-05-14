@@ -15,13 +15,13 @@ import com.crazylegend.core.databinding.FragmentImagesGalleryLayoutBinding
 /**
  * Created by crazy on 5/12/20 to long live and prosper !
  */
-internal interface SinglePickerContracts  {
+internal interface SinglePickerContracts {
     val audiosVM: AudiosVM
     var onAudioPicked: onAudioPicked?
     val errorTag: String get() = SingleAudioPicker::javaClass.name
 
     fun addModifier(modifier: SingleAudioPickerModifier)
-    val modifier : SingleAudioPickerModifier?
+    val modifier: SingleAudioPickerModifier?
     fun applyTitleModifications(appCompatTextView: AppCompatTextView)
     val modifierTag get() = MODIFIER_ARGUMENT_CONST
     val binding: FragmentImagesGalleryLayoutBinding

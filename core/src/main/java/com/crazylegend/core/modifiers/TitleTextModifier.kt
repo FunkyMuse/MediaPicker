@@ -34,7 +34,6 @@ data class TitleTextModifier(
 ) : Parcelable {
 
 
-
     private val allSizeMarginCondition get() = margin != null
 
     enum class TextStyle {
@@ -50,7 +49,7 @@ data class TitleTextModifier(
         }
     }
 
- private fun updateMarginsConstraint(textView: AppCompatTextView) {
+    private fun updateMarginsConstraint(textView: AppCompatTextView) {
         textView.updateLayoutParams<ConstraintLayout.LayoutParams> {
             startMargin?.let { marginStart = it }
             endMargin?.let { marginEnd = it }
@@ -78,7 +77,7 @@ data class TitleTextModifier(
         text.textAlignment = textAlignment
         applyTextStyle(text)
         textString?.let { text.text = it }
-        if (allSizeMarginCondition){
+        if (allSizeMarginCondition) {
             updateAllMargins(text)
         } else {
             updateMargins(text)
@@ -92,13 +91,12 @@ data class TitleTextModifier(
         text.textAlignment = textAlignment
         applyTextStyle(text)
         textString?.let { text.text = it }
-        if (allSizeMarginCondition){
+        if (allSizeMarginCondition) {
             updateAllMarginsConstraint(text)
         } else {
             updateMarginsConstraint(text)
         }
     }
-
 
 
     private fun applyTextStyle(text: AppCompatTextView) {

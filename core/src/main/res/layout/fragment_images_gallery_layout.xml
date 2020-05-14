@@ -14,7 +14,7 @@
         android:indeterminateTint="?android:attr/colorAccent"
         android:indeterminate="true"
         android:layout_below="@id/titleLayout"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content" />
 
     <RelativeLayout
         android:layout_width="match_parent"

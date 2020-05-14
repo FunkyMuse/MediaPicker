@@ -17,13 +17,13 @@ import com.google.android.material.button.MaterialButton
  * Created by crazy on 5/12/20 to long live and prosper !
  */
 
-internal interface MultiPickerContracts  {
+internal interface MultiPickerContracts {
     val audiosVM: AudiosVM
     var onAudiosPicked: onAudiosPicked?
-    val errorTag : String get() = MultiAudioPicker::javaClass.name
+    val errorTag: String get() = MultiAudioPicker::javaClass.name
 
     fun addModifier(modifier: MultiAudioPickerModifier)
-    val modifier : MultiAudioPickerModifier?
+    val modifier: MultiAudioPickerModifier?
     val binding: FragmentImagesGalleryLayoutMultiBinding
     val askForStoragePermission: ActivityResultLauncher<String>
     val layout get() = R.layout.fragment_images_gallery_layout_multi

@@ -75,7 +75,7 @@
             android:layout_marginTop="16dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/divider"/>
+            app:layout_constraintTop_toBottomOf="@id/divider" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/singleVideoBottomSheetPick"
@@ -134,7 +134,7 @@
             android:layout_marginTop="16dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/divider2"/>
+            app:layout_constraintTop_toBottomOf="@id/divider2" />
 
         <com.google.android.material.textview.MaterialTextView
             android:layout_width="match_parent"
@@ -147,7 +147,7 @@
             android:padding="10dp"
             android:layout_marginTop="8dp"
             android:layout_marginBottom="4dp"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/singleAudioBottomSheetPick"

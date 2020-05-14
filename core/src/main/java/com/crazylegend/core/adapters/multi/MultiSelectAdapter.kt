@@ -10,7 +10,6 @@ import com.crazylegend.core.inflater
 import com.crazylegend.core.modifiers.multi.MultiPickerModifier
 
 
-
 /**
  * Created by crazy on 5/8/20 to long live and prosper !
  */

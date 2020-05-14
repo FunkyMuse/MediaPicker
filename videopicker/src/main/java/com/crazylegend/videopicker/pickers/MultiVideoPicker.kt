@@ -38,7 +38,7 @@ object MultiVideoPicker {
     }
 
     @RequiresPermission(Manifest.permission.READ_EXTERNAL_STORAGE)
-    fun bottomSheetPicker(context: Context, modifier: MultiPickerModifier.() -> Unit ={}, videoList: (list: List<VideoModel>) -> Unit) {
+    fun bottomSheetPicker(context: Context, modifier: MultiPickerModifier.() -> Unit = {}, videoList: (list: List<VideoModel>) -> Unit) {
         val manager = context.setupManager()
         val setupModifier = setupModifier(modifier)
         with(MultiVideoPickerBottomSheetDialog()) {
@@ -49,7 +49,7 @@ object MultiVideoPicker {
     }
 
     @RequiresPermission(Manifest.permission.READ_EXTERNAL_STORAGE)
-    fun dialogPicker(context: Context, modifier: MultiPickerModifier.() -> Unit ={}, videoList: (list: List<VideoModel>) -> Unit) {
+    fun dialogPicker(context: Context, modifier: MultiPickerModifier.() -> Unit = {}, videoList: (list: List<VideoModel>) -> Unit) {
         val setupModifier = setupModifier(modifier)
         val manager = context.setupManager()
         with(MultiVideoPickerDialogFragment()) {
@@ -61,5 +61,5 @@ object MultiVideoPicker {
 
 
     private inline fun setupModifier(modifier: MultiPickerModifier.() -> Unit) =
-        MultiPickerModifier().also { it.modifier() }
+            MultiPickerModifier().also { it.modifier() }
 }

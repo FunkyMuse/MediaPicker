@@ -67,7 +67,7 @@ abstract class AbstractBottomSheetDialogFragment : BottomSheetDialogFragment() {
                               selectedPositions: SparseBooleanArray,
                               gallery: RecyclerView, multiSelectAdapter: RecyclerView.Adapter<*>,
                               doneButton: MaterialButton, title: MaterialTextView,
-                              onDoneButton:(MaterialButton)->Unit, onTitleButton:(MaterialTextView)->Unit) {
+                              onDoneButton: (MaterialButton) -> Unit, onTitleButton: (MaterialTextView) -> Unit) {
         savedInstanceState?.getIntegerArrayList(LIST_STATE)?.asSequence()?.forEach { selectedPositions.put(it, true) }
         gallery.apply {
             layoutManager = GridLayoutManager(requireContext(), 3)
@@ -78,8 +78,8 @@ abstract class AbstractBottomSheetDialogFragment : BottomSheetDialogFragment() {
     }
 
     fun handleUIIndicator(liveData: LiveData<Boolean>, loadingIndicator: ProgressBar) {
-        liveData.observe(viewLifecycleOwner){
-            if (it){
+        liveData.observe(viewLifecycleOwner) {
+            if (it) {
                 loadingIndicator.visible()
             } else {
                 loadingIndicator.gone()

@@ -14,7 +14,6 @@ import com.crazylegend.imagepicker.images.ImageModel
 import com.crazylegend.imagepicker.listeners.onImagesDSL
 
 
-
 /**
  * Created by crazy on 5/8/20 to long live and prosper !
  */
@@ -23,7 +22,7 @@ object MultiImagePicker {
     fun restoreListener(context: Context, imagesList: (list: List<ImageModel>) -> Unit) {
         val manager = context.setupManager()
         when (val fragment = manager.findFragmentByTag(MULTI_PICKER_BOTTOM_SHEET)
-            ?: manager.findFragmentByTag(MULTI_PICKER_DIALOG)) {
+                ?: manager.findFragmentByTag(MULTI_PICKER_DIALOG)) {
             is MultiImagePickerDialogFragment -> {
                 fragment.onImagesPicked = onImagesDSL(imagesList)
             }
@@ -52,8 +51,8 @@ object MultiImagePicker {
 
     @RequiresPermission(READ_EXTERNAL_STORAGE)
     fun dialogPicker(
-        context: Context, multiImagePickerModifier: MultiPickerModifier.() -> Unit = {},
-        imagesList: (list: List<ImageModel>) -> Unit
+            context: Context, multiImagePickerModifier: MultiPickerModifier.() -> Unit = {},
+            imagesList: (list: List<ImageModel>) -> Unit
     ) {
         val manager = context.setupManager()
         val modifier = setupModifier(multiImagePickerModifier)
@@ -65,5 +64,5 @@ object MultiImagePicker {
     }
 
     private inline fun setupModifier(modifier: MultiPickerModifier.() -> Unit) =
-        MultiPickerModifier().also { it.modifier() }
+            MultiPickerModifier().also { it.modifier() }
 }

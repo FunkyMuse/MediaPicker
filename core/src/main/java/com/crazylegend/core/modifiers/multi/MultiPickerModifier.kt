@@ -25,7 +25,7 @@ data class MultiPickerModifier(
 ) : Parcelable {
 
 
-    fun applyGravity(imageView: AppCompatImageView){
+    fun applyGravity(imageView: AppCompatImageView) {
         when (indicatorsGravity) {
             Gravity.TOP_LEFT -> {
                 imageView.top(imageView.marginTop)
@@ -46,7 +46,7 @@ data class MultiPickerModifier(
         }
     }
 
-    fun applyGravityWithBottomConstraint(imageView: AppCompatImageView, view:View){
+    fun applyGravityWithBottomConstraint(imageView: AppCompatImageView, view: View) {
         when (indicatorsGravity) {
             Gravity.TOP_LEFT -> {
                 imageView.top(imageView.marginTop)
@@ -71,12 +71,12 @@ data class MultiPickerModifier(
         TOP_LEFT, TOP_RIGHT, BOTTOM_LEFT, BOTTOM_RIGHT
     }
 
-    inline fun setup(
-        gravityForIndicators: Gravity = Gravity.TOP_RIGHT,
-        titleText: TitleTextModifier.() -> Unit = {},
-        doneButton: DoneButtonModifier.() -> Unit = {},
-        selectIcon: SelectIconModifier.() -> Unit = {},
-        unSelectIcon: SelectIconModifier.() -> Unit = {}) {
+    inline fun setupMultiPicker(
+            gravityForIndicators: Gravity = Gravity.TOP_RIGHT,
+            titleText: TitleTextModifier.() -> Unit = {},
+            doneButton: DoneButtonModifier.() -> Unit = {},
+            selectIcon: SelectIconModifier.() -> Unit = {},
+            unSelectIcon: SelectIconModifier.() -> Unit = {}) {
         indicatorsGravity = gravityForIndicators
         titleTextModifier.titleText()
         doneButtonModifier.doneButton()

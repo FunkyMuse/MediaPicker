@@ -53,8 +53,8 @@ internal class MultiVideoPickerDialogFragment : AbstractDialogFragment(R.layout.
         super.onViewCreated(view, savedInstanceState)
 
         setupUIForMultiPicker(binding.topIndicator, savedInstanceState, LIST_STATE, multiSelectAdapter.selectedPositions,
-        binding.gallery, multiSelectAdapter, binding.doneButton, binding.title,
-        ::applyDoneButtonModifications, ::applyTitleModifications)
+                binding.gallery, multiSelectAdapter, binding.doneButton, binding.title,
+                ::applyDoneButtonModifications, ::applyTitleModifications)
 
         askForStoragePermission(Manifest.permission.READ_EXTERNAL_STORAGE)
         handleUIIndicator(videosVM.loadingIndicator, binding.loadingIndicator)
@@ -64,7 +64,8 @@ internal class MultiVideoPickerDialogFragment : AbstractDialogFragment(R.layout.
         }
 
         binding.doneButton.setOnClickListener {
-            onValuesPicked(multiSelectAdapter.selectedPositions, videosVM.videos.value ?: emptyList()) { list ->
+            onValuesPicked(multiSelectAdapter.selectedPositions, videosVM.videos.value
+                    ?: emptyList()) { list ->
                 onVideosPicked?.onVideosPicked(list)
             }
         }

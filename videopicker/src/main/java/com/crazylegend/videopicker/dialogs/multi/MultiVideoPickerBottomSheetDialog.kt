@@ -64,7 +64,8 @@ internal class MultiVideoPickerBottomSheetDialog : AbstractBottomSheetDialogFrag
 
 
         binding.doneButton.setOnClickListener {
-            onValuesPicked(multiSelectAdapter.selectedPositions, videosVM.videos.value ?: emptyList()) { list ->
+            onValuesPicked(multiSelectAdapter.selectedPositions, videosVM.videos.value
+                    ?: emptyList()) { list ->
                 onVideosPicked?.onVideosPicked(list)
             }
         }
@@ -84,6 +85,7 @@ internal class MultiVideoPickerBottomSheetDialog : AbstractBottomSheetDialogFrag
     override fun addModifier(modifier: MultiPickerModifier) {
         arguments = bundleOf(modifierTag to modifier)
     }
+
     override fun applyTitleModifications(appCompatTextView: AppCompatTextView) {
         modifier?.titleTextModifier?.applyTextParams(appCompatTextView)
     }

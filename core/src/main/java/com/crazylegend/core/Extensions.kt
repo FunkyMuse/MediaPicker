@@ -29,8 +29,6 @@ internal fun AppCompatImageView.loadImage(uri: Uri) {
 val ViewGroup.inflater: LayoutInflater get() = LayoutInflater.from(context)
 
 
-
-
 internal fun View.visible() {
     this.visibility = View.VISIBLE
 }

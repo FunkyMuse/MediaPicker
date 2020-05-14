@@ -19,7 +19,7 @@ internal class AudioSingleAdapter(private val viewHolderPlaceholderModifier: Ima
                                   private val onClick: (AudioModel) -> Unit) : ListAdapter<AudioModel, AudioSingleViewHolder>(AudioDiffUtil()) {
     override fun onCreateViewHolder(parent: ViewGroup, type: Int) =
             AudioSingleViewHolder(ItemviewAudioBinding.inflate(parent.inflater, parent, false), onClick,
-                    viewHolderPlaceholderModifier,viewHolderTitleTextModifier)
+                    viewHolderPlaceholderModifier, viewHolderTitleTextModifier)
 
     override fun onBindViewHolder(holderAudio: AudioSingleViewHolder, position: Int) {
         val item = getItem(position)

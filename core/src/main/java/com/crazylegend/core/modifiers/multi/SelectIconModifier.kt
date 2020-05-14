@@ -17,14 +17,14 @@ import kotlinx.android.parcel.Parcelize
 
 @Parcelize
 data class SelectIconModifier(
-    var resID: Int? = null,
-    var padding: Int? = null,
-    var startMargin: Int? = null,
-    var endMargin: Int? = null,
-    var marginTop: Int? = null,
-    var marginBottom: Int? = null,
-    var margin: Int? = null,
-    var tint: Int? = null
+        var resID: Int? = null,
+        var padding: Int? = null,
+        var startMargin: Int? = null,
+        var endMargin: Int? = null,
+        var marginTop: Int? = null,
+        var marginBottom: Int? = null,
+        var margin: Int? = null,
+        var tint: Int? = null
 ) : Parcelable {
 
     private val allSizeMarginCondition get() = margin != null

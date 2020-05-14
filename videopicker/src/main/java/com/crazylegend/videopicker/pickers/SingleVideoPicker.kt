@@ -37,7 +37,7 @@ object SingleVideoPicker {
     }
 
     @RequiresPermission(Manifest.permission.READ_EXTERNAL_STORAGE)
-    fun bottomSheetPicker(context: Context, pickerModifier: SinglePickerModifier.()->Unit = {}, onPickedVideo: (video: VideoModel) -> Unit) {
+    fun bottomSheetPicker(context: Context, pickerModifier: SinglePickerModifier.() -> Unit = {}, onPickedVideo: (video: VideoModel) -> Unit) {
         val modifier = setupModifier(pickerModifier)
         val manager = context.setupManager()
         with(SingleVideoPickerBottomSheetDialog()) {
@@ -48,7 +48,7 @@ object SingleVideoPicker {
     }
 
     @RequiresPermission(Manifest.permission.READ_EXTERNAL_STORAGE)
-    fun dialogPicker(context: Context, pickerModifier: SinglePickerModifier.()->Unit = {}, onPickedVideo: (video: VideoModel) -> Unit) {
+    fun dialogPicker(context: Context, pickerModifier: SinglePickerModifier.() -> Unit = {}, onPickedVideo: (video: VideoModel) -> Unit) {
         val manager = context.setupManager()
         val modifier = setupModifier(pickerModifier)
         with(SingleVideoPickerDialogFragment()) {

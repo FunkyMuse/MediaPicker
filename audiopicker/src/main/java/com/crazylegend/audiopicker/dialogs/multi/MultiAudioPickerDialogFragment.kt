@@ -61,7 +61,8 @@ internal class MultiAudioPickerDialogFragment : AbstractDialogFragment(R.layout.
         }
 
         binding.doneButton.setOnClickListener {
-            onValuesPicked(multiSelectAdapter.selectedPositions, audiosVM.audio.value ?: emptyList()) { list ->
+            onValuesPicked(multiSelectAdapter.selectedPositions, audiosVM.audio.value
+                    ?: emptyList()) { list ->
                 onAudiosPicked?.forAudios(list)
             }
         }
@@ -84,6 +85,7 @@ internal class MultiAudioPickerDialogFragment : AbstractDialogFragment(R.layout.
     override fun addModifier(modifier: MultiAudioPickerModifier) {
         arguments = bundleOf(modifierTag to modifier)
     }
+
     override fun applyTitleModifications(appCompatTextView: AppCompatTextView) {
         modifier?.multiPickerModifier?.titleTextModifier?.applyTextParams(appCompatTextView)
     }

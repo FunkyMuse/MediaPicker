@@ -18,8 +18,8 @@ data class MultiAudioPickerModifier(
         val viewHolderPlaceholderModifier: ImageButtonModifier = ImageButtonModifier()
 ) : Parcelable {
 
-    inline fun setup(multiPicker: MultiPickerModifier.() -> Unit = {}, viewHolderTitle: TitleTextModifier.() -> Unit = {},
-                     viewHolderPlaceHolder: ImageButtonModifier.() -> Unit = {}) {
+    inline fun setupMultiAudioPicker(multiPicker: MultiPickerModifier.() -> Unit = {}, viewHolderTitle: TitleTextModifier.() -> Unit = {},
+                                     viewHolderPlaceHolder: ImageButtonModifier.() -> Unit = {}) {
         viewHolderPlaceholderModifier.viewHolderPlaceHolder()
         multiPickerModifier.multiPicker()
         viewHolderTitleModifier.viewHolderTitle()

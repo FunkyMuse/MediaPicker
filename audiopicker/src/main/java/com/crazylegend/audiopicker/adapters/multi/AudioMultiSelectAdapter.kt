@@ -24,7 +24,7 @@ internal class AudioMultiSelectAdapter(private val modifier: MultiPickerModifier
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AudioMultiSelectViewHolder {
         val holder = AudioMultiSelectViewHolder(ItemviewAudioBinding.inflate(parent.inflater, parent, false), modifier
-        ,viewHolderPlaceholderModifier, viewHolderTitleTextModifier)
+                , viewHolderPlaceholderModifier, viewHolderTitleTextModifier)
         holder.itemView.setOnClickListener {
             putPosition(holder.adapterPosition)
             notifyItemChanged(holder.adapterPosition)

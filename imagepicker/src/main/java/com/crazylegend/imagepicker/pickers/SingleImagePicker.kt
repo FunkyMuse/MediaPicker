@@ -14,7 +14,6 @@ import com.crazylegend.imagepicker.images.ImageModel
 import com.crazylegend.imagepicker.listeners.onImageDSL
 
 
-
 /**
  * Created by crazy on 5/8/20 to long live and prosper !
  */
@@ -23,7 +22,7 @@ object SingleImagePicker {
     fun restoreListener(context: Context, onPickedImage: (image: ImageModel) -> Unit) {
         val manager = context.setupManager()
         when (val fragment = manager.findFragmentByTag(SINGLE_PICKER_BOTTOM_SHEET)
-            ?: manager.findFragmentByTag(SINGLE_PICKER_DIALOG)) {
+                ?: manager.findFragmentByTag(SINGLE_PICKER_DIALOG)) {
             is SingleImagePickerBottomSheetDialog -> {
                 fragment.onImagePicked = onImageDSL(onPickedImage)
             }
@@ -53,9 +52,9 @@ object SingleImagePicker {
 
     @RequiresPermission(READ_EXTERNAL_STORAGE)
     fun dialogPicker(
-        context: Context,
-        singleImagePickerModifier: SinglePickerModifier.() -> Unit = {},
-        onPickedImage: (image: ImageModel) -> Unit
+            context: Context,
+            singleImagePickerModifier: SinglePickerModifier.() -> Unit = {},
+            onPickedImage: (image: ImageModel) -> Unit
     ) {
         val modifier = setupModifier(singleImagePickerModifier)
         val manager = context.setupManager()
@@ -67,7 +66,7 @@ object SingleImagePicker {
     }
 
     private inline fun setupModifier(singleImagePickerModifier: SinglePickerModifier.() -> Unit) =
-        SinglePickerModifier().also { it.singleImagePickerModifier() }
+            SinglePickerModifier().also { it.singleImagePickerModifier() }
 
 
 }

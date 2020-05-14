@@ -27,7 +27,7 @@ internal class SingleAudioPickerBottomSheetDialog : AbstractBottomSheetDialogFra
 
     override val layout: Int
         get() = super.layout
-    override var onAudioPicked: onAudioPicked?=null
+    override var onAudioPicked: onAudioPicked? = null
     override val binding by viewBinding(FragmentImagesGalleryLayoutBinding::bind)
     override val audiosVM by viewModels<AudiosVM>()
     override val modifier: SingleAudioPickerModifier? get() = arguments?.getParcelable(modifierTag)
@@ -60,7 +60,6 @@ internal class SingleAudioPickerBottomSheetDialog : AbstractBottomSheetDialogFra
 
         handleUIIndicator(audiosVM.loadingIndicator, binding.loadingIndicator)
     }
-
 
 
     override fun onDestroyView() {

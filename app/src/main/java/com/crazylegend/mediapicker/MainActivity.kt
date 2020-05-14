@@ -85,7 +85,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
 
     private fun showSingleAudioBottomSheetPicker() {
         SingleAudioPicker.bottomSheetPicker(this, {
-            setup(singlePicker = {
+            setupSingleAudioPicker(singlePicker = {
                 setupTitleOnly {
                     textAlignment = TextView.TEXT_ALIGNMENT_VIEW_START
                     textStyle = TitleTextModifier.TextStyle.BOLD
@@ -105,8 +105,8 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
 
     private fun showSingleAudioDialogPicker() {
         SingleAudioPicker.dialogPicker(this, {
-            setup(singlePicker = {
-                setup(imageText = {
+            setupSingleAudioPicker(singlePicker = {
+                setupTitleAndCloseButton(title = {
                     textAlignment = TextView.TEXT_ALIGNMENT_VIEW_START
                     textStyle = TitleTextModifier.TextStyle.BOLD
                     textColor = Color.RED
@@ -129,47 +129,47 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
     }
 
     private fun showAudioMultiDialogPicker() {
-       MultiAudioPicker.dialogPicker(this, {
-           setup(
-                   multiPicker = {
-                       setup(
-                               gravityForIndicators = MultiPickerModifier.Gravity.TOP_RIGHT,
-                               titleText = {
-                                   textAlignment = TextView.TEXT_ALIGNMENT_VIEW_START
-                                   textStyle = TitleTextModifier.TextStyle.BOLD_ITALIC
-                                   textColor = Color.BLUE
-                                   marginBottom = 30 // use dp or sp this is only for demonstration purposes
-                                   textPadding = 5 // use dp or sp this is only for demonstration purposes
-                                   textSize = 30f  // use sp this is only for demonstration purposes
-                                   textString = "Pick multiple songs"
-                               },
-                               selectIcon = {
-                                   resID = R.drawable.ic_checked
-                                   tint = Color.LTGRAY
-                               },
-                               unSelectIcon = {
-                                   resID = R.drawable.ic_unchecked
-                                   tint = Color.LTGRAY
-                               }
-                       )
-                   },
-                   viewHolderTitle = {
-                       textColor = Color.DKGRAY
-                       textStyle = TitleTextModifier.TextStyle.BOLD_ITALIC
-                       textPadding = 10 // use dp or sp this is only for demonstration purposes
-                   },
-                   viewHolderPlaceHolder = {
-                       resID = R.drawable.ic_album_second
-                   }
-           )
-       },::doSomethingWithAudioList)
+        MultiAudioPicker.dialogPicker(this, {
+            setupMultiAudioPicker(
+                    multiPicker = {
+                        setupMultiPicker(
+                                gravityForIndicators = MultiPickerModifier.Gravity.TOP_RIGHT,
+                                titleText = {
+                                    textAlignment = TextView.TEXT_ALIGNMENT_VIEW_START
+                                    textStyle = TitleTextModifier.TextStyle.BOLD_ITALIC
+                                    textColor = Color.BLUE
+                                    marginBottom = 30 // use dp or sp this is only for demonstration purposes
+                                    textPadding = 5 // use dp or sp this is only for demonstration purposes
+                                    textSize = 30f  // use sp this is only for demonstration purposes
+                                    textString = "Pick multiple songs"
+                                },
+                                selectIcon = {
+                                    resID = R.drawable.ic_checked
+                                    tint = Color.LTGRAY
+                                },
+                                unSelectIcon = {
+                                    resID = R.drawable.ic_unchecked
+                                    tint = Color.LTGRAY
+                                }
+                        )
+                    },
+                    viewHolderTitle = {
+                        textColor = Color.DKGRAY
+                        textStyle = TitleTextModifier.TextStyle.BOLD_ITALIC
+                        textPadding = 10 // use dp or sp this is only for demonstration purposes
+                    },
+                    viewHolderPlaceHolder = {
+                        resID = R.drawable.ic_album_second
+                    }
+            )
+        }, ::doSomethingWithAudioList)
     }
 
     private fun showAudioMultiBottomSheetPicker() {
         MultiAudioPicker.bottomSheetPicker(this, {
-            setup(
+            setupMultiAudioPicker(
                     multiPicker = {
-                        setup(
+                        setupMultiPicker(
                                 gravityForIndicators = MultiPickerModifier.Gravity.BOTTOM_LEFT,
                                 titleText = {
                                     textAlignment = TextView.TEXT_ALIGNMENT_VIEW_START
@@ -199,7 +199,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
                         resID = R.drawable.ic_album_second
                     }
             )
-        },::doSomethingWithAudioList)
+        }, ::doSomethingWithAudioList)
     }
 
     private fun loadAudio(audioModel: AudioModel) {
@@ -220,7 +220,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
     //videos
     private fun showVideoMultiDialogPicker() {
         MultiVideoPicker.dialogPicker(this, {
-            setup(
+            setupMultiPicker(
                     gravityForIndicators = MultiPickerModifier.Gravity.TOP_LEFT,
                     titleText = {
                         textAlignment = TextView.TEXT_ALIGNMENT_VIEW_START
@@ -247,7 +247,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
 
     private fun showVideoMultiBottomSheetPicker() {
         MultiVideoPicker.bottomSheetPicker(this, {
-            setup(
+            setupMultiPicker(
                     gravityForIndicators = MultiPickerModifier.Gravity.BOTTOM_LEFT,
                     titleText = {
                         textAlignment = TextView.TEXT_ALIGNMENT_VIEW_START
@@ -270,7 +270,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
 
     private fun showSingleVideoDialogPicker() {
         SingleVideoPicker.dialogPicker(this, {
-            setup({
+            setupTitleAndCloseButton({
                 textAlignment = TextView.TEXT_ALIGNMENT_VIEW_START
                 textStyle = TitleTextModifier.TextStyle.BOLD
                 textColor = Color.RED
@@ -289,7 +289,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
 
     private fun showSingleVideoBottomSheetPicker() {
         SingleVideoPicker.bottomSheetPicker(this, {
-            setup({
+            setupTitleAndCloseButton({
                 textString = "Picking some of them videos"
             }, {
                 resID = R.drawable.ic_close
@@ -313,7 +313,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
     //images
     private fun showImageMultiDialogPicker() {
         MultiImagePicker.dialogPicker(this, {
-            setup(
+            setupMultiPicker(
                     gravityForIndicators = MultiPickerModifier.Gravity.TOP_RIGHT,
                     titleText = {
                         textAlignment = TextView.TEXT_ALIGNMENT_VIEW_START
@@ -341,7 +341,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
 
     private fun showImageMultiBottomSheetPicker() {
         MultiImagePicker.bottomSheetPicker(this, {
-            setup(
+            setupMultiPicker(
                     gravityForIndicators = MultiPickerModifier.Gravity.BOTTOM_LEFT,
                     titleText = {
                         textAlignment = TextView.TEXT_ALIGNMENT_VIEW_START
@@ -369,7 +369,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
 
     private fun showSingleImageDialogPicker() {
         SingleImagePicker.dialogPicker(this, {
-            setup({
+            setupTitleAndCloseButton({
                 textAlignment = TextView.TEXT_ALIGNMENT_VIEW_START
                 textStyle = TitleTextModifier.TextStyle.BOLD
                 textColor = Color.RED
@@ -388,7 +388,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
 
     private fun showSingleImageBottomSheetPicker() {
         SingleImagePicker.bottomSheetPicker(this, {
-            setup({
+            setupTitleAndCloseButton({
                 textAlignment = TextView.TEXT_ALIGNMENT_CENTER
                 textStyle = TitleTextModifier.TextStyle.BOLD_ITALIC
                 margin = 22 // use dp or sp this is only for demonstration purposes

@@ -12,6 +12,6 @@ import com.crazylegend.imagepicker.pickers.MultiImagePicker
 internal interface MultiPickerContracts : BaseContractMultiPick {
     val imagesVM: ImagesVM
     var onImagesPicked: onImagesPicked?
-    val errorTag : String get() = MultiImagePicker::javaClass.name
+    val errorTag: String get() = MultiImagePicker::javaClass.name
 
 }

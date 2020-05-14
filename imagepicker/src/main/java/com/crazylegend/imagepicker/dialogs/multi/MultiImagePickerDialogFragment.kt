@@ -63,7 +63,8 @@ internal class MultiImagePickerDialogFragment : AbstractDialogFragment(R.layout.
         handleUIIndicator(imagesVM.loadingIndicator, binding.loadingIndicator)
 
         binding.doneButton.setOnClickListener {
-            onValuesPicked(multiSelectAdapter.selectedPositions, imagesVM.images.value ?: emptyList()) { list ->
+            onValuesPicked(multiSelectAdapter.selectedPositions, imagesVM.images.value
+                    ?: emptyList()) { list ->
                 onImagesPicked?.onImagesPicked(list)
             }
         }
@@ -83,6 +84,7 @@ internal class MultiImagePickerDialogFragment : AbstractDialogFragment(R.layout.
     override fun addModifier(modifier: MultiPickerModifier) {
         arguments = bundleOf(modifierTag to modifier)
     }
+
     override fun applyTitleModifications(appCompatTextView: AppCompatTextView) {
         modifier?.titleTextModifier?.applyTextParams(appCompatTextView)
     }

@@ -50,8 +50,8 @@ abstract class AbstractAVM(application: Application) : AndroidViewModel(applicat
     @Suppress("DEPRECATION")
     fun loadThumbnail(contentResolver: ContentResolver,
                       contentUri: Uri,
-                      id:Long,
-                      customSize: Size = Size( 150, 150),
+                      id: Long,
+                      customSize: Size = Size(150, 150),
                       legacyKind: Int = MediaStore.Video.Thumbnails.MICRO_KIND,
                       options: BitmapFactory.Options? = null): Bitmap? {
         return tryOrNull {

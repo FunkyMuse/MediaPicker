@@ -19,8 +19,9 @@ class MultiSelectViewHolder(
 
 ) : RecyclerView.ViewHolder(binding.root) {
 
-    private val selectIconModifier get() =  modifier?.selectIconModifier
+    private val selectIconModifier get() = modifier?.selectIconModifier
     private val unSelectedIconModifier get() = modifier?.unSelectedIconModifier
+
     init {
         binding.selection.visible()
         modifier?.applyGravity(binding.selection)
@@ -37,12 +38,12 @@ class MultiSelectViewHolder(
 
     private fun setupUnselectedImage(selection: AppCompatImageView) {
         val resID = unSelectedIconModifier?.resID ?: R.drawable.ic_unchecked_default
-        unSelectedIconModifier?.applyImageParams(selection,resID)
+        unSelectedIconModifier?.applyImageParams(selection, resID)
     }
 
     private fun setupSelectedImage(selection: AppCompatImageView) {
-        val resID = selectIconModifier?.resID ?:R.drawable.ic_checked_default
-        selectIconModifier?.applyImageParams(selection,resID)
+        val resID = selectIconModifier?.resID ?: R.drawable.ic_checked_default
+        selectIconModifier?.applyImageParams(selection, resID)
     }
 
 

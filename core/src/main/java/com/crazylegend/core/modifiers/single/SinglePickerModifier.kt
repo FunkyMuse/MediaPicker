@@ -16,8 +16,8 @@ data class SinglePickerModifier(
         val titleTextModifier: TitleTextModifier = TitleTextModifier()
 ) : Parcelable {
 
-    inline fun setup(imageText: TitleTextModifier.() -> Unit = {}, closeButton: ImageButtonModifier.() -> Unit = {}) {
-        titleTextModifier.imageText()
+    inline fun setupTitleAndCloseButton(title: TitleTextModifier.() -> Unit = {}, closeButton: ImageButtonModifier.() -> Unit = {}) {
+        titleTextModifier.title()
         closeButtonModifier.closeButton()
     }
 

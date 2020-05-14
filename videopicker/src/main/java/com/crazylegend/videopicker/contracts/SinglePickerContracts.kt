@@ -9,8 +9,8 @@ import com.crazylegend.videopicker.videos.VideosVM
 /**
  * Created by crazy on 5/8/20 to long live and prosper !
  */
-internal interface SinglePickerContracts :BaseContractSinglePick{
+internal interface SinglePickerContracts : BaseContractSinglePick {
     val videosVM: VideosVM
     var onVideoPicked: onVideoPicked?
-    val errorTag  get() = SingleVideoPicker::javaClass.name
+    val errorTag get() = SingleVideoPicker::javaClass.name
 }

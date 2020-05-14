@@ -14,7 +14,7 @@ import com.crazylegend.core.modifiers.single.SinglePickerModifier
  */
 interface BaseContractSinglePick {
     fun addModifier(modifier: SinglePickerModifier)
-    val modifier : SinglePickerModifier?
+    val modifier: SinglePickerModifier?
     fun applyTitleModifications(appCompatTextView: AppCompatTextView)
     val modifierTag get() = MODIFIER_ARGUMENT_CONST
     val binding: FragmentImagesGalleryLayoutBinding

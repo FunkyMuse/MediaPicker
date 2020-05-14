@@ -28,7 +28,7 @@ internal class ImagesVM(application: Application) : AbstractAVM(application) {
 
 
     fun loadImages(sortOrder: SortOrder = SortOrder.DATE_ADDED_DESC) {
-        if (canLoad){
+        if (canLoad) {
             viewModelScope.launch {
                 imagesData.postValue(queryImages(sortOrder))
                 initializeContentObserver(sortOrder)
@@ -40,7 +40,8 @@ internal class ImagesVM(application: Application) : AbstractAVM(application) {
         if (contentObserver == null) {
             contentObserver = contentResolver.registerObserver(MediaStore.Images.Media.EXTERNAL_CONTENT_URI) {
                 canLoad = true
-                loadImages(sortOrder) }
+                loadImages(sortOrder)
+            }
         }
     }
 

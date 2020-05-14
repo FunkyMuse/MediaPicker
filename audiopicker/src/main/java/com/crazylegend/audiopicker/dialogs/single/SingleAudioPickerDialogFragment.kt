@@ -27,7 +27,7 @@ import com.crazylegend.extensions.viewBinding
 internal class SingleAudioPickerDialogFragment : AbstractDialogFragment(R.layout.fragment_images_gallery_layout), SinglePickerContracts {
     override val layout: Int
         get() = super.layout
-    override var onAudioPicked: onAudioPicked?=null
+    override var onAudioPicked: onAudioPicked? = null
     override val binding by viewBinding(FragmentImagesGalleryLayoutBinding::bind)
     override val audiosVM by viewModels<AudiosVM>()
     override val modifier: SingleAudioPickerModifier? get() = arguments?.getParcelable(modifierTag)
@@ -54,7 +54,7 @@ internal class SingleAudioPickerDialogFragment : AbstractDialogFragment(R.layout
         super.onViewCreated(view, savedInstanceState)
         askForStoragePermission(Manifest.permission.READ_EXTERNAL_STORAGE)
         setupUIForSinglePicker(binding.topIndicator, binding.gallery, singleAdapter, binding.title, binding.close,
-                ::applyTitleModifications){
+                ::applyTitleModifications) {
             modifier?.singlePickerModifier?.closeButtonModifier?.applyImageParamsRelativeLayout(it)
         }
         audiosVM.audio.observe(viewLifecycleOwner) {

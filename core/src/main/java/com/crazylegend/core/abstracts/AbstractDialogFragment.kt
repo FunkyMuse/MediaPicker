@@ -44,14 +44,14 @@ abstract class AbstractDialogFragment(contentLayoutId: Int) : DialogFragment(con
         dismissAllowingStateLoss()
     }
 
-    fun saveSelectedPositionsState(selectedPositions: SparseBooleanArray, outState: Bundle, LIST_STATE:String){
+    fun saveSelectedPositionsState(selectedPositions: SparseBooleanArray, outState: Bundle, LIST_STATE: String) {
         val positionList = selectedPositions.keyIterator().asSequence().map { it }.toList()
         outState.putIntegerArrayList(LIST_STATE, ArrayList(positionList))
     }
 
     fun setupUIForSinglePicker(topIndicator: AppCompatImageView, gallery: RecyclerView, singleAdapter: RecyclerView.Adapter<*>,
                                title: MaterialTextView, close: AppCompatImageView,
-                               titleModifications:(MaterialTextView)->Unit, onCloseButton:(AppCompatImageView)->Unit) {
+                               titleModifications: (MaterialTextView) -> Unit, onCloseButton: (AppCompatImageView) -> Unit) {
         topIndicator.gone()
         gallery.apply {
             layoutManager = GridLayoutManager(requireContext(), 3)
@@ -65,8 +65,8 @@ abstract class AbstractDialogFragment(contentLayoutId: Int) : DialogFragment(con
     }
 
     fun handleUIIndicator(liveData: LiveData<Boolean>, loadingIndicator: ProgressBar) {
-        liveData.observe(viewLifecycleOwner){
-            if (it){
+        liveData.observe(viewLifecycleOwner) {
+            if (it) {
                 loadingIndicator.visible()
             } else {
                 loadingIndicator.gone()
@@ -80,7 +80,7 @@ abstract class AbstractDialogFragment(contentLayoutId: Int) : DialogFragment(con
                               selectedPositions: SparseBooleanArray,
                               gallery: RecyclerView, multiSelectAdapter: RecyclerView.Adapter<*>,
                               doneButton: MaterialButton, title: MaterialTextView,
-                              onDoneButton:(MaterialButton)->Unit, onTitleButton:(MaterialTextView)->Unit) {
+                              onDoneButton: (MaterialButton) -> Unit, onTitleButton: (MaterialTextView) -> Unit) {
         topIndicator.gone()
         savedInstanceState?.getIntegerArrayList(LIST_STATE)?.asSequence()?.forEach { selectedPositions.put(it, true) }
         gallery.apply {
