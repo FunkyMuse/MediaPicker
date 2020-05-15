@@ -1,6 +1,7 @@
 
 
 
+
 # MediaPicker
 ### Kotlin Android library to pick images, videos and audios 
 
@@ -63,16 +64,18 @@ dependencies {
 org.gradle.parallel=true
 ```
 
-5. How to use
+5. How to use and screens
 
-[Image picker]([https://github.com/CraZyLegenD/MediaPicker/tree/master/imagepicker](https://github.com/CraZyLegenD/MediaPicker/tree/master/imagepicker))
+[Image picker](https://github.com/CraZyLegenD/MediaPicker/tree/master/imagepicker)
 
-[Audio picker]([https://github.com/CraZyLegenD/MediaPicker/tree/master/audiopicker](https://github.com/CraZyLegenD/MediaPicker/tree/master/audiopicker))
+[Video picker](https://github.com/CraZyLegenD/MediaPicker/tree/master/videopicker)
 
-[Video picker]([https://github.com/CraZyLegenD/MediaPicker/tree/master/videopicker](https://github.com/CraZyLegenD/MediaPicker/tree/master/videopicker))
+[Audio picker](https://github.com/CraZyLegenD/MediaPicker/tree/master/audiopicker)
+
+[Sample app](https://github.com/CraZyLegenD/MediaPicker/blob/master/app/src/main/java/com/crazylegend/mediapicker/MainActivity.kt)
 
 ## Contributing
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
 
 ## License
-[GPL3.0]([https://choosealicense.com/licenses/gpl-3.0/](https://choosealicense.com/licenses/gpl-3.0/))
+[GPL 3.0](https://choosealicense.com/licenses/gpl-3.0/)
