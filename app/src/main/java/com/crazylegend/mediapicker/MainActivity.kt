@@ -176,7 +176,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
                                 titleText = {
                                     textAlignment = TextView.TEXT_ALIGNMENT_VIEW_START
                                     textStyle = TitleTextModifier.TextStyle.ITALIC
-                                    textColor = Color.MAGENTA
+                                    textColor = Color.BLACK
                                     marginBottom = 30 // use dp or sp this is only for demonstration purposes
                                     textPadding = 5 // use dp or sp this is only for demonstration purposes
                                     textSize = 30f  // use sp this is only for demonstration purposes
@@ -184,11 +184,11 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
                                 },
                                 selectIcon = {
                                     resID = R.drawable.ic_checked
-                                    tint = Color.MAGENTA
+                                    tint = Color.BLACK
                                 },
                                 unSelectIcon = {
                                     resID = R.drawable.ic_unchecked
-                                    tint = Color.MAGENTA
+                                    tint = Color.BLACK
                                 }
                         )
                     },
@@ -254,17 +254,17 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
                     titleText = {
                         textAlignment = TextView.TEXT_ALIGNMENT_VIEW_START
                         textStyle = TitleTextModifier.TextStyle.ITALIC
-                        textColor = Color.MAGENTA
+                        textColor = Color.BLACK
                         marginBottom = 30 // use dp or sp this is only for demonstration purposes
                         textPadding = 5 // use dp or sp this is only for demonstration purposes
                         textSize = 30f  // use sp this is only for demonstration purposes
                         textString = "Pick multi videos"
                     },
                     selectIcon = {
-                        tint = Color.MAGENTA
+                        tint = Color.BLACK
                     },
                     unSelectIcon = {
-                        tint = Color.MAGENTA
+                        tint = Color.BLACK
                     }
             )
         }, ::doSomethingWithVideoList)
@@ -358,7 +358,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
                     },
                     doneButton = {
                         cornerRadius = 20  // use dp/sp/px this is only for demonstration purposes
-                        tint = ContextCompat.getColor(this@MainActivity, R.color.colorAccent)
+                        tint = ContextCompat.getColor(this@MainActivity, R.color.colorPrimaryDark)
                     },
                     selectIcon = {
                         resID = R.drawable.ic_checked
@@ -373,7 +373,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
 
     private fun showSingleImageDialogPicker() {
         SingleImagePicker.dialogPicker(this, {
-            setupTitleAndCloseButton(ContextCompat.getColor(this@MainActivity, R.color.colorAccent), {
+            setupTitleAndCloseButton(ContextCompat.getColor(this@MainActivity, R.color.colorPrimaryDark), {
                 textAlignment = TextView.TEXT_ALIGNMENT_VIEW_START
                 textStyle = TitleTextModifier.TextStyle.BOLD
                 textColor = Color.RED
@@ -396,7 +396,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
                 textAlignment = TextView.TEXT_ALIGNMENT_CENTER
                 textStyle = TitleTextModifier.TextStyle.BOLD_ITALIC
                 margin = 22 // use dp or sp this is only for demonstration purposes
-                textColor = Color.MAGENTA
+                textColor = Color.BLACK
                 textPadding = 5 // use dp or sp this is only for demonstration purposes
                 textSize = 20f  // use sp this is only for demonstration purposes
                 textString = "Bottom sheet pick images"
