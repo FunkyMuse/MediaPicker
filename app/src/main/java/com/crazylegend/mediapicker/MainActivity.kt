@@ -86,14 +86,14 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
     private fun showSingleAudioBottomSheetPicker() {
         SingleAudioPicker.bottomSheetPicker(this, {
             setupSingleAudioPicker(singlePicker = {
-                setupTitleOnly {
+                setupTitleOnly(loadingIndicatorColor = ContextCompat.getColor(this@MainActivity, R.color.colorPrimary)) {
                     textAlignment = TextView.TEXT_ALIGNMENT_VIEW_START
                     textStyle = TitleTextModifier.TextStyle.BOLD
                     textColor = Color.RED
                     margin = 12 // use dp or sp this is only for demonstration purposes
                     textPadding = 5 // use dp or sp this is only for demonstration purposes
                     textSize = 16f  // use sp this is only for demonstration purposes
-                    textString = "Pick some songs"
+                    textString = "Select a song"
                 }
             }, viewHolderTitle = {
                 textColor = ContextCompat.getColor(this@MainActivity, R.color.colorPrimary)
@@ -113,13 +113,13 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
                     margin = 12 // use dp or sp this is only for demonstration purposes
                     textPadding = 5 // use dp or sp this is only for demonstration purposes
                     textSize = 16f  // use sp this is only for demonstration purposes
-                    textString = "Pick some songs"
+                    textString = "Pick a song"
                 }, closeButton = {
                     endMargin = 20  // use dp or sp this is only for demonstration purposes
                     marginBottom = 20 // use dp or sp this is only for demonstration purposes
                     padding = 10 // use dp or sp this is only for demonstration purposes
                     resID = R.drawable.ic_close
-                })
+                }, loadingIndicatorColor = ContextCompat.getColor(this@MainActivity, R.color.colorPrimary))
             }, viewHolderTitle = {
                 textColor = ContextCompat.getColor(this@MainActivity, R.color.colorPrimary)
             }, viewHolderPlaceHolder = {
@@ -133,6 +133,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
             setupMultiAudioPicker(
                     multiPicker = {
                         setupMultiPicker(
+                                loadingIndicatorColor = ContextCompat.getColor(this@MainActivity, R.color.colorPrimary),
                                 gravityForIndicators = MultiPickerModifier.Gravity.TOP_RIGHT,
                                 titleText = {
                                     textAlignment = TextView.TEXT_ALIGNMENT_VIEW_START
@@ -170,6 +171,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
             setupMultiAudioPicker(
                     multiPicker = {
                         setupMultiPicker(
+                                loadingIndicatorColor = ContextCompat.getColor(this@MainActivity, R.color.colorPrimaryDark),
                                 gravityForIndicators = MultiPickerModifier.Gravity.BOTTOM_LEFT,
                                 titleText = {
                                     textAlignment = TextView.TEXT_ALIGNMENT_VIEW_START
@@ -208,7 +210,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
                 .error(R.drawable.ic_album)
                 .into(audio)
         audioTitle.text = audioModel.displayName
-        Log.d("AUDIO_PICKED", audioModel.toString())
+        Log.d("AUDIO_PICKED ${audioModel.thumbnail?.isRecycled}", audioModel.toString())
     }
 
     private fun doSomethingWithAudioList(list: List<AudioModel>) {
@@ -270,15 +272,17 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
 
     private fun showSingleVideoDialogPicker() {
         SingleVideoPicker.dialogPicker(this, {
-            setupTitleAndCloseButton({
-                textAlignment = TextView.TEXT_ALIGNMENT_VIEW_START
-                textStyle = TitleTextModifier.TextStyle.BOLD
-                textColor = Color.RED
-                margin = 12 // use dp or sp this is only for demonstration purposes
-                textPadding = 5 // use dp or sp this is only for demonstration purposes
-                textSize = 16f  // use sp this is only for demonstration purposes
-                textString = "Pick some videos"
-            }, {
+            setupTitleAndCloseButton(
+                    ContextCompat.getColor(this@MainActivity, R.color.design_default_color_error),
+                    {
+                        textAlignment = TextView.TEXT_ALIGNMENT_VIEW_START
+                        textStyle = TitleTextModifier.TextStyle.BOLD
+                        textColor = Color.RED
+                        margin = 12 // use dp or sp this is only for demonstration purposes
+                        textPadding = 5 // use dp or sp this is only for demonstration purposes
+                        textSize = 16f  // use sp this is only for demonstration purposes
+                        textString = "Pick some videos"
+                    }, {
                 endMargin = 20  // use dp or sp this is only for demonstration purposes
                 marginBottom = 20 // use dp or sp this is only for demonstration purposes
                 padding = 10 // use dp or sp this is only for demonstration purposes
@@ -289,7 +293,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
 
     private fun showSingleVideoBottomSheetPicker() {
         SingleVideoPicker.bottomSheetPicker(this, {
-            setupTitleAndCloseButton({
+            setupTitleAndCloseButton(ContextCompat.getColor(this@MainActivity, R.color.colorPrimary), {
                 textString = "Picking some of them videos"
             }, {
                 resID = R.drawable.ic_close
@@ -369,7 +373,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
 
     private fun showSingleImageDialogPicker() {
         SingleImagePicker.dialogPicker(this, {
-            setupTitleAndCloseButton({
+            setupTitleAndCloseButton(ContextCompat.getColor(this@MainActivity, R.color.colorAccent), {
                 textAlignment = TextView.TEXT_ALIGNMENT_VIEW_START
                 textStyle = TitleTextModifier.TextStyle.BOLD
                 textColor = Color.RED
@@ -388,7 +392,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
 
     private fun showSingleImageBottomSheetPicker() {
         SingleImagePicker.bottomSheetPicker(this, {
-            setupTitleAndCloseButton({
+            setupTitleAndCloseButton(ContextCompat.getColor(this@MainActivity, R.color.colorPrimaryDark), {
                 textAlignment = TextView.TEXT_ALIGNMENT_CENTER
                 textStyle = TitleTextModifier.TextStyle.BOLD_ITALIC
                 margin = 22 // use dp or sp this is only for demonstration purposes

@@ -54,7 +54,7 @@ internal class MultiAudioPickerDialogFragment : AbstractDialogFragment(R.layout.
         askForStoragePermission(Manifest.permission.READ_EXTERNAL_STORAGE)
 
         setupUIForMultiPicker(binding.topIndicator, savedInstanceState, LIST_STATE, multiSelectAdapter.selectedPositions,
-                binding.gallery, multiSelectAdapter, binding.doneButton, binding.title,
+                binding.gallery, multiSelectAdapter, binding.doneButton, binding.title, binding.loadingIndicator, modifier?.multiPickerModifier?.loadingIndicatorTint,
                 ::applyDoneButtonModifications, ::applyTitleModifications)
         audiosVM.audio.observe(viewLifecycleOwner) {
             multiSelectAdapter.submitList(it)

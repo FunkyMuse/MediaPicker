@@ -53,7 +53,7 @@ internal class SingleVideoPickerBottomSheetDialog : AbstractBottomSheetDialogFra
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         askForStoragePermission(Manifest.permission.READ_EXTERNAL_STORAGE)
-        setupUIForSinglePicker(binding.close, binding.gallery, singleAdapter, binding.title, ::applyTitleModifications)
+        setupUIForSinglePicker(binding.close, binding.gallery, singleAdapter, binding.title, binding.loadingIndicator, modifier?.loadingIndicatorTint, ::applyTitleModifications)
         videosVM.videos.observe(viewLifecycleOwner) {
             singleAdapter.submitList(it)
         }

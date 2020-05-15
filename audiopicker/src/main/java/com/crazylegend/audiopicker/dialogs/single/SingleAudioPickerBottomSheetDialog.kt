@@ -1,6 +1,7 @@
 package com.crazylegend.audiopicker.dialogs.single
 
 import android.Manifest
+import android.graphics.Bitmap
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -34,6 +35,7 @@ internal class SingleAudioPickerBottomSheetDialog : AbstractBottomSheetDialogFra
 
     override val singleAdapter by lazy {
         AudioSingleAdapter(modifier?.viewHolderPlaceholderModifier, modifier?.viewHolderTitleModifier) {
+            recycleThubmnail(it.thumbnail)
             onAudioPicked?.forAudio(it)
             dismissAllowingStateLoss()
         }
@@ -53,7 +55,7 @@ internal class SingleAudioPickerBottomSheetDialog : AbstractBottomSheetDialogFra
         super.onViewCreated(view, savedInstanceState)
         askForStoragePermission(Manifest.permission.READ_EXTERNAL_STORAGE)
 
-        setupUIForSinglePicker(binding.close, binding.gallery, singleAdapter, binding.title, ::applyTitleModifications)
+        setupUIForSinglePicker(binding.close, binding.gallery, singleAdapter, binding.title, binding.loadingIndicator, modifier?.singlePickerModifier?.loadingIndicatorTint, ::applyTitleModifications)
         audiosVM.audio.observe(viewLifecycleOwner) {
             singleAdapter.submitList(it)
         }
@@ -81,6 +83,14 @@ internal class SingleAudioPickerBottomSheetDialog : AbstractBottomSheetDialogFra
             it?.thumbnail?.apply {
                 if (!isRecycled)
                     recycle()
+            }
+        }
+    }
+
+    private fun recycleThubmnail(thumbnail: Bitmap?) {
+        thumbnail?.apply {
+            if (!isRecycled){
+                recycle()
             }
         }
     }

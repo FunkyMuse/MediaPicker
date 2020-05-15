@@ -1,6 +1,7 @@
 package com.crazylegend.audiopicker.dialogs.single
 
 import android.Manifest
+import android.graphics.Bitmap
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -35,10 +36,13 @@ internal class SingleAudioPickerDialogFragment : AbstractDialogFragment(R.layout
 
     override val singleAdapter by lazy {
         AudioSingleAdapter(modifier?.viewHolderPlaceholderModifier, modifier?.viewHolderTitleModifier) {
+            recycleThubmnail(it.thumbnail)
             onAudioPicked?.forAudio(it)
             dismissAllowingStateLoss()
         }
     }
+
+
 
     override val askForStoragePermission = registerForActivityResult(ActivityResultContracts.RequestPermission()) {
         if (it) {
@@ -53,7 +57,7 @@ internal class SingleAudioPickerDialogFragment : AbstractDialogFragment(R.layout
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         askForStoragePermission(Manifest.permission.READ_EXTERNAL_STORAGE)
-        setupUIForSinglePicker(binding.topIndicator, binding.gallery, singleAdapter, binding.title, binding.close,
+        setupUIForSinglePicker(binding.topIndicator, binding.gallery, singleAdapter, binding.title, binding.close, binding.loadingIndicator, modifier?.singlePickerModifier?.loadingIndicatorTint,
                 ::applyTitleModifications) {
             modifier?.singlePickerModifier?.closeButtonModifier?.applyImageParamsRelativeLayout(it)
         }
@@ -83,6 +87,14 @@ internal class SingleAudioPickerDialogFragment : AbstractDialogFragment(R.layout
             it?.thumbnail?.apply {
                 if (!isRecycled)
                     recycle()
+            }
+        }
+    }
+
+    private fun recycleThubmnail(thumbnail: Bitmap?) {
+        thumbnail?.apply {
+            if (!isRecycled){
+                recycle()
             }
         }
     }

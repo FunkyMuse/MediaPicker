@@ -53,7 +53,7 @@ internal class MultiVideoPickerDialogFragment : AbstractDialogFragment(R.layout.
         super.onViewCreated(view, savedInstanceState)
 
         setupUIForMultiPicker(binding.topIndicator, savedInstanceState, LIST_STATE, multiSelectAdapter.selectedPositions,
-                binding.gallery, multiSelectAdapter, binding.doneButton, binding.title,
+                binding.gallery, multiSelectAdapter, binding.doneButton, binding.title, binding.loadingIndicator, modifier?.loadingIndicatorTint,
                 ::applyDoneButtonModifications, ::applyTitleModifications)
 
         askForStoragePermission(Manifest.permission.READ_EXTERNAL_STORAGE)

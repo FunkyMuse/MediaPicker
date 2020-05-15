@@ -21,7 +21,8 @@ data class MultiPickerModifier(
         val titleTextModifier: TitleTextModifier = TitleTextModifier(),
         val selectIconModifier: SelectIconModifier = SelectIconModifier(),
         val unSelectedIconModifier: SelectIconModifier = SelectIconModifier(),
-        var indicatorsGravity: Gravity = Gravity.BOTTOM_RIGHT
+        var indicatorsGravity: Gravity = Gravity.BOTTOM_RIGHT,
+        var loadingIndicatorTint: Int? = null
 ) : Parcelable {
 
 
@@ -72,11 +73,13 @@ data class MultiPickerModifier(
     }
 
     inline fun setupMultiPicker(
+            loadingIndicatorColor: Int? = null,
             gravityForIndicators: Gravity = Gravity.TOP_RIGHT,
             titleText: TitleTextModifier.() -> Unit = {},
             doneButton: DoneButtonModifier.() -> Unit = {},
             selectIcon: SelectIconModifier.() -> Unit = {},
             unSelectIcon: SelectIconModifier.() -> Unit = {}) {
+        loadingIndicatorTint = loadingIndicatorColor
         indicatorsGravity = gravityForIndicators
         titleTextModifier.titleText()
         doneButtonModifier.doneButton()

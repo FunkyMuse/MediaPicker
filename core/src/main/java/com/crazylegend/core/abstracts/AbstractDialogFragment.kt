@@ -50,8 +50,8 @@ abstract class AbstractDialogFragment(contentLayoutId: Int) : DialogFragment(con
     }
 
     fun setupUIForSinglePicker(topIndicator: AppCompatImageView, gallery: RecyclerView, singleAdapter: RecyclerView.Adapter<*>,
-                               title: MaterialTextView, close: AppCompatImageView,
-                               titleModifications: (MaterialTextView) -> Unit, onCloseButton: (AppCompatImageView) -> Unit) {
+                               title: MaterialTextView,
+                               close: AppCompatImageView, loadingIndicator: ProgressBar, progressBarTint: Int?, titleModifications: (MaterialTextView) -> Unit, onCloseButton: (AppCompatImageView) -> Unit) {
         topIndicator.gone()
         gallery.apply {
             layoutManager = GridLayoutManager(requireContext(), 3)
@@ -62,6 +62,7 @@ abstract class AbstractDialogFragment(contentLayoutId: Int) : DialogFragment(con
         close.setOnClickListener {
             dismissAllowingStateLoss()
         }
+        progressBarTint?.let { loadingIndicator.indeterminateDrawable.setTint(it) }
     }
 
     fun handleUIIndicator(liveData: LiveData<Boolean>, loadingIndicator: ProgressBar) {
@@ -79,7 +80,7 @@ abstract class AbstractDialogFragment(contentLayoutId: Int) : DialogFragment(con
                               LIST_STATE: String,
                               selectedPositions: SparseBooleanArray,
                               gallery: RecyclerView, multiSelectAdapter: RecyclerView.Adapter<*>,
-                              doneButton: MaterialButton, title: MaterialTextView,
+                              doneButton: MaterialButton, title: MaterialTextView, loadingIndicator: ProgressBar, progressBarTint: Int?,
                               onDoneButton: (MaterialButton) -> Unit, onTitleButton: (MaterialTextView) -> Unit) {
         topIndicator.gone()
         savedInstanceState?.getIntegerArrayList(LIST_STATE)?.asSequence()?.forEach { selectedPositions.put(it, true) }
@@ -89,5 +90,7 @@ abstract class AbstractDialogFragment(contentLayoutId: Int) : DialogFragment(con
         }
         onDoneButton(doneButton)
         onTitleButton(title)
+        progressBarTint?.let { loadingIndicator.indeterminateDrawable.setTint(it) }
+
     }
 }

@@ -29,5 +29,7 @@ data class AudioModel(override val id: Long,
                       val ringtone: Boolean,
                       val track: Int?,
                       val year: Int?,
-                      var thumbnail: Bitmap? = null) :
+                      var thumbnail: Bitmap? = null //this variable will always be null and/or freed unless after you pick the model and you assign it yourself
+//do remember to free the bitmap to not hog the memory
+) :
         BaseCursorModel(id, displayName, dateAdded, contentUri, dateModified, description, size, width, height), Parcelable

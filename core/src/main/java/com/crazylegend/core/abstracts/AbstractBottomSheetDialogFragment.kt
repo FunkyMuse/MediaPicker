@@ -52,7 +52,7 @@ abstract class AbstractBottomSheetDialogFragment : BottomSheetDialogFragment() {
     }
 
     fun setupUIForSinglePicker(close: AppCompatImageView, gallery: RecyclerView, singleAdapter: RecyclerView.Adapter<*>,
-                               title: MaterialTextView,
+                               title: MaterialTextView, loadingIndicator: ProgressBar, progressBarTint: Int?,
                                titleModifications: (MaterialTextView) -> Unit) {
         close.gone()
         gallery.apply {
@@ -60,13 +60,15 @@ abstract class AbstractBottomSheetDialogFragment : BottomSheetDialogFragment() {
             adapter = singleAdapter
         }
         titleModifications(title)
+        progressBarTint?.let { loadingIndicator.indeterminateDrawable.setTint(it) }
+
     }
 
     fun setupUIForMultiPicker(savedInstanceState: Bundle?,
                               LIST_STATE: String,
                               selectedPositions: SparseBooleanArray,
                               gallery: RecyclerView, multiSelectAdapter: RecyclerView.Adapter<*>,
-                              doneButton: MaterialButton, title: MaterialTextView,
+                              doneButton: MaterialButton, title: MaterialTextView, loadingIndicator: ProgressBar, progressBarTint: Int?,
                               onDoneButton: (MaterialButton) -> Unit, onTitleButton: (MaterialTextView) -> Unit) {
         savedInstanceState?.getIntegerArrayList(LIST_STATE)?.asSequence()?.forEach { selectedPositions.put(it, true) }
         gallery.apply {
@@ -75,6 +77,8 @@ abstract class AbstractBottomSheetDialogFragment : BottomSheetDialogFragment() {
         }
         onDoneButton(doneButton)
         onTitleButton(title)
+        progressBarTint?.let { loadingIndicator.indeterminateDrawable.setTint(it) }
+
     }
 
     fun handleUIIndicator(liveData: LiveData<Boolean>, loadingIndicator: ProgressBar) {

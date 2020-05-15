@@ -54,7 +54,7 @@ internal class SingleVideoPickerDialogFragment : AbstractDialogFragment(R.layout
         super.onViewCreated(view, savedInstanceState)
         askForStoragePermission(Manifest.permission.READ_EXTERNAL_STORAGE)
 
-        setupUIForSinglePicker(binding.topIndicator, binding.gallery, singleAdapter, binding.title, binding.close,
+        setupUIForSinglePicker(binding.topIndicator, binding.gallery, singleAdapter, binding.title, binding.close, binding.loadingIndicator, modifier?.loadingIndicatorTint,
                 ::applyTitleModifications) {
             modifier?.closeButtonModifier?.applyImageParamsRelativeLayout(it)
         }
