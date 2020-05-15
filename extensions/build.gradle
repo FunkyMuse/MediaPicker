@@ -30,11 +30,7 @@ android {
         jvmTarget = "1.8"
     }
 
-    packagingOptions {
-        exclude 'META-INF/LICENSE.txt'
-        exclude 'META-INF/NOTICE.txt'
-        exclude 'META-INF/LICENSE'
-    }
+
 
     viewBinding {
         enabled = true
