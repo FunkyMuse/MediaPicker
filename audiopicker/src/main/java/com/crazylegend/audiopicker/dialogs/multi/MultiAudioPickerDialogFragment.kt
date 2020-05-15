@@ -15,7 +15,7 @@ import com.crazylegend.audiopicker.audios.AudiosVM
 import com.crazylegend.audiopicker.consts.LIST_STATE
 import com.crazylegend.audiopicker.contracts.MultiPickerContracts
 import com.crazylegend.audiopicker.listeners.onAudiosPicked
-import com.crazylegend.audiopicker.listeners.recycleBitmapsDSL
+
 import com.crazylegend.audiopicker.modifiers.MultiAudioPickerModifier
 import com.crazylegend.core.R
 import com.crazylegend.core.abstracts.AbstractDialogFragment
@@ -69,9 +69,6 @@ internal class MultiAudioPickerDialogFragment : AbstractDialogFragment(R.layout.
         }
         handleUIIndicator(audiosVM.loadingIndicator, binding.loadingIndicator)
 
-        audiosVM.onShouldRecycleBitmaps = recycleBitmapsDSL {
-            recycleBitmaps()
-        }
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
@@ -84,6 +81,12 @@ internal class MultiAudioPickerDialogFragment : AbstractDialogFragment(R.layout.
         super.onDestroyView()
         onAudiosPicked = null
     }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        recycleBitmaps()
+    }
+
 
     override fun addModifier(modifier: MultiAudioPickerModifier) {
         arguments = bundleOf(modifierTag to modifier)

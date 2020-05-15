@@ -15,7 +15,7 @@ import com.crazylegend.audiopicker.adapters.single.AudioSingleAdapter
 import com.crazylegend.audiopicker.audios.AudiosVM
 import com.crazylegend.audiopicker.contracts.SinglePickerContracts
 import com.crazylegend.audiopicker.listeners.onAudioPicked
-import com.crazylegend.audiopicker.listeners.recycleBitmapsDSL
+
 import com.crazylegend.audiopicker.modifiers.SingleAudioPickerModifier
 import com.crazylegend.core.abstracts.AbstractBottomSheetDialogFragment
 import com.crazylegend.core.databinding.FragmentImagesGalleryLayoutBinding
@@ -63,15 +63,16 @@ internal class SingleAudioPickerBottomSheetDialog : AbstractBottomSheetDialogFra
 
         handleUIIndicator(audiosVM.loadingIndicator, binding.loadingIndicator)
 
-        audiosVM.onShouldRecycleBitmaps = recycleBitmapsDSL {
-            recycleBitmaps()
-        }
     }
-
 
     override fun onDestroyView() {
         super.onDestroyView()
         onAudioPicked = null
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        recycleBitmaps()
     }
 
     override fun applyTitleModifications(appCompatTextView: AppCompatTextView) {
