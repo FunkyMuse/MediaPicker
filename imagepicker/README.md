@@ -18,7 +18,7 @@ dependencies {
     implementation "com.github.CraZyLegenD.MediaPicker:imagepicker:$pickerVersion"
   }
 ```
-3. How to use single pickers and check out [how to customize single image/video picker](https://github.com/CraZyLegenD/MediaPicker/wiki/Single-audio-video-picker-customization)
+3. How to use single pickers and check out [how to customize single image picker](https://github.com/CraZyLegenD/MediaPicker/wiki/Single-audio-video-picker-customization)
 ```kotlin
     //single picker bottom sheet
    SingleImagePicker.bottomSheetPicker(context = this, onPickedImage = ::loadImage)
