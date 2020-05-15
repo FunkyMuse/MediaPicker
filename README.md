@@ -7,6 +7,7 @@
 [![](https://jitpack.io/v/CraZyLegenD/MediaPicker.svg)](https://jitpack.io/#CraZyLegenD/MediaPicker) [![Kotlin](https://img.shields.io/badge/Kotlin-1.3.72-blue.svg)](https://kotlinlang.org) [![Platform](https://img.shields.io/badge/Platform-Android-green.svg)](https://developer.android.com/guide/) 
 
 Minimum Android API 21
+
 Compiled Android API 29
 
 ## Usage
@@ -61,6 +62,14 @@ dependencies {
 ```gradle
 org.gradle.parallel=true
 ```
+
+5. How to use
+
+[Image picker]([https://github.com/CraZyLegenD/MediaPicker/tree/master/imagepicker](https://github.com/CraZyLegenD/MediaPicker/tree/master/imagepicker))
+
+[Audio picker]([https://github.com/CraZyLegenD/MediaPicker/tree/master/audiopicker](https://github.com/CraZyLegenD/MediaPicker/tree/master/audiopicker))
+
+[Video picker]([https://github.com/CraZyLegenD/MediaPicker/tree/master/videopicker](https://github.com/CraZyLegenD/MediaPicker/tree/master/videopicker))
 
 ## Contributing
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
