@@ -9,6 +9,7 @@ import androidx.core.database.getStringOrNull
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import com.crazylegend.audiopicker.listeners.onShouldRecycleBitmaps
 import com.crazylegend.core.abstracts.AbstractAVM
 import com.crazylegend.core.sorting.SortOrder
 import com.crazylegend.extensions.getSafeColumn
@@ -26,6 +27,12 @@ internal class AudiosVM(application: Application) : AbstractAVM(application) {
     private val audioData = MutableLiveData<List<AudioModel>>()
     val audio: LiveData<List<AudioModel>> = audioData
 
+    var onShouldRecycleBitmaps:onShouldRecycleBitmaps?=null
+
+    override fun onCleared() {
+        onShouldRecycleBitmaps?.keepItClean()
+        super.onCleared()
+    }
 
     fun loadAudios(sortOrder: SortOrder = SortOrder.DATE_ADDED_DESC) {
         if (canLoad) {
