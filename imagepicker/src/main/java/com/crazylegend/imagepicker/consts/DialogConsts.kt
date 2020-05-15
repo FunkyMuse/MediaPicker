@@ -13,4 +13,3 @@ const val SINGLE_PICKER_DIALOG = "imagesSinglePickerDialog"
 const val MULTI_PICKER_BOTTOM_SHEET = "imagesMultiPickerBottomSheetDialog"
 const val MULTI_PICKER_DIALOG = "imagesMultiPickerDialog"
 
-const val LIST_STATE = "imagesList"

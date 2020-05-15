@@ -12,5 +12,5 @@ internal class AudioDiffUtil : DiffUtil.ItemCallback<AudioModel>() {
             oldItem.id == newItem.id
 
     override fun areContentsTheSame(oldItem: AudioModel, newItem: AudioModel) =
-            oldItem == newItem
+            (oldItem.id == newItem.id) && (oldItem.isSelected == newItem.isSelected)
 }

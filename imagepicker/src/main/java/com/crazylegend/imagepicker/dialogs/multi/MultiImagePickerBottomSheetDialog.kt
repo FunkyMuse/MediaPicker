@@ -15,8 +15,8 @@ import com.crazylegend.core.adapters.multi.MultiSelectAdapter
 import com.crazylegend.core.databinding.FragmentImagesGalleryLayoutMultiBinding
 import com.crazylegend.core.modifiers.multi.MultiPickerModifier
 import com.crazylegend.extensions.viewBinding
-import com.crazylegend.imagepicker.consts.LIST_STATE
 import com.crazylegend.imagepicker.contracts.MultiPickerContracts
+import com.crazylegend.imagepicker.images.ImageModel
 import com.crazylegend.imagepicker.images.ImagesVM
 import com.crazylegend.imagepicker.listeners.onImagesPicked
 import com.google.android.material.button.MaterialButton
@@ -54,7 +54,8 @@ internal class MultiImagePickerBottomSheetDialog : AbstractBottomSheetDialogFrag
         super.onViewCreated(view, savedInstanceState)
         askForStoragePermission(Manifest.permission.READ_EXTERNAL_STORAGE)
 
-        setupUIForMultiPicker(savedInstanceState, LIST_STATE, multiSelectAdapter.selectedPositions,
+
+        setupUIForMultiPicker(
                 binding.gallery, multiSelectAdapter, binding.doneButton, binding.title, binding.loadingIndicator, modifier?.loadingIndicatorTint,
                 ::applyDoneButtonModifications, ::applyTitleModifications)
 
@@ -65,18 +66,9 @@ internal class MultiImagePickerBottomSheetDialog : AbstractBottomSheetDialogFrag
 
 
         binding.doneButton.setOnClickListener {
-            onValuesPicked(multiSelectAdapter.selectedPositions, imagesVM.images.value
-                    ?: emptyList()) { list ->
-                onImagesPicked?.onImagesPicked(list)
-            }
+            onImagesPicked?.onImagesPicked(multiSelectAdapter.currentList.filter { it.isSelected } as? List<ImageModel> ?: emptyList())
+            dismissAllowingStateLoss()
         }
-    }
-
-
-    override fun onSaveInstanceState(outState: Bundle) {
-        super.onSaveInstanceState(outState)
-        saveSelectedPositionsState(multiSelectAdapter.selectedPositions, outState, LIST_STATE)
-
     }
 
     override fun onDestroyView() {

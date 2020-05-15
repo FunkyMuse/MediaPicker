@@ -27,9 +27,9 @@ class MultiSelectViewHolder(
         modifier?.applyGravity(binding.selection)
     }
 
-    fun bind(imageModel: BaseCursorModel, selected: Boolean = false) {
-        binding.image.loadImage(imageModel.contentUri)
-        if (selected) {
+    fun bind(cursorModel: BaseCursorModel) {
+        binding.image.loadImage(cursorModel.contentUri)
+        if (cursorModel.isSelected) {
             setupSelectedImage(binding.selection)
         } else {
             setupUnselectedImage(binding.selection)

@@ -16,9 +16,9 @@ import com.crazylegend.core.adapters.multi.MultiSelectAdapter
 import com.crazylegend.core.databinding.FragmentImagesGalleryLayoutMultiBinding
 import com.crazylegend.core.modifiers.multi.MultiPickerModifier
 import com.crazylegend.extensions.viewBinding
-import com.crazylegend.videopicker.consts.LIST_STATE
 import com.crazylegend.videopicker.contracts.MultiPickerContracts
 import com.crazylegend.videopicker.listeners.onVideosPicked
+import com.crazylegend.videopicker.videos.VideoModel
 import com.crazylegend.videopicker.videos.VideosVM
 import com.google.android.material.button.MaterialButton
 
@@ -52,9 +52,8 @@ internal class MultiVideoPickerDialogFragment : AbstractDialogFragment(R.layout.
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        setupUIForMultiPicker(binding.topIndicator, savedInstanceState, LIST_STATE, multiSelectAdapter.selectedPositions,
-                binding.gallery, multiSelectAdapter, binding.doneButton, binding.title, binding.loadingIndicator, modifier?.loadingIndicatorTint,
-                ::applyDoneButtonModifications, ::applyTitleModifications)
+        setupUIForMultiPicker(binding.topIndicator, binding.gallery, multiSelectAdapter, binding.doneButton,
+                binding.title, binding.loadingIndicator, modifier?.loadingIndicatorTint, ::applyDoneButtonModifications, ::applyTitleModifications)
 
         askForStoragePermission(Manifest.permission.READ_EXTERNAL_STORAGE)
         handleUIIndicator(videosVM.loadingIndicator, binding.loadingIndicator)
@@ -64,17 +63,9 @@ internal class MultiVideoPickerDialogFragment : AbstractDialogFragment(R.layout.
         }
 
         binding.doneButton.setOnClickListener {
-            onValuesPicked(multiSelectAdapter.selectedPositions, videosVM.videos.value
-                    ?: emptyList()) { list ->
-                onVideosPicked?.onVideosPicked(list)
-            }
+            onVideosPicked?.onVideosPicked(multiSelectAdapter.currentList.filter { it.isSelected } as? List<VideoModel> ?: emptyList())
+            dismissAllowingStateLoss()
         }
-    }
-
-
-    override fun onSaveInstanceState(outState: Bundle) {
-        super.onSaveInstanceState(outState)
-        saveSelectedPositionsState(multiSelectAdapter.selectedPositions, outState, LIST_STATE)
     }
 
     override fun onDestroyView() {

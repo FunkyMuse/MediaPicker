@@ -2,13 +2,11 @@ package com.crazylegend.core.abstracts
 
 import android.content.res.Configuration
 import android.os.Bundle
-import android.util.SparseBooleanArray
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ProgressBar
 import androidx.appcompat.widget.AppCompatImageView
-import androidx.core.util.keyIterator
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.observe
 import androidx.recyclerview.widget.GridLayoutManager
@@ -37,20 +35,6 @@ abstract class AbstractBottomSheetDialogFragment : BottomSheetDialogFragment() {
     }
 
 
-    inline fun <T> onValuesPicked(selectedPositions: SparseBooleanArray, loadedList: List<T>, onPickedList: (list: MutableList<T>) -> Unit) {
-        val pickedList = mutableListOf<T>()
-        selectedPositions.keyIterator().asSequence().forEach {
-            pickedList += loadedList[it]
-        }
-        onPickedList(pickedList)
-        dismissAllowingStateLoss()
-    }
-
-    fun saveSelectedPositionsState(selectedPositions: SparseBooleanArray, outState: Bundle, LIST_STATE: String) {
-        val positionList = selectedPositions.keyIterator().asSequence().map { it }.toList()
-        outState.putIntegerArrayList(LIST_STATE, ArrayList(positionList))
-    }
-
     fun setupUIForSinglePicker(close: AppCompatImageView, gallery: RecyclerView, singleAdapter: RecyclerView.Adapter<*>,
                                title: MaterialTextView, loadingIndicator: ProgressBar, progressBarTint: Int?,
                                titleModifications: (MaterialTextView) -> Unit) {
@@ -64,13 +48,10 @@ abstract class AbstractBottomSheetDialogFragment : BottomSheetDialogFragment() {
 
     }
 
-    fun setupUIForMultiPicker(savedInstanceState: Bundle?,
-                              LIST_STATE: String,
-                              selectedPositions: SparseBooleanArray,
-                              gallery: RecyclerView, multiSelectAdapter: RecyclerView.Adapter<*>,
-                              doneButton: MaterialButton, title: MaterialTextView, loadingIndicator: ProgressBar, progressBarTint: Int?,
-                              onDoneButton: (MaterialButton) -> Unit, onTitleButton: (MaterialTextView) -> Unit) {
-        savedInstanceState?.getIntegerArrayList(LIST_STATE)?.asSequence()?.forEach { selectedPositions.put(it, true) }
+    fun setupUIForMultiPicker(gallery: RecyclerView,
+                              multiSelectAdapter: RecyclerView.Adapter<*>, doneButton: MaterialButton,
+                              title: MaterialTextView, loadingIndicator: ProgressBar, progressBarTint: Int?, onDoneButton: (MaterialButton) -> Unit,
+                              onTitleButton: (MaterialTextView) -> Unit) {
         gallery.apply {
             layoutManager = GridLayoutManager(requireContext(), 3)
             adapter = multiSelectAdapter
@@ -78,7 +59,6 @@ abstract class AbstractBottomSheetDialogFragment : BottomSheetDialogFragment() {
         onDoneButton(doneButton)
         onTitleButton(title)
         progressBarTint?.let { loadingIndicator.indeterminateDrawable.setTint(it) }
-
     }
 
     fun handleUIIndicator(liveData: LiveData<Boolean>, loadingIndicator: ProgressBar) {

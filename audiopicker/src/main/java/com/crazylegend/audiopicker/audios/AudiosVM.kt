@@ -27,7 +27,7 @@ internal class AudiosVM(application: Application) : AbstractAVM(application) {
     private val audioData = MutableLiveData<List<AudioModel>>()
     val audio: LiveData<List<AudioModel>> = audioData
 
-    var onShouldRecycleBitmaps:onShouldRecycleBitmaps?=null
+    var onShouldRecycleBitmaps: onShouldRecycleBitmaps? = null
 
     override fun onCleared() {
         onShouldRecycleBitmaps?.keepItClean()
@@ -132,6 +132,8 @@ internal class AudiosVM(application: Application) : AbstractAVM(application) {
                             album, composer, artist, isNotification, isAlarm, isRingtone, track, year, thumbnail = loadThumbnail(
                             contentResolver, contentUri, id
                     ))
+                    audioModel.isSelected = audioData.value?.find { it.id == audioModel.id }?.isSelected
+                            ?: false
                     audio += audioModel
                 }
             }

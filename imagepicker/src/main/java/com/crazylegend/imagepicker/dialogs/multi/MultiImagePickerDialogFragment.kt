@@ -16,8 +16,8 @@ import com.crazylegend.core.adapters.multi.MultiSelectAdapter
 import com.crazylegend.core.databinding.FragmentImagesGalleryLayoutMultiBinding
 import com.crazylegend.core.modifiers.multi.MultiPickerModifier
 import com.crazylegend.extensions.viewBinding
-import com.crazylegend.imagepicker.consts.LIST_STATE
 import com.crazylegend.imagepicker.contracts.MultiPickerContracts
+import com.crazylegend.imagepicker.images.ImageModel
 import com.crazylegend.imagepicker.images.ImagesVM
 import com.crazylegend.imagepicker.listeners.onImagesPicked
 import com.google.android.material.button.MaterialButton
@@ -53,9 +53,8 @@ internal class MultiImagePickerDialogFragment : AbstractDialogFragment(R.layout.
         super.onViewCreated(view, savedInstanceState)
         askForStoragePermission(Manifest.permission.READ_EXTERNAL_STORAGE)
 
-        setupUIForMultiPicker(binding.topIndicator, savedInstanceState, LIST_STATE, multiSelectAdapter.selectedPositions,
-                binding.gallery, multiSelectAdapter, binding.doneButton, binding.title, binding.loadingIndicator, modifier?.loadingIndicatorTint,
-                ::applyDoneButtonModifications, ::applyTitleModifications)
+        setupUIForMultiPicker(binding.topIndicator, binding.gallery, multiSelectAdapter, binding.doneButton,
+                binding.title, binding.loadingIndicator, modifier?.loadingIndicatorTint, ::applyDoneButtonModifications, ::applyTitleModifications)
 
         imagesVM.images.observe(viewLifecycleOwner) {
             multiSelectAdapter.submitList(it)
@@ -63,18 +62,11 @@ internal class MultiImagePickerDialogFragment : AbstractDialogFragment(R.layout.
         handleUIIndicator(imagesVM.loadingIndicator, binding.loadingIndicator)
 
         binding.doneButton.setOnClickListener {
-            onValuesPicked(multiSelectAdapter.selectedPositions, imagesVM.images.value
-                    ?: emptyList()) { list ->
-                onImagesPicked?.onImagesPicked(list)
-            }
+            onImagesPicked?.onImagesPicked(multiSelectAdapter.currentList.filter { it.isSelected } as? List<ImageModel> ?: emptyList())
+            dismissAllowingStateLoss()
         }
     }
 
-    override fun onSaveInstanceState(outState: Bundle) {
-        super.onSaveInstanceState(outState)
-        saveSelectedPositionsState(multiSelectAdapter.selectedPositions, outState, LIST_STATE)
-
-    }
 
     override fun onDestroyView() {
         super.onDestroyView()

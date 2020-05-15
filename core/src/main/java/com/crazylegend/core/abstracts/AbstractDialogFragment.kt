@@ -2,10 +2,8 @@ package com.crazylegend.core.abstracts
 
 import android.app.Dialog
 import android.os.Bundle
-import android.util.SparseBooleanArray
 import android.widget.ProgressBar
 import androidx.appcompat.widget.AppCompatImageView
-import androidx.core.util.keyIterator
 import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.observe
@@ -35,19 +33,7 @@ abstract class AbstractDialogFragment(contentLayoutId: Int) : DialogFragment(con
         return dialog
     }
 
-    inline fun <T> onValuesPicked(selectedPositions: SparseBooleanArray, loadedList: List<T>, onPickedList: (list: MutableList<T>) -> Unit) {
-        val pickedList = mutableListOf<T>()
-        selectedPositions.keyIterator().asSequence().forEach {
-            pickedList += loadedList[it]
-        }
-        onPickedList(pickedList)
-        dismissAllowingStateLoss()
-    }
 
-    fun saveSelectedPositionsState(selectedPositions: SparseBooleanArray, outState: Bundle, LIST_STATE: String) {
-        val positionList = selectedPositions.keyIterator().asSequence().map { it }.toList()
-        outState.putIntegerArrayList(LIST_STATE, ArrayList(positionList))
-    }
 
     fun setupUIForSinglePicker(topIndicator: AppCompatImageView, gallery: RecyclerView, singleAdapter: RecyclerView.Adapter<*>,
                                title: MaterialTextView,
@@ -76,14 +62,12 @@ abstract class AbstractDialogFragment(contentLayoutId: Int) : DialogFragment(con
     }
 
     fun setupUIForMultiPicker(topIndicator: AppCompatImageView,
-                              savedInstanceState: Bundle?,
-                              LIST_STATE: String,
-                              selectedPositions: SparseBooleanArray,
-                              gallery: RecyclerView, multiSelectAdapter: RecyclerView.Adapter<*>,
-                              doneButton: MaterialButton, title: MaterialTextView, loadingIndicator: ProgressBar, progressBarTint: Int?,
-                              onDoneButton: (MaterialButton) -> Unit, onTitleButton: (MaterialTextView) -> Unit) {
+                              gallery: RecyclerView,
+                              multiSelectAdapter: RecyclerView.Adapter<*>,
+                              doneButton: MaterialButton,
+                              title: MaterialTextView, loadingIndicator: ProgressBar,
+                              progressBarTint: Int?, onDoneButton: (MaterialButton) -> Unit, onTitleButton: (MaterialTextView) -> Unit) {
         topIndicator.gone()
-        savedInstanceState?.getIntegerArrayList(LIST_STATE)?.asSequence()?.forEach { selectedPositions.put(it, true) }
         gallery.apply {
             layoutManager = GridLayoutManager(requireContext(), 3)
             adapter = multiSelectAdapter

@@ -117,6 +117,8 @@ internal class VideosVM(application: Application) : AbstractAVM(application) {
                     val contentUri = ContentUris.withAppendedId(MediaStore.Video.Media.EXTERNAL_CONTENT_URI, id)
                     val videoModel = VideoModel(id, displayName, dateAdded, contentUri, dateModified, description, size, width, height,
                             resolution, isPrivate, artist, album, category, tags, language, bookmark)
+                    videoModel.isSelected = videoData.value?.find { it.id == videoModel.id }?.isSelected
+                            ?: false
                     video += videoModel
                 }
             }

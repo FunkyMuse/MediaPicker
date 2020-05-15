@@ -30,7 +30,7 @@ internal class AudioMultiSelectViewHolder(
         modifier?.applyGravityWithBottomConstraint(binding.selection, binding.bottomText)
     }
 
-    fun bind(item: AudioModel, selected: Boolean = false) {
+    fun bind(item: AudioModel) {
         binding.bottomText.text = item.displayName
         if (item.thumbnail == null) {
             loadPlaceHolders()
@@ -42,7 +42,7 @@ internal class AudioMultiSelectViewHolder(
             applyTextParamsConstraint(binding.bottomText)
         }
 
-        if (selected) {
+        if (item.isSelected) {
             setupSelectedImage(binding.selection)
         } else {
             setupUnselectedImage(binding.selection)

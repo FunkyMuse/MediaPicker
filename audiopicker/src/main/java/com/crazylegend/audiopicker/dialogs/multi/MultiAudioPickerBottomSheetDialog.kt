@@ -12,7 +12,6 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.observe
 import com.crazylegend.audiopicker.adapters.multi.AudioMultiSelectAdapter
 import com.crazylegend.audiopicker.audios.AudiosVM
-import com.crazylegend.audiopicker.consts.LIST_STATE
 import com.crazylegend.audiopicker.contracts.MultiPickerContracts
 import com.crazylegend.audiopicker.listeners.onAudiosPicked
 import com.crazylegend.audiopicker.listeners.recycleBitmapsDSL
@@ -55,7 +54,7 @@ internal class MultiAudioPickerBottomSheetDialog : AbstractBottomSheetDialogFrag
         super.onViewCreated(view, savedInstanceState)
         askForStoragePermission(Manifest.permission.READ_EXTERNAL_STORAGE)
 
-        setupUIForMultiPicker(savedInstanceState, LIST_STATE, multiSelectAdapter.selectedPositions,
+        setupUIForMultiPicker(
                 binding.gallery, multiSelectAdapter, binding.doneButton, binding.title, binding.loadingIndicator, modifier?.multiPickerModifier?.loadingIndicatorTint,
                 ::applyDoneButtonModifications, ::applyTitleModifications)
 
@@ -64,22 +63,14 @@ internal class MultiAudioPickerBottomSheetDialog : AbstractBottomSheetDialogFrag
         }
 
         binding.doneButton.setOnClickListener {
-            onValuesPicked(multiSelectAdapter.selectedPositions, audiosVM.audio.value
-                    ?: emptyList()) { list ->
-                onAudiosPicked?.forAudios(list)
-            }
+            onAudiosPicked?.forAudios(multiSelectAdapter.currentList.filter { it.isSelected })
+            dismissAllowingStateLoss()
         }
 
         handleUIIndicator(audiosVM.loadingIndicator, binding.loadingIndicator)
         audiosVM.onShouldRecycleBitmaps = recycleBitmapsDSL {
             recycleBitmaps()
         }
-    }
-
-    override fun onSaveInstanceState(outState: Bundle) {
-        super.onSaveInstanceState(outState)
-        saveSelectedPositionsState(multiSelectAdapter.selectedPositions, outState, LIST_STATE)
-
     }
 
     override fun onDestroyView() {

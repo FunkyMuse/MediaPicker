@@ -12,5 +12,5 @@ class SingleDiffUtil : DiffUtil.ItemCallback<BaseCursorModel>() {
             oldItem.id == newItem.id
 
     override fun areContentsTheSame(oldItem: BaseCursorModel, newItem: BaseCursorModel) =
-            oldItem == newItem
+            (oldItem.id == newItem.id) && (oldItem.isSelected == newItem.isSelected)
 }

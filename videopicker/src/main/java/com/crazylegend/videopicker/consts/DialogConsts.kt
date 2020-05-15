@@ -12,4 +12,3 @@ const val SINGLE_PICKER_DIALOG = "videoSinglePickerDialog"
 const val MULTI_PICKER_BOTTOM_SHEET = "videoMultiPickerBottomSheetDialog"
 const val MULTI_PICKER_DIALOG = "videoMultiPickerDialog"
 
-const val LIST_STATE = "videoList"

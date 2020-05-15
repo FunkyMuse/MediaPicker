@@ -102,6 +102,7 @@ internal class ImagesVM(application: Application) : AbstractAVM(application) {
 
                     val contentUri = ContentUris.withAppendedId(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, id)
                     val image = ImageModel(id, displayName, dateAdded, contentUri, dateModified, description, size, width, height)
+                    image.isSelected = imagesData.value?.find { it.id == image.id }?.isSelected ?: false
                     images += image
                 }
             }
