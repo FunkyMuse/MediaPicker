@@ -145,12 +145,10 @@ If you're still not sure how to use, take a look at the [Sample app](https://git
 
 ## Screens
 
-Single pickers
+Single picker
 
-<img src="https://raw.githubusercontent.com/CraZyLegenD/MediaPicker/master/audiopicker/screens/screen_1.png" width="15%"></img> <img src="https://raw.githubusercontent.com/CraZyLegenD/MediaPicker/master/audiopicker/screens/screen_2.png" width="15%"></img> 
+<img src="https://raw.githubusercontent.com/CraZyLegenD/MediaPicker/master/audiopicker/screens/screen_1.png" width="15%"></img>
 
-Multi pickers
+Multi picker
 
-<img src="https://raw.githubusercontent.com/CraZyLegenD/MediaPicker/master/audiopicker/screens/screen_3.png" width="15%"></img> <img
-src="https://raw.githubusercontent.com/CraZyLegenD/MediaPicker/master/audiopicker/screens/screen_4.png" width="15%"></img>
-
+<img src="https://raw.githubusercontent.com/CraZyLegenD/MediaPicker/master/audiopicker/screens/screen_3.png" width="15%"></img>
