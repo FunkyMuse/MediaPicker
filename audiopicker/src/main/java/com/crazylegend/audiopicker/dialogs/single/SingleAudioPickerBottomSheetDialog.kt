@@ -16,7 +16,6 @@ import com.crazylegend.audiopicker.audios.AudiosVM
 import com.crazylegend.audiopicker.contracts.SinglePickerContracts
 import com.crazylegend.audiopicker.listeners.onAudioPicked
 import com.crazylegend.audiopicker.listeners.recycleBitmapsDSL
-
 import com.crazylegend.audiopicker.modifiers.SingleAudioPickerModifier
 import com.crazylegend.core.abstracts.AbstractBottomSheetDialogFragment
 import com.crazylegend.core.databinding.FragmentImagesGalleryLayoutBinding
@@ -35,8 +34,8 @@ internal class SingleAudioPickerBottomSheetDialog : AbstractBottomSheetDialogFra
     override val audiosVM by viewModels<AudiosVM>()
     override val modifier: SingleAudioPickerModifier? get() = arguments?.getParcelable(modifierTag)
 
-    override val singleAdapter by lazy {
-        AudioSingleAdapter(modifier?.viewHolderPlaceholderModifier, modifier?.viewHolderTitleModifier) {
+    private val singleAudioAdapter by lazy {
+        AudioSingleAdapter(modifier?.viewHolderPlaceholderModifier, modifier?.viewHolderTitleTextModifier) {
             recycleThubmnail(it.thumbnail)
             onAudioPicked?.forAudio(it)
             dismissAllowingStateLoss()
@@ -57,9 +56,9 @@ internal class SingleAudioPickerBottomSheetDialog : AbstractBottomSheetDialogFra
         super.onViewCreated(view, savedInstanceState)
         askForStoragePermission(Manifest.permission.READ_EXTERNAL_STORAGE)
 
-        setupUIForSinglePicker(binding.close, binding.gallery, singleAdapter, binding.title, binding.loadingIndicator, modifier?.singlePickerModifier?.loadingIndicatorTint, ::applyTitleModifications)
+        setupUIForSinglePicker(binding.gallery, singleAudioAdapter, binding.title, binding.loadingIndicator, modifier?.loadingIndicatorTint, ::applyTitleModifications)
         audiosVM.audio.observe(viewLifecycleOwner) {
-            singleAdapter.submitList(it)
+            singleAudioAdapter.submitList(it)
         }
 
         handleUIIndicator(audiosVM.loadingIndicator, binding.loadingIndicator)
@@ -74,9 +73,8 @@ internal class SingleAudioPickerBottomSheetDialog : AbstractBottomSheetDialogFra
     }
 
 
-
     override fun applyTitleModifications(appCompatTextView: AppCompatTextView) {
-        modifier?.singlePickerModifier?.titleTextModifier?.applyTextParams(appCompatTextView)
+        modifier?.titleTextModifier?.applyTextParams(appCompatTextView)
     }
 
     override fun addModifier(modifier: SingleAudioPickerModifier) {
@@ -84,7 +82,7 @@ internal class SingleAudioPickerBottomSheetDialog : AbstractBottomSheetDialogFra
     }
 
     override fun recycleBitmaps() {
-        singleAdapter.currentList.asSequence().forEach {
+        singleAudioAdapter.currentList.asSequence().forEach {
             it?.thumbnail?.apply {
                 if (!isRecycled)
                     recycle()
@@ -94,7 +92,7 @@ internal class SingleAudioPickerBottomSheetDialog : AbstractBottomSheetDialogFra
 
     private fun recycleThubmnail(thumbnail: Bitmap?) {
         thumbnail?.apply {
-            if (!isRecycled){
+            if (!isRecycled) {
                 recycle()
             }
         }

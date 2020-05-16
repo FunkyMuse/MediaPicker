@@ -1,13 +1,11 @@
 package com.crazylegend.audiopicker.adapters.multi
 
-import androidx.appcompat.widget.AppCompatImageView
-import androidx.recyclerview.widget.RecyclerView
 import com.crazylegend.audiopicker.audios.AudioModel
 import com.crazylegend.audiopicker.databinding.ItemviewAudioBinding
-import com.crazylegend.core.R
+import com.crazylegend.core.adapters.BaseViewHolder
 import com.crazylegend.core.modifiers.TitleTextModifier
-import com.crazylegend.core.modifiers.multi.MultiPickerModifier
-import com.crazylegend.core.modifiers.single.ImageButtonModifier
+import com.crazylegend.core.modifiers.base.BaseMultiPickerModifier
+import com.crazylegend.core.modifiers.single.ImageModifier
 import com.crazylegend.extensions.visible
 
 
@@ -16,11 +14,11 @@ import com.crazylegend.extensions.visible
  */
 internal class AudioMultiSelectViewHolder(
         private val binding: ItemviewAudioBinding,
-        private val modifier: MultiPickerModifier?,
-        private val viewHolderPlaceholderModifier: ImageButtonModifier?,
+        private val modifier: BaseMultiPickerModifier?,
+        private val viewHolderPlaceholderModifier: ImageModifier?,
         private val viewHolderTitleTextModifier: TitleTextModifier?
 
-) : RecyclerView.ViewHolder(binding.root) {
+) : BaseViewHolder(binding) {
 
     private val selectIconModifier get() = modifier?.selectIconModifier
     private val unSelectedIconModifier get() = modifier?.unSelectedIconModifier
@@ -33,7 +31,7 @@ internal class AudioMultiSelectViewHolder(
     fun bind(item: AudioModel) {
         binding.bottomText.text = item.displayName
         if (item.thumbnail == null) {
-            loadPlaceHolders()
+            loadPlaceHolders(viewHolderPlaceholderModifier, binding.image)
         } else {
             binding.image.setImageBitmap(item.thumbnail)
         }
@@ -43,30 +41,10 @@ internal class AudioMultiSelectViewHolder(
         }
 
         if (item.isSelected) {
-            setupSelectedImage(binding.selection)
+            setupSelectedImage(binding.selection, selectIconModifier)
         } else {
-            setupUnselectedImage(binding.selection)
+            setupUnselectedImage(binding.selection, unSelectedIconModifier)
         }
-    }
-
-    private fun loadPlaceHolders() {
-        if (viewHolderPlaceholderModifier != null) {
-            viewHolderPlaceholderModifier.resID = viewHolderPlaceholderModifier.resID
-                    ?: com.crazylegend.audiopicker.R.drawable.ic_album
-            viewHolderPlaceholderModifier.applyImageParamsConstraintLayout(binding.image)
-        } else {
-            binding.image.setImageResource(com.crazylegend.audiopicker.R.drawable.ic_album)
-        }
-    }
-
-    private fun setupUnselectedImage(selection: AppCompatImageView) {
-        val resID = unSelectedIconModifier?.resID ?: R.drawable.ic_unchecked_default
-        unSelectedIconModifier?.applyImageParams(selection, resID)
-    }
-
-    private fun setupSelectedImage(selection: AppCompatImageView) {
-        val resID = selectIconModifier?.resID ?: R.drawable.ic_checked_default
-        selectIconModifier?.applyImageParams(selection, resID)
     }
 
 

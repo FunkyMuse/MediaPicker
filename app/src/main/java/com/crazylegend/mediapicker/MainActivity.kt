@@ -16,7 +16,7 @@ import com.crazylegend.audiopicker.audios.AudioModel
 import com.crazylegend.audiopicker.pickers.MultiAudioPicker
 import com.crazylegend.audiopicker.pickers.SingleAudioPicker
 import com.crazylegend.core.modifiers.TitleTextModifier
-import com.crazylegend.core.modifiers.multi.MultiPickerModifier
+import com.crazylegend.core.modifiers.base.BaseMultiPickerModifier
 import com.crazylegend.imagepicker.images.ImageModel
 import com.crazylegend.imagepicker.pickers.MultiImagePicker
 import com.crazylegend.imagepicker.pickers.SingleImagePicker
@@ -38,43 +38,30 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
                         R.id.singleImageBottomSheetPick -> {
                             showSingleImageBottomSheetPicker()
                         }
-                        R.id.singleImageDialogPick -> {
-                            showSingleImageDialogPicker()
-                        }
                         R.id.imageBottomSheetMultiPick -> {
                             showImageMultiBottomSheetPicker()
                         }
-                        R.id.imagePickDialogMultiPick -> {
-                            showImageMultiDialogPicker()
-                        }
+
 
                         //videos
                         R.id.singleVideoBottomSheetPick -> {
                             showSingleVideoBottomSheetPicker()
                         }
-                        R.id.singleVideoDialogPick -> {
-                            showSingleVideoDialogPicker()
-                        }
+
                         R.id.videoBottomSheetMultiPick -> {
                             showVideoMultiBottomSheetPicker()
                         }
-                        R.id.videoPickDialogMultiPick -> {
-                            showVideoMultiDialogPicker()
-                        }
+
 
                         //audios
                         R.id.singleAudioBottomSheetPick -> {
                             showSingleAudioBottomSheetPicker()
                         }
-                        R.id.singleAudioDialogPick -> {
-                            showSingleAudioDialogPicker()
-                        }
+
                         R.id.audioBottomSheetMultiPick -> {
                             showAudioMultiBottomSheetPicker()
                         }
-                        R.id.audioPickDialogMultiPick -> {
-                            showAudioMultiDialogPicker()
-                        }
+
                     }
                 } else {
                     Log.e("PERMISSION", "NOT ALLOWED!")
@@ -82,122 +69,59 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
             }
 
     //audios
-
     private fun showSingleAudioBottomSheetPicker() {
         SingleAudioPicker.bottomSheetPicker(this, {
-            setupSingleAudioPicker(singlePicker = {
-                setupTitleOnly(loadingIndicatorColor = ContextCompat.getColor(this@MainActivity, R.color.colorPrimary)) {
-                    textAlignment = TextView.TEXT_ALIGNMENT_VIEW_START
-                    textStyle = TitleTextModifier.TextStyle.BOLD
-                    textColor = Color.RED
-                    margin = 12 // use dp or sp this is only for demonstration purposes
-                    textPadding = 5 // use dp or sp this is only for demonstration purposes
-                    textSize = 16f  // use sp this is only for demonstration purposes
-                    textString = "Select a song"
-                }
-            }, viewHolderTitle = {
-                textColor = ContextCompat.getColor(this@MainActivity, R.color.colorPrimary)
-            }, viewHolderPlaceHolder = {
-                resID = R.drawable.ic_album
-            })
-        }, ::loadAudio)
-    }
-
-    private fun showSingleAudioDialogPicker() {
-        SingleAudioPicker.dialogPicker(this, {
-            setupSingleAudioPicker(singlePicker = {
-                setupTitleAndCloseButton(title = {
-                    textAlignment = TextView.TEXT_ALIGNMENT_VIEW_START
-                    textStyle = TitleTextModifier.TextStyle.BOLD
-                    textColor = Color.RED
-                    margin = 12 // use dp or sp this is only for demonstration purposes
-                    textPadding = 5 // use dp or sp this is only for demonstration purposes
-                    textSize = 16f  // use sp this is only for demonstration purposes
-                    textString = "Pick a song"
-                }, closeButton = {
-                    endMargin = 20  // use dp or sp this is only for demonstration purposes
-                    marginBottom = 20 // use dp or sp this is only for demonstration purposes
-                    padding = 10 // use dp or sp this is only for demonstration purposes
-                    resID = R.drawable.ic_close
-                }, loadingIndicatorColor = ContextCompat.getColor(this@MainActivity, R.color.colorPrimary))
-            }, viewHolderTitle = {
-                textColor = ContextCompat.getColor(this@MainActivity, R.color.colorPrimary)
-            }, viewHolderPlaceHolder = {
-                resID = R.drawable.ic_album
-            })
-        }, ::loadAudio)
-    }
-
-    private fun showAudioMultiDialogPicker() {
-        MultiAudioPicker.dialogPicker(this, {
-            setupMultiAudioPicker(
-                    multiPicker = {
-                        setupMultiPicker(
-                                loadingIndicatorColor = ContextCompat.getColor(this@MainActivity, R.color.colorPrimary),
-                                gravityForIndicators = MultiPickerModifier.Gravity.TOP_RIGHT,
-                                titleText = {
-                                    textAlignment = TextView.TEXT_ALIGNMENT_VIEW_START
-                                    textStyle = TitleTextModifier.TextStyle.BOLD_ITALIC
-                                    textColor = Color.BLUE
-                                    marginBottom = 30 // use dp or sp this is only for demonstration purposes
-                                    textPadding = 5 // use dp or sp this is only for demonstration purposes
-                                    textSize = 30f  // use sp this is only for demonstration purposes
-                                    textString = "Pick multiple songs"
-                                },
-                                selectIcon = {
-                                    resID = R.drawable.ic_checked
-                                    tint = Color.LTGRAY
-                                },
-                                unSelectIcon = {
-                                    resID = R.drawable.ic_unchecked
-                                    tint = Color.LTGRAY
-                                }
-                        )
+            setupViewHolderTitleText {
+                textColor = Color.BLACK
+                textPadding = 10 // use dp or sp this is only for demonstration purposes
+            }
+            setupBaseModifier(
+                    loadingIndicatorColor = R.color.minusColor,
+                    titleTextModifications = {
+                        textAlignment = TextView.TEXT_ALIGNMENT_VIEW_START
+                        textStyle = TitleTextModifier.TextStyle.ITALIC
+                        textColor = Color.BLACK
+                        marginBottom = 30 // use dp or sp this is only for demonstration purposes
+                        textPadding = 5 // use dp or sp this is only for demonstration purposes
+                        textSize = 30f  // use sp this is only for demonstration purposes
+                        textString = "Pick an audio"
                     },
-                    viewHolderTitle = {
-                        textColor = Color.DKGRAY
-                        textStyle = TitleTextModifier.TextStyle.BOLD_ITALIC
-                        textPadding = 10 // use dp or sp this is only for demonstration purposes
-                    },
-                    viewHolderPlaceHolder = {
-                        resID = R.drawable.ic_album_second
+                    placeHolderModifications = {
+                        resID = R.drawable.ic_image
                     }
             )
-        }, ::doSomethingWithAudioList)
+        }, ::loadAudio)
     }
+
 
     private fun showAudioMultiBottomSheetPicker() {
         MultiAudioPicker.bottomSheetPicker(this, {
-            setupMultiAudioPicker(
-                    multiPicker = {
-                        setupMultiPicker(
-                                loadingIndicatorColor = ContextCompat.getColor(this@MainActivity, R.color.colorPrimaryDark),
-                                gravityForIndicators = MultiPickerModifier.Gravity.BOTTOM_LEFT,
-                                titleText = {
-                                    textAlignment = TextView.TEXT_ALIGNMENT_VIEW_START
-                                    textStyle = TitleTextModifier.TextStyle.ITALIC
-                                    textColor = Color.BLACK
-                                    marginBottom = 30 // use dp or sp this is only for demonstration purposes
-                                    textPadding = 5 // use dp or sp this is only for demonstration purposes
-                                    textSize = 30f  // use sp this is only for demonstration purposes
-                                    textString = "Pick multiple songs"
-                                },
-                                selectIcon = {
-                                    resID = R.drawable.ic_checked
-                                    tint = Color.BLACK
-                                },
-                                unSelectIcon = {
-                                    resID = R.drawable.ic_unchecked
-                                    tint = Color.BLACK
-                                }
-                        )
+            setupViewHolderTitleText {
+                textColor = ContextCompat.getColor(this@MainActivity, R.color.colorPrimaryDark)
+                textStyle = TitleTextModifier.TextStyle.BOLD
+                textPadding = 10 // use dp or sp this is only for demonstration purposes
+            }
+            setupBaseMultiPicker(
+                    tintForLoadingProgressBar = ContextCompat.getColor(this@MainActivity, R.color.colorPrimaryDark),
+                    gravityForSelectAndUnSelectIndicators = BaseMultiPickerModifier.Gravity.BOTTOM_LEFT,
+                    titleModifications = {
+                        textAlignment = TextView.TEXT_ALIGNMENT_VIEW_START
+                        textStyle = TitleTextModifier.TextStyle.ITALIC
+                        textColor = Color.BLACK
+                        marginBottom = 30 // use dp or sp this is only for demonstration purposes
+                        textPadding = 5 // use dp or sp this is only for demonstration purposes
+                        textSize = 30f  // use sp this is only for demonstration purposes
+                        textString = "Pick multiple songs"
                     },
-                    viewHolderTitle = {
-                        textColor = ContextCompat.getColor(this@MainActivity, R.color.colorPrimaryDark)
-                        textStyle = TitleTextModifier.TextStyle.BOLD
-                        textPadding = 10 // use dp or sp this is only for demonstration purposes
+                    selectIconModifications = {
+                        resID = R.drawable.ic_checked
+                        tint = Color.BLACK
                     },
-                    viewHolderPlaceHolder = {
+                    unSelectIconModifications = {
+                        resID = R.drawable.ic_unchecked
+                        tint = Color.BLACK
+                    },
+                    viewHolderPlaceholderModifications = {
                         resID = R.drawable.ic_album_second
                     }
             )
@@ -220,85 +144,58 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
     }
 
     //videos
-    private fun showVideoMultiDialogPicker() {
-        MultiVideoPicker.dialogPicker(this, {
-            setupMultiPicker(
-                    gravityForIndicators = MultiPickerModifier.Gravity.TOP_LEFT,
-                    titleText = {
-                        textAlignment = TextView.TEXT_ALIGNMENT_VIEW_START
+
+    private fun showVideoMultiBottomSheetPicker() {
+        MultiVideoPicker.bottomSheetPicker(this, {
+            setupBaseMultiPicker(
+                    tintForLoadingProgressBar = ContextCompat.getColor(this@MainActivity, R.color.colorPrimaryDark),
+                    gravityForSelectAndUnSelectIndicators = BaseMultiPickerModifier.Gravity.TOP_RIGHT,
+                    titleModifications = {
+                        textAlignment = TextView.TEXT_ALIGNMENT_CENTER
                         textStyle = TitleTextModifier.TextStyle.ITALIC
-                        textColor = Color.RED
-                        margin = 15 // use dp or sp this is only for demonstration purposes
+                        textColor = Color.BLACK
+                        marginBottom = 30 // use dp or sp this is only for demonstration purposes
                         textPadding = 5 // use dp or sp this is only for demonstration purposes
-                        textSize = 16f  // use sp this is only for demonstration purposes
-                        textString = "Pick some multi videos"
+                        textSize = 30f  // use sp this is only for demonstration purposes
+                        textString = "Pick multiple videos"
                     },
-                    selectIcon = {
-                        tint = Color.YELLOW
-                        marginBottom = 5
-                        endMargin = 5
+                    selectIconModifications = {
+                        resID = R.drawable.ic_checked
+                        tint = Color.BLACK
                     },
-                    unSelectIcon = {
-                        tint = Color.YELLOW
-                        marginBottom = 5
-                        endMargin = 5
+                    unSelectIconModifications = {
+                        resID = R.drawable.ic_unchecked
+                        tint = Color.BLACK
+                    },
+                    viewHolderPlaceholderModifications = {
+                        resID = R.drawable.ic_close
                     }
             )
         }, ::doSomethingWithVideoList)
     }
 
-    private fun showVideoMultiBottomSheetPicker() {
-        MultiVideoPicker.bottomSheetPicker(this, {
-            setupMultiPicker(
-                    gravityForIndicators = MultiPickerModifier.Gravity.BOTTOM_LEFT,
-                    titleText = {
+
+    private fun showSingleVideoBottomSheetPicker() {
+        //SingleVideoPicker.bottomSheetPicker(this, {}, ::loadVideo)
+
+        SingleVideoPicker.bottomSheetPicker(this, {
+            setupBaseModifier(
+                    loadingIndicatorColor = R.color.minusColor,
+                    titleTextModifications = {
                         textAlignment = TextView.TEXT_ALIGNMENT_VIEW_START
                         textStyle = TitleTextModifier.TextStyle.ITALIC
                         textColor = Color.BLACK
                         marginBottom = 30 // use dp or sp this is only for demonstration purposes
                         textPadding = 5 // use dp or sp this is only for demonstration purposes
                         textSize = 30f  // use sp this is only for demonstration purposes
-                        textString = "Pick multi videos"
+                        textString = "Pick a video"
                     },
-                    selectIcon = {
-                        tint = Color.BLACK
-                    },
-                    unSelectIcon = {
-                        tint = Color.BLACK
+                    placeHolderModifications = {
+                        resID = R.drawable.ic_image
                     }
             )
-        }, ::doSomethingWithVideoList)
-    }
-
-    private fun showSingleVideoDialogPicker() {
-        SingleVideoPicker.dialogPicker(this, {
-            setupTitleAndCloseButton(
-                    ContextCompat.getColor(this@MainActivity, R.color.design_default_color_error),
-                    {
-                        textAlignment = TextView.TEXT_ALIGNMENT_VIEW_START
-                        textStyle = TitleTextModifier.TextStyle.BOLD
-                        textColor = Color.RED
-                        margin = 12 // use dp or sp this is only for demonstration purposes
-                        textPadding = 5 // use dp or sp this is only for demonstration purposes
-                        textSize = 16f  // use sp this is only for demonstration purposes
-                        textString = "Pick some videos"
-                    }, {
-                endMargin = 20  // use dp or sp this is only for demonstration purposes
-                marginBottom = 20 // use dp or sp this is only for demonstration purposes
-                padding = 10 // use dp or sp this is only for demonstration purposes
-                resID = R.drawable.ic_close
-            })
         }, ::loadVideo)
-    }
 
-    private fun showSingleVideoBottomSheetPicker() {
-        SingleVideoPicker.bottomSheetPicker(this, {
-            setupTitleAndCloseButton(ContextCompat.getColor(this@MainActivity, R.color.colorPrimary), {
-                textString = "Picking some of them videos"
-            }, {
-                resID = R.drawable.ic_close
-            })
-        }, ::loadVideo)
     }
 
     private fun loadVideo(videoModel: VideoModel) {
@@ -315,94 +212,54 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
     }
 
     //images
-    private fun showImageMultiDialogPicker() {
-        MultiImagePicker.dialogPicker(this, {
-            setupMultiPicker(
-                    gravityForIndicators = MultiPickerModifier.Gravity.TOP_RIGHT,
-                    titleText = {
-                        textAlignment = TextView.TEXT_ALIGNMENT_VIEW_START
-                        textStyle = TitleTextModifier.TextStyle.BOLD_ITALIC
-                        textColor = Color.RED
-                        margin = 12 // use dp or sp this is only for demonstration purposes
-                        textPadding = 5 // use dp or sp this is only for demonstration purposes
-                        textSize = 16f  // use sp this is only for demonstration purposes
-                        textString = "Pick some multi images"
-                    },
-                    doneButton = {
-                        cornerRadius = 20  // use dp/sp/px this is only for demonstration purposes
-                    },
-                    selectIcon = {
-                        margin = 15 // use dp or sp this is only for demonstration purposes
-                        tint = ContextCompat.getColor(this@MainActivity, R.color.colorPrimary)
-                    },
-                    unSelectIcon = {
-                        margin = 15 // use dp or sp this is only for demonstration purposes
-                        tint = ContextCompat.getColor(this@MainActivity, R.color.colorPrimary)
-                    })
-        }, ::doSomethingWithImageList)
-    }
-
 
     private fun showImageMultiBottomSheetPicker() {
         MultiImagePicker.bottomSheetPicker(this, {
-            setupMultiPicker(
-                    gravityForIndicators = MultiPickerModifier.Gravity.BOTTOM_LEFT,
-                    titleText = {
+            setupBaseMultiPicker(
+                    tintForLoadingProgressBar = ContextCompat.getColor(this@MainActivity, R.color.colorPrimaryDark),
+                    gravityForSelectAndUnSelectIndicators = BaseMultiPickerModifier.Gravity.TOP_LEFT,
+                    titleModifications = {
                         textAlignment = TextView.TEXT_ALIGNMENT_VIEW_START
                         textStyle = TitleTextModifier.TextStyle.BOLD_ITALIC
-                        textColor = Color.RED
-                        margin = 12 // use dp or sp this is only for demonstration purposes
+                        textColor = Color.BLACK
+                        marginBottom = 30 // use dp or sp this is only for demonstration purposes
                         textPadding = 5 // use dp or sp this is only for demonstration purposes
-                        textSize = 16f  // use sp this is only for demonstration purposes
-                        textString = "Pick some multi images"
+                        textSize = 30f  // use sp this is only for demonstration purposes
+                        textString = "Pick multiple images"
                     },
-                    doneButton = {
-                        cornerRadius = 20  // use dp/sp/px this is only for demonstration purposes
-                        tint = ContextCompat.getColor(this@MainActivity, R.color.colorPrimaryDark)
-                    },
-                    selectIcon = {
+                    selectIconModifications = {
                         resID = R.drawable.ic_checked
+                        tint = Color.BLACK
                     },
-                    unSelectIcon = {
+                    unSelectIconModifications = {
                         resID = R.drawable.ic_unchecked
-                    })
+                        tint = Color.BLACK
+                    },
+                    viewHolderPlaceholderModifications = {
+                        resID = R.drawable.ic_image
+                    }
+            )
         }) { list ->
             doSomethingWithImageList(list)
         }
     }
 
-    private fun showSingleImageDialogPicker() {
-        SingleImagePicker.dialogPicker(this, {
-            setupTitleAndCloseButton(ContextCompat.getColor(this@MainActivity, R.color.colorPrimaryDark), {
-                textAlignment = TextView.TEXT_ALIGNMENT_VIEW_START
-                textStyle = TitleTextModifier.TextStyle.BOLD
-                textColor = Color.RED
-                margin = 12 // use dp or sp this is only for demonstration purposes
-                textPadding = 5 // use dp or sp this is only for demonstration purposes
-                textSize = 16f  // use sp this is only for demonstration purposes
-                textString = "Pick some images"
-            }, {
-                endMargin = 20  // use dp or sp this is only for demonstration purposes
-                marginBottom = 20 // use dp or sp this is only for demonstration purposes
-                padding = 10 // use dp or sp this is only for demonstration purposes
-                resID = R.drawable.ic_close
-            })
-        }, ::loadImage)
-    }
 
     private fun showSingleImageBottomSheetPicker() {
         SingleImagePicker.bottomSheetPicker(this, {
-            setupTitleAndCloseButton(ContextCompat.getColor(this@MainActivity, R.color.colorPrimaryDark), {
+            loadingIndicatorTint = ContextCompat.getColor(this@MainActivity, R.color.colorPrimaryDark)
+            titleTextModifier.apply {
                 textAlignment = TextView.TEXT_ALIGNMENT_CENTER
                 textStyle = TitleTextModifier.TextStyle.BOLD_ITALIC
                 margin = 22 // use dp or sp this is only for demonstration purposes
                 textColor = Color.BLACK
                 textPadding = 5 // use dp or sp this is only for demonstration purposes
                 textSize = 20f  // use sp this is only for demonstration purposes
-                textString = "Bottom sheet pick images"
-            }, {
-                resID = R.drawable.ic_close
-            })
+                textString = "Bottom sheet pick image"
+            }
+            viewHolderPlaceholderModifier.apply {
+                resID = R.drawable.ic_image
+            }
         }, ::loadImage)
     }
 
@@ -425,21 +282,15 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
 
         //images
         singleImageBottomSheetPick.setOnClickListener(this)
-        singleImageDialogPick.setOnClickListener(this)
         imageBottomSheetMultiPick.setOnClickListener(this)
-        imagePickDialogMultiPick.setOnClickListener(this)
 
         //videos
         singleVideoBottomSheetPick.setOnClickListener(this)
-        singleVideoDialogPick.setOnClickListener(this)
         videoBottomSheetMultiPick.setOnClickListener(this)
-        videoPickDialogMultiPick.setOnClickListener(this)
 
         //audios
         singleAudioBottomSheetPick.setOnClickListener(this)
-        singleAudioDialogPick.setOnClickListener(this)
         audioBottomSheetMultiPick.setOnClickListener(this)
-        audioPickDialogMultiPick.setOnClickListener(this)
 
     }
 

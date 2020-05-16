@@ -1,9 +1,8 @@
 package com.crazylegend.audiopicker.modifiers
 
-import android.os.Parcelable
 import com.crazylegend.core.modifiers.TitleTextModifier
-import com.crazylegend.core.modifiers.single.ImageButtonModifier
-import com.crazylegend.core.modifiers.single.SinglePickerModifier
+import com.crazylegend.core.modifiers.base.BaseSinglePickerModifier
+import com.crazylegend.core.modifiers.single.ImageModifier
 import kotlinx.android.parcel.Parcelize
 
 
@@ -13,15 +12,14 @@ import kotlinx.android.parcel.Parcelize
 
 @Parcelize
 data class SingleAudioPickerModifier(
-        val singlePickerModifier: SinglePickerModifier = SinglePickerModifier(),
-        val viewHolderTitleModifier: TitleTextModifier = TitleTextModifier(),
-        val viewHolderPlaceholderModifier: ImageButtonModifier = ImageButtonModifier()
-) : Parcelable {
+        override val viewHolderPlaceholderModifier: ImageModifier = ImageModifier(),
+        override val titleTextModifier: TitleTextModifier = TitleTextModifier(),
+        override var loadingIndicatorTint: Int? = null,
+        val viewHolderTitleTextModifier: TitleTextModifier = TitleTextModifier()
+) : BaseSinglePickerModifier(titleTextModifier, viewHolderPlaceholderModifier, loadingIndicatorTint) {
 
-    inline fun setupSingleAudioPicker(singlePicker: SinglePickerModifier.() -> Unit = {}, viewHolderTitle: TitleTextModifier.() -> Unit = {},
-                                      viewHolderPlaceHolder: ImageButtonModifier.() -> Unit = {}) {
-        viewHolderPlaceholderModifier.viewHolderPlaceHolder()
-        singlePickerModifier.singlePicker()
-        viewHolderTitleModifier.viewHolderTitle()
+    inline fun setupViewHolderTitleText(viewHolderPlaceholderModifications: TitleTextModifier.() -> Unit = {}) {
+        viewHolderTitleTextModifier.viewHolderPlaceholderModifications()
     }
+
 }

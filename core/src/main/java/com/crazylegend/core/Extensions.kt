@@ -2,6 +2,7 @@ package com.crazylegend.core
 
 import android.content.Context
 import android.content.res.Resources
+import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.util.TypedValue
 import android.view.LayoutInflater
@@ -12,19 +13,41 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.constraintlayout.widget.ConstraintSet
 import androidx.lifecycle.AndroidViewModel
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.DataSource
+import com.bumptech.glide.load.engine.GlideException
+import com.bumptech.glide.request.RequestListener
+import com.bumptech.glide.request.target.Target
+import com.crazylegend.core.modifiers.base.BaseMultiPickerModifier
+import com.crazylegend.core.modifiers.base.BaseSinglePickerModifier
 
 /**
  * Created by crazy on 5/8/20 to long live and prosper !
  */
 
 
-internal fun AppCompatImageView.loadImage(uri: Uri) {
+internal inline fun AppCompatImageView.loadImage(uri: Uri, crossinline onLoadFailed: () -> Unit = {}) {
     Glide.with(this)
             .load(uri)
             .thumbnail(0.33f)
+            .listener(object : RequestListener<Drawable> {
+                override fun onLoadFailed(e: GlideException?, model: Any?, target: Target<Drawable>?, isFirstResource: Boolean): Boolean {
+                    onLoadFailed()
+                    return true
+                }
+
+                override fun onResourceReady(resource: Drawable?, model: Any?, target: Target<Drawable>?, dataSource: DataSource?, isFirstResource: Boolean): Boolean {
+                    return false
+                }
+            })
             .centerCrop()
             .into(this)
 }
+
+inline fun setupModifier(modifier: BaseMultiPickerModifier.() -> Unit) = BaseMultiPickerModifier().also(modifier)
+
+
+inline fun setupModifier(videoPicker: BaseSinglePickerModifier.() -> Unit) = BaseSinglePickerModifier().also(videoPicker)
+
 
 val ViewGroup.inflater: LayoutInflater get() = LayoutInflater.from(context)
 

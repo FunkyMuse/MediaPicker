@@ -1,12 +1,9 @@
 package com.crazylegend.core.adapters.multi
 
-import androidx.appcompat.widget.AppCompatImageView
-import androidx.recyclerview.widget.RecyclerView
-import com.crazylegend.core.R
+import com.crazylegend.core.adapters.BaseViewHolder
 import com.crazylegend.core.databinding.ItemviewImageBinding
 import com.crazylegend.core.dto.BaseCursorModel
-import com.crazylegend.core.loadImage
-import com.crazylegend.core.modifiers.multi.MultiPickerModifier
+import com.crazylegend.core.modifiers.base.BaseMultiPickerModifier
 import com.crazylegend.core.visible
 
 
@@ -15,12 +12,12 @@ import com.crazylegend.core.visible
  */
 class MultiSelectViewHolder(
         private val binding: ItemviewImageBinding,
-        private val modifier: MultiPickerModifier?
-
-) : RecyclerView.ViewHolder(binding.root) {
+        private val modifier: BaseMultiPickerModifier?
+) : BaseViewHolder(binding) {
 
     private val selectIconModifier get() = modifier?.selectIconModifier
     private val unSelectedIconModifier get() = modifier?.unSelectedIconModifier
+    private val viewHolderPlaceholderModifier get() = modifier?.viewHolderPlaceholderModifier
 
     init {
         binding.selection.visible()
@@ -28,22 +25,12 @@ class MultiSelectViewHolder(
     }
 
     fun bind(cursorModel: BaseCursorModel) {
-        binding.image.loadImage(cursorModel.contentUri)
+        loadImage(binding.image, cursorModel.contentUri, viewHolderPlaceholderModifier)
         if (cursorModel.isSelected) {
-            setupSelectedImage(binding.selection)
+            setupSelectedImage(binding.selection, selectIconModifier)
         } else {
-            setupUnselectedImage(binding.selection)
+            setupUnselectedImage(binding.selection, unSelectedIconModifier)
         }
-    }
-
-    private fun setupUnselectedImage(selection: AppCompatImageView) {
-        val resID = unSelectedIconModifier?.resID ?: R.drawable.ic_unchecked_default
-        unSelectedIconModifier?.applyImageParams(selection, resID)
-    }
-
-    private fun setupSelectedImage(selection: AppCompatImageView) {
-        val resID = selectIconModifier?.resID ?: R.drawable.ic_checked_default
-        selectIconModifier?.applyImageParams(selection, resID)
     }
 
 

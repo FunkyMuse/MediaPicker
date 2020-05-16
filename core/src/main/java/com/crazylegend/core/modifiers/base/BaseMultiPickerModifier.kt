@@ -1,4 +1,4 @@
-package com.crazylegend.core.modifiers.multi
+package com.crazylegend.core.modifiers.base
 
 import android.os.Parcelable
 import android.view.View
@@ -9,22 +9,48 @@ import androidx.core.view.marginRight
 import androidx.core.view.marginTop
 import com.crazylegend.core.*
 import com.crazylegend.core.modifiers.TitleTextModifier
+import com.crazylegend.core.modifiers.multi.DoneButtonModifier
+import com.crazylegend.core.modifiers.multi.SelectIconModifier
+import com.crazylegend.core.modifiers.single.ImageModifier
 import kotlinx.android.parcel.Parcelize
 
 
 /**
- * Created by crazy on 5/11/20 to long live and prosper !
+ * Created by crazy on 5/16/20 to long live and prosper !
  */
+
 @Parcelize
-data class MultiPickerModifier(
-        val doneButtonModifier: DoneButtonModifier = DoneButtonModifier(),
-        val titleTextModifier: TitleTextModifier = TitleTextModifier(),
-        val selectIconModifier: SelectIconModifier = SelectIconModifier(),
-        val unSelectedIconModifier: SelectIconModifier = SelectIconModifier(),
-        var indicatorsGravity: Gravity = Gravity.BOTTOM_RIGHT,
-        var loadingIndicatorTint: Int? = null
+open class BaseMultiPickerModifier(
+        open val doneButtonModifier: DoneButtonModifier = DoneButtonModifier(),
+        open val titleTextModifier: TitleTextModifier = TitleTextModifier(),
+        open val selectIconModifier: SelectIconModifier = SelectIconModifier(),
+        open val unSelectedIconModifier: SelectIconModifier = SelectIconModifier(),
+        open var indicatorsGravity: Gravity = Gravity.BOTTOM_RIGHT,
+        open val viewHolderPlaceholderModifier: ImageModifier = ImageModifier(),
+        open var loadingIndicatorTint: Int? = null
 ) : Parcelable {
 
+    enum class Gravity {
+        TOP_LEFT, TOP_RIGHT, BOTTOM_LEFT, BOTTOM_RIGHT
+    }
+
+    inline fun setupBaseMultiPicker(
+            doneButtonModifications: DoneButtonModifier.() -> Unit = {},
+            titleModifications: TitleTextModifier.() -> Unit = {},
+            selectIconModifications: SelectIconModifier.() -> Unit = {},
+            unSelectIconModifications: SelectIconModifier.() -> Unit = {},
+            viewHolderPlaceholderModifications: ImageModifier.() -> Unit = {},
+            gravityForSelectAndUnSelectIndicators: Gravity = Gravity.BOTTOM_LEFT,
+            tintForLoadingProgressBar: Int? = null
+    ) {
+        doneButtonModifier.doneButtonModifications()
+        titleTextModifier.titleModifications()
+        selectIconModifier.selectIconModifications()
+        unSelectedIconModifier.unSelectIconModifications()
+        viewHolderPlaceholderModifier.viewHolderPlaceholderModifications()
+        indicatorsGravity = gravityForSelectAndUnSelectIndicators
+        loadingIndicatorTint = tintForLoadingProgressBar
+    }
 
     fun applyGravity(imageView: AppCompatImageView) {
         when (indicatorsGravity) {
@@ -66,24 +92,5 @@ data class MultiPickerModifier(
                 imageView.right(imageView.marginRight)
             }
         }
-    }
-
-    enum class Gravity {
-        TOP_LEFT, TOP_RIGHT, BOTTOM_LEFT, BOTTOM_RIGHT
-    }
-
-    inline fun setupMultiPicker(
-            loadingIndicatorColor: Int? = null,
-            gravityForIndicators: Gravity = Gravity.TOP_RIGHT,
-            titleText: TitleTextModifier.() -> Unit = {},
-            doneButton: DoneButtonModifier.() -> Unit = {},
-            selectIcon: SelectIconModifier.() -> Unit = {},
-            unSelectIcon: SelectIconModifier.() -> Unit = {}) {
-        loadingIndicatorTint = loadingIndicatorColor
-        indicatorsGravity = gravityForIndicators
-        titleTextModifier.titleText()
-        doneButtonModifier.doneButton()
-        selectIconModifier.selectIcon()
-        unSelectedIconModifier.unSelectIcon()
     }
 }

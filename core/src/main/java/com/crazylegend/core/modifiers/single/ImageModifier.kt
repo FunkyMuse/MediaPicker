@@ -18,7 +18,7 @@ import kotlinx.android.parcel.Parcelize
  * Only works for dialog fragment since there it's visible
  */
 @Parcelize
-data class ImageButtonModifier(
+data class ImageModifier(
         var resID: Int? = null,
         var padding: Int? = null,
         var startMargin: Int? = null,
@@ -29,16 +29,6 @@ data class ImageButtonModifier(
 ) : Parcelable {
 
     private val allSizeMarginCondition get() = margin != null
-
-    fun applyImageParamsRelativeLayout(imageView: AppCompatImageView) {
-        resID?.let { imageView.setImageResource(it) }
-        padding?.let { imageView.setPadding(it) }
-        if (allSizeMarginCondition) {
-            updateAllMarginsRelative(imageView)
-        } else {
-            updateMarginsRelative(imageView)
-        }
-    }
 
     fun applyImageParamsConstraintLayout(imageView: AppCompatImageView) {
         resID?.let { imageView.setImageResource(it) }

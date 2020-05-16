@@ -13,7 +13,7 @@ import androidx.lifecycle.observe
 import com.crazylegend.core.abstracts.AbstractBottomSheetDialogFragment
 import com.crazylegend.core.adapters.multi.MultiSelectAdapter
 import com.crazylegend.core.databinding.FragmentImagesGalleryLayoutMultiBinding
-import com.crazylegend.core.modifiers.multi.MultiPickerModifier
+import com.crazylegend.core.modifiers.base.BaseMultiPickerModifier
 import com.crazylegend.extensions.viewBinding
 import com.crazylegend.videopicker.contracts.MultiPickerContracts
 import com.crazylegend.videopicker.listeners.onVideosPicked
@@ -34,7 +34,7 @@ internal class MultiVideoPickerBottomSheetDialog : AbstractBottomSheetDialogFrag
     override var onVideosPicked: onVideosPicked? = null
     override val binding by viewBinding(FragmentImagesGalleryLayoutMultiBinding::bind)
     override val videosVM by viewModels<VideosVM>()
-    override val modifier: MultiPickerModifier?
+    override val modifier: BaseMultiPickerModifier?
         get() = arguments?.getParcelable(modifierTag)
     override val multiSelectAdapter by lazy {
         MultiSelectAdapter(modifier)
@@ -74,7 +74,7 @@ internal class MultiVideoPickerBottomSheetDialog : AbstractBottomSheetDialogFrag
         onVideosPicked = null
     }
 
-    override fun addModifier(modifier: MultiPickerModifier) {
+    override fun addModifier(modifier: BaseMultiPickerModifier) {
         arguments = bundleOf(modifierTag to modifier)
     }
 

@@ -6,13 +6,13 @@ import com.crazylegend.core.adapters.single.SingleDiffUtil
 import com.crazylegend.core.databinding.ItemviewImageBinding
 import com.crazylegend.core.dto.BaseCursorModel
 import com.crazylegend.core.inflater
-import com.crazylegend.core.modifiers.multi.MultiPickerModifier
+import com.crazylegend.core.modifiers.base.BaseMultiPickerModifier
 
 
 /**
  * Created by crazy on 5/8/20 to long live and prosper !
  */
-class MultiSelectAdapter(private val modifier: MultiPickerModifier?) :
+class MultiSelectAdapter(private val modifier: BaseMultiPickerModifier?) :
         ListAdapter<BaseCursorModel, MultiSelectViewHolder>(SingleDiffUtil()) {
 
 

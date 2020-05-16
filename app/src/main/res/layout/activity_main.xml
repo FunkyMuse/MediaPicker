@@ -30,17 +30,6 @@
             app:layout_constraintTop_toBottomOf="@+id/image" />
 
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/singleImageDialogPick"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="16dp"
-            android:layout_marginTop="8dp"
-            android:text="Image Pick dialog (single selection)"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/singleImageBottomSheetPick" />
-
-        <com.google.android.material.button.MaterialButton
             android:id="@+id/imageBottomSheetMultiPick"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -48,17 +37,8 @@
             android:text="Image Pick bottom sheet (multi selection)"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/singleImageDialogPick" />
+            app:layout_constraintTop_toBottomOf="@+id/singleImageBottomSheetPick" />
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/imagePickDialogMultiPick"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="16dp"
-            android:text="Image Pick dialog (multi selection)"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/imageBottomSheetMultiPick" />
 
         <View
             android:layout_marginTop="10dp"
@@ -66,7 +46,7 @@
             android:layout_height="1dp"
             android:id="@+id/divider"
             android:background="@color/colorAccent"
-            app:layout_constraintTop_toBottomOf="@+id/imagePickDialogMultiPick" />
+            app:layout_constraintTop_toBottomOf="@+id/imageBottomSheetMultiPick" />
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/video"
@@ -87,16 +67,6 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/video" />
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/singleVideoDialogPick"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="16dp"
-            android:layout_marginTop="8dp"
-            android:text="Video Pick dialog (single selection)"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/singleVideoBottomSheetPick" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/videoBottomSheetMultiPick"
@@ -106,18 +76,7 @@
             android:text="Video Pick bottom sheet (multi selection)"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/singleVideoDialogPick" />
-
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/videoPickDialogMultiPick"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="16dp"
-            android:text="Video Pick dialog (multi selection)"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/videoBottomSheetMultiPick" />
-
+            app:layout_constraintTop_toBottomOf="@+id/singleVideoBottomSheetPick" />
 
         <View
             android:layout_marginTop="10dp"
@@ -125,7 +84,7 @@
             android:layout_height="1dp"
             android:id="@+id/divider2"
             android:background="@color/colorAccent"
-            app:layout_constraintTop_toBottomOf="@+id/videoPickDialogMultiPick" />
+            app:layout_constraintTop_toBottomOf="@+id/videoBottomSheetMultiPick" />
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/audio"
@@ -160,17 +119,6 @@
             app:layout_constraintTop_toBottomOf="@+id/audioTitle" />
 
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/singleAudioDialogPick"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="16dp"
-            android:layout_marginTop="8dp"
-            android:text="Audio Pick dialog (single selection)"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/singleAudioBottomSheetPick" />
-
-        <com.google.android.material.button.MaterialButton
             android:id="@+id/audioBottomSheetMultiPick"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -178,17 +126,7 @@
             android:text="Audio Pick bottom sheet (multi selection)"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/singleAudioDialogPick" />
-
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/audioPickDialogMultiPick"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="16dp"
-            android:text="Audio Pick dialog (multi selection)"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/audioBottomSheetMultiPick" />
+            app:layout_constraintTop_toBottomOf="@+id/singleAudioBottomSheetPick" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

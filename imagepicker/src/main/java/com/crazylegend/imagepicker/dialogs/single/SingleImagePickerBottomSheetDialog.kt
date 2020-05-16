@@ -13,7 +13,7 @@ import androidx.lifecycle.observe
 import com.crazylegend.core.abstracts.AbstractBottomSheetDialogFragment
 import com.crazylegend.core.adapters.single.SingleAdapter
 import com.crazylegend.core.databinding.FragmentImagesGalleryLayoutBinding
-import com.crazylegend.core.modifiers.single.SinglePickerModifier
+import com.crazylegend.core.modifiers.base.BaseSinglePickerModifier
 import com.crazylegend.extensions.viewBinding
 import com.crazylegend.imagepicker.contracts.SinglePickerContracts
 import com.crazylegend.imagepicker.images.ImageModel
@@ -31,11 +31,11 @@ internal class SingleImagePickerBottomSheetDialog : AbstractBottomSheetDialogFra
     override var onImagePicked: onImagePicked? = null
     override val binding by viewBinding(FragmentImagesGalleryLayoutBinding::bind)
     override val imagesVM by viewModels<ImagesVM>()
-    override val modifier: SinglePickerModifier?
+    override val modifier: BaseSinglePickerModifier?
         get() = arguments?.getParcelable(modifierTag)
 
     override val singleAdapter by lazy {
-        SingleAdapter {
+        SingleAdapter(modifier?.viewHolderPlaceholderModifier) {
             onImagePicked?.forImage(it as ImageModel)
             dismissAllowingStateLoss()
         }
@@ -54,7 +54,7 @@ internal class SingleImagePickerBottomSheetDialog : AbstractBottomSheetDialogFra
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         askForStoragePermission(Manifest.permission.READ_EXTERNAL_STORAGE)
-        setupUIForSinglePicker(binding.close, binding.gallery, singleAdapter, binding.title, binding.loadingIndicator, modifier?.loadingIndicatorTint, ::applyTitleModifications)
+        setupUIForSinglePicker(binding.gallery, singleAdapter, binding.title, binding.loadingIndicator, modifier?.loadingIndicatorTint, ::applyTitleModifications)
         imagesVM.images.observe(viewLifecycleOwner) {
             singleAdapter.submitList(it)
         }
@@ -71,7 +71,7 @@ internal class SingleImagePickerBottomSheetDialog : AbstractBottomSheetDialogFra
         modifier?.titleTextModifier?.applyTextParams(appCompatTextView)
     }
 
-    override fun addModifier(modifier: SinglePickerModifier) {
+    override fun addModifier(modifier: BaseSinglePickerModifier) {
         arguments = bundleOf(modifierTag to modifier)
     }
 

@@ -6,7 +6,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ProgressBar
-import androidx.appcompat.widget.AppCompatImageView
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.observe
 import androidx.recyclerview.widget.GridLayoutManager
@@ -35,17 +34,15 @@ abstract class AbstractBottomSheetDialogFragment : BottomSheetDialogFragment() {
     }
 
 
-    fun setupUIForSinglePicker(close: AppCompatImageView, gallery: RecyclerView, singleAdapter: RecyclerView.Adapter<*>,
+    fun setupUIForSinglePicker(gallery: RecyclerView, singleAdapter: RecyclerView.Adapter<*>,
                                title: MaterialTextView, loadingIndicator: ProgressBar, progressBarTint: Int?,
                                titleModifications: (MaterialTextView) -> Unit) {
-        close.gone()
         gallery.apply {
             layoutManager = GridLayoutManager(requireContext(), 3)
             adapter = singleAdapter
         }
         titleModifications(title)
         progressBarTint?.let { loadingIndicator.indeterminateDrawable.setTint(it) }
-
     }
 
     fun setupUIForMultiPicker(gallery: RecyclerView,

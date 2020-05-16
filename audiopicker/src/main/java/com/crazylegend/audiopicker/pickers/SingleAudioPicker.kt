@@ -8,7 +8,6 @@ import com.crazylegend.audiopicker.audios.AudioModel
 import com.crazylegend.audiopicker.consts.SINGLE_PICKER_BOTTOM_SHEET
 import com.crazylegend.audiopicker.consts.SINGLE_PICKER_DIALOG
 import com.crazylegend.audiopicker.dialogs.single.SingleAudioPickerBottomSheetDialog
-import com.crazylegend.audiopicker.dialogs.single.SingleAudioPickerDialogFragment
 import com.crazylegend.audiopicker.listeners.onAudioDSL
 import com.crazylegend.audiopicker.modifiers.SingleAudioPickerModifier
 import com.crazylegend.extensions.setupManager
@@ -24,9 +23,6 @@ object SingleAudioPicker {
         when (val fragment = manager.findFragmentByTag(SINGLE_PICKER_BOTTOM_SHEET)
                 ?: manager.findFragmentByTag(SINGLE_PICKER_DIALOG)) {
             is SingleAudioPickerBottomSheetDialog -> {
-                fragment.onAudioPicked = onAudioDSL(onPickedAudio)
-            }
-            is SingleAudioPickerDialogFragment -> {
                 fragment.onAudioPicked = onAudioDSL(onPickedAudio)
             }
             null -> {
@@ -46,20 +42,5 @@ object SingleAudioPicker {
         }
     }
 
-    @RequiresPermission(Manifest.permission.READ_EXTERNAL_STORAGE)
-    fun dialogPicker(context: Context, pickerModifier: SingleAudioPickerModifier.() -> Unit = {}, onPickedAudio: (audio: AudioModel) -> Unit) {
-        val manager = context.setupManager()
-        val modifier = setupModifier(pickerModifier)
-        with(SingleAudioPickerDialogFragment()) {
-            addModifier(modifier)
-            onAudioPicked = onAudioDSL(onPickedAudio)
-            show(manager, SINGLE_PICKER_DIALOG)
-        }
-    }
-
-    private fun setupModifier(audioPicker: SingleAudioPickerModifier.() -> Unit): SingleAudioPickerModifier {
-        val modifier = SingleAudioPickerModifier()
-        modifier.audioPicker()
-        return modifier
-    }
+    private inline fun setupModifier(audioPicker: SingleAudioPickerModifier.() -> Unit) = SingleAudioPickerModifier().also(audioPicker)
 }

@@ -15,7 +15,6 @@ import com.crazylegend.audiopicker.audios.AudiosVM
 import com.crazylegend.audiopicker.contracts.MultiPickerContracts
 import com.crazylegend.audiopicker.listeners.onAudiosPicked
 import com.crazylegend.audiopicker.listeners.recycleBitmapsDSL
-
 import com.crazylegend.audiopicker.modifiers.MultiAudioPickerModifier
 import com.crazylegend.core.abstracts.AbstractBottomSheetDialogFragment
 import com.crazylegend.core.databinding.FragmentImagesGalleryLayoutMultiBinding
@@ -37,8 +36,9 @@ internal class MultiAudioPickerBottomSheetDialog : AbstractBottomSheetDialogFrag
     override val audiosVM by viewModels<AudiosVM>()
     override val modifier: MultiAudioPickerModifier?
         get() = arguments?.getParcelable(modifierTag)
-    override val multiSelectAdapter by lazy {
-        AudioMultiSelectAdapter(modifier?.multiPickerModifier, modifier?.viewHolderPlaceholderModifier, modifier?.viewHolderTitleModifier)
+
+    private val audioMultiSelectAdapter by lazy {
+        AudioMultiSelectAdapter(modifier, modifier?.viewHolderPlaceholderModifier, modifier?.viewHolderTitleTextModifier)
     }
     override val askForStoragePermission =
             registerForActivityResult(ActivityResultContracts.RequestPermission()) {
@@ -55,15 +55,15 @@ internal class MultiAudioPickerBottomSheetDialog : AbstractBottomSheetDialogFrag
         askForStoragePermission(Manifest.permission.READ_EXTERNAL_STORAGE)
 
         setupUIForMultiPicker(
-                binding.gallery, multiSelectAdapter, binding.doneButton, binding.title, binding.loadingIndicator, modifier?.multiPickerModifier?.loadingIndicatorTint,
+                binding.gallery, audioMultiSelectAdapter, binding.doneButton, binding.title, binding.loadingIndicator, modifier?.loadingIndicatorTint,
                 ::applyDoneButtonModifications, ::applyTitleModifications)
 
         audiosVM.audio.observe(viewLifecycleOwner) {
-            multiSelectAdapter.submitList(it)
+            audioMultiSelectAdapter.submitList(it)
         }
 
         binding.doneButton.setOnClickListener {
-            onAudiosPicked?.forAudios(multiSelectAdapter.currentList.filter { it.isSelected })
+            onAudiosPicked?.forAudios(audioMultiSelectAdapter.currentList.filter { it.isSelected })
             dismissAllowingStateLoss()
         }
 
@@ -83,15 +83,15 @@ internal class MultiAudioPickerBottomSheetDialog : AbstractBottomSheetDialogFrag
     }
 
     override fun applyTitleModifications(appCompatTextView: AppCompatTextView) {
-        modifier?.multiPickerModifier?.titleTextModifier?.applyTextParams(appCompatTextView)
+        modifier?.titleTextModifier?.applyTextParams(appCompatTextView)
     }
 
     override fun applyDoneButtonModifications(doneButton: MaterialButton) {
-        modifier?.multiPickerModifier?.doneButtonModifier?.applyImageParams(doneButton)
+        modifier?.doneButtonModifier?.applyImageParams(doneButton)
     }
 
     override fun recycleBitmaps() {
-        multiSelectAdapter.currentList.asSequence().forEach {
+        audioMultiSelectAdapter.currentList.asSequence().forEach {
             it?.thumbnail?.apply {
                 if (!isRecycled)
                     recycle()

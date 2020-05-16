@@ -1,9 +1,10 @@
 package com.crazylegend.audiopicker.modifiers
 
-import android.os.Parcelable
 import com.crazylegend.core.modifiers.TitleTextModifier
-import com.crazylegend.core.modifiers.multi.MultiPickerModifier
-import com.crazylegend.core.modifiers.single.ImageButtonModifier
+import com.crazylegend.core.modifiers.base.BaseMultiPickerModifier
+import com.crazylegend.core.modifiers.multi.DoneButtonModifier
+import com.crazylegend.core.modifiers.multi.SelectIconModifier
+import com.crazylegend.core.modifiers.single.ImageModifier
 import kotlinx.android.parcel.Parcelize
 
 
@@ -13,15 +14,17 @@ import kotlinx.android.parcel.Parcelize
 
 @Parcelize
 data class MultiAudioPickerModifier(
-        val multiPickerModifier: MultiPickerModifier = MultiPickerModifier(),
-        val viewHolderTitleModifier: TitleTextModifier = TitleTextModifier(),
-        val viewHolderPlaceholderModifier: ImageButtonModifier = ImageButtonModifier()
-) : Parcelable {
+        override val doneButtonModifier: DoneButtonModifier = DoneButtonModifier(),
+        override val titleTextModifier: TitleTextModifier = TitleTextModifier(),
+        override val selectIconModifier: SelectIconModifier = SelectIconModifier(),
+        override val unSelectedIconModifier: SelectIconModifier = SelectIconModifier(),
+        override var indicatorsGravity: Gravity = Gravity.BOTTOM_RIGHT,
+        override val viewHolderPlaceholderModifier: ImageModifier = ImageModifier(),
+        override var loadingIndicatorTint: Int? = null,
+        val viewHolderTitleTextModifier: TitleTextModifier = TitleTextModifier()
+) : BaseMultiPickerModifier(doneButtonModifier, titleTextModifier, selectIconModifier, unSelectedIconModifier, indicatorsGravity, viewHolderPlaceholderModifier, loadingIndicatorTint) {
 
-    inline fun setupMultiAudioPicker(multiPicker: MultiPickerModifier.() -> Unit = {}, viewHolderTitle: TitleTextModifier.() -> Unit = {},
-                                     viewHolderPlaceHolder: ImageButtonModifier.() -> Unit = {}) {
-        viewHolderPlaceholderModifier.viewHolderPlaceHolder()
-        multiPickerModifier.multiPicker()
-        viewHolderTitleModifier.viewHolderTitle()
+    inline fun setupViewHolderTitleText(viewHolderPlaceholderModifications: TitleTextModifier.() -> Unit = {}) {
+        viewHolderTitleTextModifier.viewHolderPlaceholderModifications()
     }
 }

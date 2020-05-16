@@ -1,11 +1,10 @@
 package com.crazylegend.audiopicker.adapters.single
 
-import androidx.recyclerview.widget.RecyclerView
-import com.crazylegend.audiopicker.R
 import com.crazylegend.audiopicker.audios.AudioModel
 import com.crazylegend.audiopicker.databinding.ItemviewAudioBinding
+import com.crazylegend.core.adapters.BaseViewHolder
 import com.crazylegend.core.modifiers.TitleTextModifier
-import com.crazylegend.core.modifiers.single.ImageButtonModifier
+import com.crazylegend.core.modifiers.single.ImageModifier
 import com.crazylegend.extensions.gone
 
 
@@ -14,15 +13,15 @@ import com.crazylegend.extensions.gone
  */
 
 internal class AudioSingleViewHolder(private val binding: ItemviewAudioBinding, onClick: (AudioModel) -> Unit,
-                                     private val viewHolderPlaceholderModifier: ImageButtonModifier?,
+                                     private val viewHolderPlaceholderModifier: ImageModifier?,
                                      private val viewHolderTitleTextModifier: TitleTextModifier?) :
-        RecyclerView.ViewHolder(binding.root) {
+        BaseViewHolder(binding) {
 
 
     fun bind(item: AudioModel) {
         binding.bottomText.text = item.displayName
         if (item.thumbnail == null) {
-            loadPlaceHolders()
+            loadPlaceHolders(viewHolderPlaceholderModifier, binding.image)
         } else {
             binding.image.setImageBitmap(item.thumbnail)
         }
@@ -30,17 +29,6 @@ internal class AudioSingleViewHolder(private val binding: ItemviewAudioBinding, 
             applyTextParamsConstraint(binding.bottomText)
         }
     }
-
-    private fun loadPlaceHolders() {
-        if (viewHolderPlaceholderModifier != null) {
-            viewHolderPlaceholderModifier.resID = viewHolderPlaceholderModifier.resID
-                    ?: R.drawable.ic_album
-            viewHolderPlaceholderModifier.applyImageParamsConstraintLayout(binding.image)
-        } else {
-            binding.image.setImageResource(R.drawable.ic_album)
-        }
-    }
-
 
     private val getModel get() = itemView.tag as? AudioModel?
 
