@@ -19,11 +19,62 @@ dependencies {
 ```
 3. How to use single picker and check out [how to customize single video picker](https://github.com/CraZyLegenD/MediaPicker/wiki/Single-audio-video-picker-customization)
 ```kotlin
+    //simple usage without customization
+    SingleVideoPicker.showPicker(context = this, onPickedVideo = ::loadVideo)
+    
+    //customized
+    SingleVideoPicker.showPicker(this, {
+            setupBaseModifier(
+                    loadingIndicatorColor = R.color.minusColor,
+                    titleTextModifications = {
+                        textAlignment = TextView.TEXT_ALIGNMENT_VIEW_START
+                        textStyle = TitleTextModifier.TextStyle.ITALIC
+                        textColor = Color.BLACK
+                        marginBottom = 30 // use dp or sp this is only for demonstration purposes
+                        textPadding = 5 // use dp or sp this is only for demonstration purposes
+                        textSize = 30f  // use sp this is only for demonstration purposes
+                        textString = "Pick a video"
+                    },
+                    placeHolderModifications = {
+                        resID = R.drawable.ic_image
+                    }
+            )
+        }, ::loadVideo)
     
 ```
 
 4. How to use multi pickerand check out [how to customize multi video picker](https://github.com/CraZyLegenD/MediaPicker/wiki/Single-audio-video-picker-customization)
 ```kotlin
+    //simple usage without customization
+    MultiVideoPicker.showPicker(this) { loadVideos(it) }
+    
+    //customized
+     MultiVideoPicker.showPicker(this, {
+            setupBaseMultiPicker(
+                    tintForLoadingProgressBar = ContextCompat.getColor(this@MainActivity, R.color.colorPrimaryDark),
+                    gravityForSelectAndUnSelectIndicators = BaseMultiPickerModifier.Gravity.TOP_RIGHT,
+                    titleModifications = {
+                        textAlignment = TextView.TEXT_ALIGNMENT_CENTER
+                        textStyle = TitleTextModifier.TextStyle.ITALIC
+                        textColor = Color.BLACK
+                        marginBottom = 30 // use dp or sp this is only for demonstration purposes
+                        textPadding = 5 // use dp or sp this is only for demonstration purposes
+                        textSize = 30f  // use sp this is only for demonstration purposes
+                        textString = "Pick multiple videos"
+                    },
+                    selectIconModifications = {
+                        resID = R.drawable.ic_checked
+                        tint = Color.BLACK
+                    },
+                    unSelectIconModifications = {
+                        resID = R.drawable.ic_unchecked
+                        tint = Color.BLACK
+                    },
+                    viewHolderPlaceholderModifications = {
+                        resID = R.drawable.ic_close
+                    }
+            )
+        }, ::doSomethingWithVideoList)
     
 ```
 ##
