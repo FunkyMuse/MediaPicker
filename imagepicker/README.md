@@ -18,7 +18,7 @@ dependencies {
     implementation "com.github.CraZyLegenD.MediaPicker:imagepicker:$pickerVersion"
   }
 ```
-3. How to use single pickers and check out [how to customize single image picker](https://github.com/CraZyLegenD/MediaPicker/wiki/Single--image-video-picker-customization)
+3. How to use single picker and check out [how to customize single image picker](https://github.com/CraZyLegenD/MediaPicker/wiki/Single--image-video-picker-customization)
 ```kotlin
     //simple usage without customizations
     SingleImagePicker.showPicker(context = this){
@@ -52,7 +52,7 @@ dependencies {
         }, ::loadImage)
 ```
 
-4. How to use multi pickers
+4. How to use multi picker and check out [how to customize multi image picker](https://github.com/CraZyLegenD/MediaPicker/wiki/Multi-image-video-picker-customization)
 ```kotlin
     //simple usage without customizations
     MultiImagePicker.showPicker(this){ doSomethingWithImageList(it) }
