@@ -27,7 +27,7 @@ dependencies {
         }
         
    
-   //single picker dialog
+   //customized
    SingleImagePicker.showPicker(this, {
             loadingIndicatorTint = ContextCompat.getColor(this@MainActivity, R.color.colorPrimaryDark)
             titleTextModifier.apply {
@@ -56,7 +56,7 @@ dependencies {
 4. How to use multi pickers
 ```kotlin
     //multi picker
-    //simple usage
+    //simple usage without customizations
     MultiImagePicker.showPicker(this){ doSomethingWithImageList(it) }
     
     //customized
