@@ -16,125 +16,75 @@ dependencies {
     implementation "com.github.CraZyLegenD.MediaPicker:audiopicker:$pickerVersion"
   }
 ```
-3. How to use single pickers
+3. How to use single picker
 ```kotlin
-    //single picker bottom sheet
-    SingleAudioPicker.bottomSheetPicker(this, {
-            setupSingleAudioPicker(singlePicker = {
-                setupTitleOnly(loadingIndicatorColor = ContextCompat.getColor(this@MainActivity, R.color.colorPrimary)) {
-                    textAlignment = TextView.TEXT_ALIGNMENT_VIEW_START
-                    textStyle = TitleTextModifier.TextStyle.BOLD
-                    textColor = Color.RED
-                    margin = 12 // use dp or sp this is only for demonstration purposes
-                    textPadding = 5 // use dp or sp this is only for demonstration purposes
-                    textSize = 16f  // use sp this is only for demonstration purposes
-                    textString = "Select a song"
-                }
-            }, viewHolderTitle = {
-                textColor = ContextCompat.getColor(this@MainActivity, R.color.colorPrimary)
-            }, viewHolderPlaceHolder = {
-                resID = R.drawable.ic_album
-            })
-        }, ::loadAudio)
-
-	//single picker dialog
-	 SingleAudioPicker.dialogPicker(this, {
-            setupSingleAudioPicker(singlePicker = {
-                setupTitleAndCloseButton(title = {
-                    textAlignment = TextView.TEXT_ALIGNMENT_VIEW_START
-                    textStyle = TitleTextModifier.TextStyle.BOLD
-                    textColor = Color.RED
-                    margin = 12 // use dp or sp this is only for demonstration purposes
-                    textPadding = 5 // use dp or sp this is only for demonstration purposes
-                    textSize = 16f  // use sp this is only for demonstration purposes
-                    textString = "Pick a song"
-                }, closeButton = {
-                    endMargin = 20  // use dp or sp this is only for demonstration purposes
-                    marginBottom = 20 // use dp or sp this is only for demonstration purposes
-                    padding = 10 // use dp or sp this is only for demonstration purposes
-                    resID = R.drawable.ic_close
-                }, loadingIndicatorColor = ContextCompat.getColor(this@MainActivity, R.color.colorPrimary))
-            }, viewHolderTitle = {
-                textColor = ContextCompat.getColor(this@MainActivity, R.color.colorPrimary)
-            }, viewHolderPlaceHolder = {
-                resID = R.drawable.ic_album
-            })
-        }) { audioModel ->
-            loadAudio(audioModel)
+    //simple usage without customization
+    SingleAudioPicker.showPicker(this) {
+            loadAudio(it)
         }
-```
-
-4. How to use multi pickers
-```kotlin
-    //multi picker bottom sheet
-     MultiAudioPicker.bottomSheetPicker(this, {
-            setupMultiAudioPicker(
-                    multiPicker = {
-                        setupMultiPicker(
-                                loadingIndicatorColor = ContextCompat.getColor(this@MainActivity, R.color.colorPrimaryDark),
-                                gravityForIndicators = MultiPickerModifier.Gravity.BOTTOM_LEFT,
-                                titleText = {
-                                    textAlignment = TextView.TEXT_ALIGNMENT_VIEW_START
-                                    textStyle = TitleTextModifier.TextStyle.ITALIC
-                                    textColor = Color.BLACK
-                                    marginBottom = 30 // use dp or sp this is only for demonstration purposes
-                                    textPadding = 5 // use dp or sp this is only for demonstration purposes
-                                    textSize = 30f  // use sp this is only for demonstration purposes
-                                    textString = "Pick multiple songs"
-                                },
-                                selectIcon = {
-                                    resID = R.drawable.ic_checked
-                                    tint = Color.BLACK
-                                },
-                                unSelectIcon = {
-                                    resID = R.drawable.ic_unchecked
-                                    tint = Color.BLACK
-                                }
-                        )
+	
+	
+    //customized
+    SingleAudioPicker.showPicker(this, {
+            setupViewHolderTitleText {
+                textColor = Color.BLACK
+                textPadding = 10 // use dp or sp this is only for demonstration purposes
+            }
+            setupBaseModifier(
+                    loadingIndicatorColor = R.color.minusColor,
+                    titleTextModifications = {
+                        textAlignment = TextView.TEXT_ALIGNMENT_VIEW_START
+                        textStyle = TitleTextModifier.TextStyle.ITALIC
+                        textColor = Color.BLACK
+                        marginBottom = 30 // use dp or sp this is only for demonstration purposes
+                        textPadding = 5 // use dp or sp this is only for demonstration purposes
+                        textSize = 30f  // use sp this is only for demonstration purposes
+                        textString = "Pick an audio"
                     },
-                    viewHolderTitle = {
-                        textColor = ContextCompat.getColor(this@MainActivity, R.color.colorPrimaryDark)
-                        textStyle = TitleTextModifier.TextStyle.BOLD
-                        textPadding = 10 // use dp or sp this is only for demonstration purposes
-                    },
-                    viewHolderPlaceHolder = {
-                        resID = R.drawable.ic_album_second
+                    placeHolderModifications = {
+                        resID = R.drawable.ic_image
                     }
             )
-        }, ::doSomethingWithAudioList)
+        }, ::loadAudio)
     
-	//multi picker dialog
-	MultiAudioPicker.dialogPicker(this, {
-            setupMultiAudioPicker(
-                    multiPicker = {
-                        setupMultiPicker(
-                                loadingIndicatorColor = ContextCompat.getColor(this@MainActivity, R.color.colorPrimary),
-                                gravityForIndicators = MultiPickerModifier.Gravity.TOP_RIGHT,
-                                titleText = {
-                                    textAlignment = TextView.TEXT_ALIGNMENT_VIEW_START
-                                    textStyle = TitleTextModifier.TextStyle.BOLD_ITALIC
-                                    textColor = Color.BLUE
-                                    marginBottom = 30 // use dp or sp this is only for demonstration purposes
-                                    textPadding = 5 // use dp or sp this is only for demonstration purposes
-                                    textSize = 30f  // use sp this is only for demonstration purposes
-                                    textString = "Pick multiple songs"
-                                },
-                                selectIcon = {
-                                    resID = R.drawable.ic_checked
-                                    tint = Color.LTGRAY
-                                },
-                                unSelectIcon = {
-                                    resID = R.drawable.ic_unchecked
-                                    tint = Color.LTGRAY
-                                }
-                        )
+```
+
+4. How to use multi picker
+```kotlin
+    //simple usage without customization
+    MultiAudioPicker.showPicker(this) {
+            loadAudios(it)
+        }
+	
+	
+    //customized
+    MultiAudioPicker.showPicker(this, {
+            setupViewHolderTitleText {
+                textColor = ContextCompat.getColor(this@MainActivity, R.color.colorPrimaryDark)
+                textStyle = TitleTextModifier.TextStyle.BOLD
+                textPadding = 10 // use dp or sp this is only for demonstration purposes
+            }
+            setupBaseMultiPicker(
+                    tintForLoadingProgressBar = ContextCompat.getColor(this@MainActivity, R.color.colorPrimaryDark),
+                    gravityForSelectAndUnSelectIndicators = BaseMultiPickerModifier.Gravity.BOTTOM_LEFT,
+                    titleModifications = {
+                        textAlignment = TextView.TEXT_ALIGNMENT_VIEW_START
+                        textStyle = TitleTextModifier.TextStyle.ITALIC
+                        textColor = Color.BLACK
+                        marginBottom = 30 // use dp or sp this is only for demonstration purposes
+                        textPadding = 5 // use dp or sp this is only for demonstration purposes
+                        textSize = 30f  // use sp this is only for demonstration purposes
+                        textString = "Pick multiple songs"
                     },
-                    viewHolderTitle = {
-                        textColor = Color.DKGRAY
-                        textStyle = TitleTextModifier.TextStyle.BOLD_ITALIC
-                        textPadding = 10 // use dp or sp this is only for demonstration purposes
+                    selectIconModifications = {
+                        resID = R.drawable.ic_checked
+                        tint = Color.BLACK
                     },
-                    viewHolderPlaceHolder = {
+                    unSelectIconModifications = {
+                        resID = R.drawable.ic_unchecked
+                        tint = Color.BLACK
+                    },
+                    viewHolderPlaceholderModifications = {
                         resID = R.drawable.ic_album_second
                     }
             )
