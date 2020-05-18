@@ -41,7 +41,7 @@ open class BaseMultiPickerModifier(
             selectIconModifications: SelectIconModifier.() -> Unit = {},
             unSelectIconModifications: SelectIconModifier.() -> Unit = {},
             viewHolderPlaceholderModifications: ImageModifier.() -> Unit = {},
-            gravityForSelectAndUnSelectIndicators: Gravity = Gravity.BOTTOM_LEFT,
+            gravityForSelectAndUnSelectIndicators: Gravity = Gravity.BOTTOM_RIGHT,
             tintForLoadingProgressBar: Int? = null
     ) {
         doneButtonModifier.doneButtonModifications()
