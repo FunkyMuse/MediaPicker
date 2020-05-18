@@ -11,7 +11,7 @@ Current jitpack version: [![](https://jitpack.io/v/CraZyLegenD/MediaPicker.svg)]
 dependencies {
     def pickerVersion = "0.0.1" //look-up the latest one on jitpack 
     
-    //the core package is a must then you include the one you need
+    //the core package is a must
     implementation "com.github.CraZyLegenD.MediaPicker:core:$pickerVersion"
     
     //images
