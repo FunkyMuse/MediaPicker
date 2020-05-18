@@ -20,82 +20,74 @@ dependencies {
 ```
 3. How to use single pickers and check out [how to customize single image picker](https://github.com/CraZyLegenD/MediaPicker/wiki/Single-audio-video-picker-customization)
 ```kotlin
-    //single picker bottom sheet
-   SingleImagePicker.bottomSheetPicker(context = this, onPickedImage = ::loadImage)
+    //single picker
+    //simple usage without customizations
+    SingleImagePicker.showPicker(context = this){
+            doSomethingWithImage(it)
+        }
+        
    
    //single picker dialog
-   SingleImagePicker.dialogPicker(this, {
-            setupTitleAndCloseButton(ContextCompat.getColor(this@MainActivity, R.color.colorPrimaryDark), {
+   SingleImagePicker.showPicker(this, {
+            loadingIndicatorTint = ContextCompat.getColor(this@MainActivity, R.color.colorPrimaryDark)
+            titleTextModifier.apply {
                 textAlignment = TextView.TEXT_ALIGNMENT_VIEW_START
-                textStyle = TitleTextModifier.TextStyle.BOLD
-                textColor = Color.RED
-                margin = 12 // use dp or sp this is only for demonstration purposes
+                textStyle = TitleTextModifier.TextStyle.BOLD_ITALIC
+                margin = 22 // use dp or sp this is only for demonstration purposes
+                textColor = Color.BLACK
                 textPadding = 5 // use dp or sp this is only for demonstration purposes
-                textSize = 16f  // use sp this is only for demonstration purposes
-                textString = "Pick some images"
-            }, {
-                endMargin = 20  // use dp or sp this is only for demonstration purposes
-                marginBottom = 20 // use dp or sp this is only for demonstration purposes
-                padding = 10 // use dp or sp this is only for demonstration purposes
-                resID = R.drawable.ic_close
-            })
+                textSize = 20f  // use sp this is only for demonstration purposes
+                textString = "Select an image"
+            }
+            noContentTextModifier.apply {
+                textAlignment = TextView.TEXT_ALIGNMENT_CENTER
+                textStyle = TitleTextModifier.TextStyle.BOLD_ITALIC
+                margin = 22 // use dp or sp this is only for demonstration purposes
+                textColor = Color.RED
+                textPadding = 5 // use dp or sp this is only for demonstration purposes
+                textSize = 20f  // use sp this is only for demonstration purposes
+            }
+            viewHolderPlaceholderModifier.apply {
+                resID = R.drawable.ic_image
+            }
         }, ::loadImage)
 ```
 
 4. How to use multi pickers
 ```kotlin
-    //multi picker bottom sheet
-     MultiImagePicker.bottomSheetPicker(this, {
-            setupMultiPicker(
-                    gravityForIndicators = MultiPickerModifier.Gravity.BOTTOM_LEFT,
-                    titleText = {
+    //multi picker
+    //simple usage
+    MultiImagePicker.showPicker(this){ doSomethingWithImageList(it) }
+    
+    //customized
+    MultiImagePicker.showPicker(this, {
+            setupBaseMultiPicker(
+                    tintForLoadingProgressBar = ContextCompat.getColor(this@MainActivity, R.color.colorPrimaryDark),
+                    gravityForSelectAndUnSelectIndicators = BaseMultiPickerModifier.Gravity.TOP_LEFT,
+                    titleModifications = {
                         textAlignment = TextView.TEXT_ALIGNMENT_VIEW_START
                         textStyle = TitleTextModifier.TextStyle.BOLD_ITALIC
-                        textColor = Color.RED
-                        margin = 12 // use dp or sp this is only for demonstration purposes
+                        textColor = Color.BLACK
+                        marginBottom = 30 // use dp or sp this is only for demonstration purposes
                         textPadding = 5 // use dp or sp this is only for demonstration purposes
-                        textSize = 16f  // use sp this is only for demonstration purposes
-                        textString = "Pick some multi images"
+                        textSize = 30f  // use sp this is only for demonstration purposes
+                        textString = "Pick multiple images"
                     },
-                    doneButton = {
-                        cornerRadius = 20  // use dp/sp/px this is only for demonstration purposes
-                        tint = ContextCompat.getColor(this@MainActivity, R.color.colorPrimaryDark)
-                    },
-                    selectIcon = {
+                    selectIconModifications = {
                         resID = R.drawable.ic_checked
+                        tint = Color.BLACK
                     },
-                    unSelectIcon = {
+                    unSelectIconModifications = {
                         resID = R.drawable.ic_unchecked
-                    })
+                        tint = Color.BLACK
+                    },
+                    viewHolderPlaceholderModifications = {
+                        resID = R.drawable.ic_image
+                    }
+            )
         }) { list ->
             doSomethingWithImageList(list)
         }
-    
-    //multi picker dialog
-     MultiImagePicker.dialogPicker(this, {
-            setupMultiPicker(
-                    gravityForIndicators = MultiPickerModifier.Gravity.TOP_RIGHT,
-                    titleText = {
-                        textAlignment = TextView.TEXT_ALIGNMENT_VIEW_START
-                        textStyle = TitleTextModifier.TextStyle.BOLD_ITALIC
-                        textColor = Color.RED
-                        margin = 12 // use dp or sp this is only for demonstration purposes
-                        textPadding = 5 // use dp or sp this is only for demonstration purposes
-                        textSize = 16f  // use sp this is only for demonstration purposes
-                        textString = "Pick some multi images"
-                    },
-                    doneButton = {
-                        cornerRadius = 20  // use dp/sp/px this is only for demonstration purposes
-                    },
-                    selectIcon = {
-                        margin = 15 // use dp or sp this is only for demonstration purposes
-                        tint = ContextCompat.getColor(this@MainActivity, R.color.colorPrimary)
-                    },
-                    unSelectIcon = {
-                        margin = 15 // use dp or sp this is only for demonstration purposes
-                        tint = ContextCompat.getColor(this@MainActivity, R.color.colorPrimary)
-                    })
-        }, ::doSomethingWithImageList)
 ```
 ##
 If you're still not sure how to use, take a look at the [Sample app](https://github.com/CraZyLegenD/MediaPicker/blob/master/app/src/main/java/com/crazylegend/mediapicker/MainActivity.kt) 
