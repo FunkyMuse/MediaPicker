@@ -35,10 +35,10 @@ object SingleImagePicker {
     @RequiresPermission(READ_EXTERNAL_STORAGE)
     fun showPicker(
             context: Context,
-            singleImagePickerModifier: BaseSinglePickerModifier.() -> Unit = {},
+            pickerModifier: BaseSinglePickerModifier.() -> Unit = {},
             onPickedImage: (image: ImageModel) -> Unit
     ) {
-        val modifier = setupModifier(singleImagePickerModifier)
+        val modifier = setupModifier(pickerModifier)
         val manager = context.setupManager()
         with(SingleImagePickerBottomSheetDialog()) {
             addModifier(modifier)
