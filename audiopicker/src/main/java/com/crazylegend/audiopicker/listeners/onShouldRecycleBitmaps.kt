@@ -8,7 +8,7 @@ internal interface onShouldRecycleBitmaps {
     fun keepItClean()
 }
 
-internal inline fun recycleBitmapsDSL(crossinline recycle:()->Unit = {}) = object : onShouldRecycleBitmaps {
+internal inline fun recycleBitmapsDSL(crossinline recycle: () -> Unit = {}) = object : onShouldRecycleBitmaps {
     override fun keepItClean() {
         recycle()
     }

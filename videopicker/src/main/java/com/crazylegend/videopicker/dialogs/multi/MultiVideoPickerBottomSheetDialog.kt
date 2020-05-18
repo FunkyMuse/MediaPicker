@@ -64,7 +64,8 @@ internal class MultiVideoPickerBottomSheetDialog : AbstractBottomSheetDialogFrag
 
 
         binding.doneButton.setOnClickListener {
-            onVideosPicked?.onVideosPicked(multiSelectAdapter.currentList.filter { it.isSelected } as? List<VideoModel> ?: emptyList())
+            onVideosPicked?.onVideosPicked(multiSelectAdapter.currentList.filter { it.isSelected } as? List<VideoModel>
+                    ?: emptyList())
             dismissAllowingStateLoss()
         }
     }

@@ -28,7 +28,7 @@ open class BaseCursorModel(
         open val size: Int?,
         open val width: Int?,
         open val height: Int?,
-        var isSelected:Boolean = false
+        var isSelected: Boolean = false
 ) : Parcelable {
 
 

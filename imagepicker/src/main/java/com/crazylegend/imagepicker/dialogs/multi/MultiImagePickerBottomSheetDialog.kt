@@ -67,7 +67,8 @@ internal class MultiImagePickerBottomSheetDialog : AbstractBottomSheetDialogFrag
 
 
         binding.doneButton.setOnClickListener {
-            onImagesPicked?.onImagesPicked(multiSelectAdapter.currentList.filter { it.isSelected } as? List<ImageModel> ?: emptyList())
+            onImagesPicked?.onImagesPicked(multiSelectAdapter.currentList.filter { it.isSelected } as? List<ImageModel>
+                    ?: emptyList())
             dismissAllowingStateLoss()
         }
     }
