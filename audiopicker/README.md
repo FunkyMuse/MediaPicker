@@ -49,7 +49,7 @@ dependencies {
     
 ```
 
-4. How to use multi picker
+4. How to use multi picker and check out [how to customize multi audio picker](https://github.com/CraZyLegenD/MediaPicker/wiki/Multi-audio-picker-customization)
 ```kotlin
     //simple usage without customization
     MultiAudioPicker.showPicker(this) {
