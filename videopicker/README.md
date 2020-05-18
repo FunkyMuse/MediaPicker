@@ -17,7 +17,7 @@ dependencies {
     implementation "com.github.CraZyLegenD.MediaPicker:videopicker:$pickerVersion"
   }
 ```
-3. How to use single picker and check out [how to customize single video picker](https://github.com/CraZyLegenD/MediaPicker/wiki/Single-audio-video-picker-customization)
+3. How to use single picker and check out [how to customize single video picker](https://github.com/CraZyLegenD/MediaPicker/wiki/Single--image-video-picker-customization)
 ```kotlin
     //simple usage without customization
     SingleVideoPicker.showPicker(context = this, onPickedVideo = ::loadVideo)
