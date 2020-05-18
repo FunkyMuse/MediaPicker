@@ -43,7 +43,7 @@ dependencies {
     
 ```
 
-4. How to use multi picker and check out [how to customize multi video picker](https://github.com/CraZyLegenD/MediaPicker/wiki/Single-audio-video-picker-customization)
+4. How to use multi picker and check out [how to customize multi video picker](https://github.com/CraZyLegenD/MediaPicker/wiki/Multi-image-video-picker-customization)
 ```kotlin
     //simple usage without customization
     MultiVideoPicker.showPicker(this) { loadVideos(it) }
