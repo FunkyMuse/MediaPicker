@@ -20,7 +20,6 @@ dependencies {
 ```
 3. How to use single pickers and check out [how to customize single image picker](https://github.com/CraZyLegenD/MediaPicker/wiki/Single-audio-video-picker-customization)
 ```kotlin
-    //single picker
     //simple usage without customizations
     SingleImagePicker.showPicker(context = this){
             doSomethingWithImage(it)
@@ -55,7 +54,6 @@ dependencies {
 
 4. How to use multi pickers
 ```kotlin
-    //multi picker
     //simple usage without customizations
     MultiImagePicker.showPicker(this){ doSomethingWithImageList(it) }
     
