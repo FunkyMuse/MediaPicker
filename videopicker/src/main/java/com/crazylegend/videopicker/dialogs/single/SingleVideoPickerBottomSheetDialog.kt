@@ -55,7 +55,7 @@ internal class SingleVideoPickerBottomSheetDialog : AbstractBottomSheetDialogFra
         askForStoragePermission(Manifest.permission.READ_EXTERNAL_STORAGE)
         setupUIForSinglePicker(binding.gallery, singleAdapter, binding.title, binding.loadingIndicator, modifier?.loadingIndicatorTint, ::applyTitleModifications)
         videosVM.videos.observe(viewLifecycleOwner) {
-            singleAdapter.submitList(it)
+            setupList(singleAdapter, it, binding.noContentText, modifier?.noContentTextModifier)
         }
         handleUIIndicator(videosVM.loadingIndicator, binding.loadingIndicator)
 

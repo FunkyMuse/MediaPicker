@@ -32,7 +32,7 @@ object MultiAudioPicker {
     }
 
     @RequiresPermission(Manifest.permission.READ_EXTERNAL_STORAGE)
-    fun bottomSheetPicker(context: Context, modifier: MultiAudioPickerModifier.() -> Unit = {}, audioList: (list: List<AudioModel>) -> Unit) {
+    fun showPicker(context: Context, modifier: MultiAudioPickerModifier.() -> Unit = {}, audioList: (list: List<AudioModel>) -> Unit) {
         val manager = context.setupManager()
         val setupModifier = setupModifier(modifier)
         with(MultiAudioPickerBottomSheetDialog()) {

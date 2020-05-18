@@ -70,7 +70,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
 
     //audios
     private fun showSingleAudioBottomSheetPicker() {
-        SingleAudioPicker.bottomSheetPicker(this, {
+        SingleAudioPicker.showPicker(this, {
             setupViewHolderTitleText {
                 textColor = Color.BLACK
                 textPadding = 10 // use dp or sp this is only for demonstration purposes
@@ -95,7 +95,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
 
 
     private fun showAudioMultiBottomSheetPicker() {
-        MultiAudioPicker.bottomSheetPicker(this, {
+        MultiAudioPicker.showPicker(this, {
             setupViewHolderTitleText {
                 textColor = ContextCompat.getColor(this@MainActivity, R.color.colorPrimaryDark)
                 textStyle = TitleTextModifier.TextStyle.BOLD
@@ -146,7 +146,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
     //videos
 
     private fun showVideoMultiBottomSheetPicker() {
-        MultiVideoPicker.bottomSheetPicker(this, {
+        MultiVideoPicker.showPicker(this, {
             setupBaseMultiPicker(
                     tintForLoadingProgressBar = ContextCompat.getColor(this@MainActivity, R.color.colorPrimaryDark),
                     gravityForSelectAndUnSelectIndicators = BaseMultiPickerModifier.Gravity.TOP_RIGHT,
@@ -176,9 +176,9 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
 
 
     private fun showSingleVideoBottomSheetPicker() {
-        //SingleVideoPicker.bottomSheetPicker(this, {}, ::loadVideo)
+        //SingleVideoPicker.showPicker(context = this, onPickedVideo = ::loadVideo)
 
-        SingleVideoPicker.bottomSheetPicker(this, {
+        SingleVideoPicker.showPicker(this, {
             setupBaseModifier(
                     loadingIndicatorColor = R.color.minusColor,
                     titleTextModifications = {
@@ -214,7 +214,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
     //images
 
     private fun showImageMultiBottomSheetPicker() {
-        MultiImagePicker.bottomSheetPicker(this, {
+        MultiImagePicker.showPicker(this, {
             setupBaseMultiPicker(
                     tintForLoadingProgressBar = ContextCompat.getColor(this@MainActivity, R.color.colorPrimaryDark),
                     gravityForSelectAndUnSelectIndicators = BaseMultiPickerModifier.Gravity.TOP_LEFT,
@@ -246,16 +246,24 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
 
 
     private fun showSingleImageBottomSheetPicker() {
-        SingleImagePicker.bottomSheetPicker(this, {
+        SingleImagePicker.showPicker(this, {
             loadingIndicatorTint = ContextCompat.getColor(this@MainActivity, R.color.colorPrimaryDark)
             titleTextModifier.apply {
-                textAlignment = TextView.TEXT_ALIGNMENT_CENTER
+                textAlignment = TextView.TEXT_ALIGNMENT_VIEW_START
                 textStyle = TitleTextModifier.TextStyle.BOLD_ITALIC
                 margin = 22 // use dp or sp this is only for demonstration purposes
                 textColor = Color.BLACK
                 textPadding = 5 // use dp or sp this is only for demonstration purposes
                 textSize = 20f  // use sp this is only for demonstration purposes
-                textString = "Bottom sheet pick image"
+                textString = "Select an image"
+            }
+            noContentTextModifier.apply {
+                textAlignment = TextView.TEXT_ALIGNMENT_CENTER
+                textStyle = TitleTextModifier.TextStyle.BOLD_ITALIC
+                margin = 22 // use dp or sp this is only for demonstration purposes
+                textColor = Color.RED
+                textPadding = 5 // use dp or sp this is only for demonstration purposes
+                textSize = 20f  // use sp this is only for demonstration purposes
             }
             viewHolderPlaceholderModifier.apply {
                 resID = R.drawable.ic_image

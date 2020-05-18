@@ -34,7 +34,7 @@ object MultiVideoPicker {
     }
 
     @RequiresPermission(Manifest.permission.READ_EXTERNAL_STORAGE)
-    fun bottomSheetPicker(context: Context, modifier: BaseMultiPickerModifier.() -> Unit = {}, videoList: (list: List<VideoModel>) -> Unit) {
+    fun showPicker(context: Context, modifier: BaseMultiPickerModifier.() -> Unit = {}, videoList: (list: List<VideoModel>) -> Unit) {
         val manager = context.setupManager()
         val setupModifier = setupModifier(modifier)
         with(MultiVideoPickerBottomSheetDialog()) {

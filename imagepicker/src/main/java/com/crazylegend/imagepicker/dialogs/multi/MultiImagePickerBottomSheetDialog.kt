@@ -61,7 +61,7 @@ internal class MultiImagePickerBottomSheetDialog : AbstractBottomSheetDialogFrag
                 ::applyDoneButtonModifications, ::applyTitleModifications)
 
         imagesVM.images.observe(viewLifecycleOwner) {
-            multiSelectAdapter.submitList(it)
+            setupList(multiSelectAdapter, it, binding.noContentText, modifier?.noContentTextModifier)
         }
         handleUIIndicator(imagesVM.loadingIndicator, binding.loadingIndicator)
 

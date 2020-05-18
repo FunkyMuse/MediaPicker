@@ -14,15 +14,18 @@ import kotlinx.android.parcel.Parcelize
 open class BaseSinglePickerModifier(
         open val titleTextModifier: TitleTextModifier = TitleTextModifier(),
         open val viewHolderPlaceholderModifier: ImageModifier = ImageModifier(),
+        open val noContentTextModifier: TitleTextModifier = TitleTextModifier(),
         open var loadingIndicatorTint: Int? = null
 ) : Parcelable {
 
     inline fun setupBaseModifier(
             loadingIndicatorColor: Int? = null,
             titleTextModifications: TitleTextModifier.() -> Unit = {},
-            placeHolderModifications: ImageModifier.() -> Unit = {}) {
+            placeHolderModifications: ImageModifier.() -> Unit = {},
+            noContentTextModifications: TitleTextModifier.() -> Unit = {}) {
         titleTextModifier.titleTextModifications()
         loadingIndicatorTint = loadingIndicatorColor
         viewHolderPlaceholderModifier.placeHolderModifications()
+        noContentTextModifier.noContentTextModifications()
     }
 }

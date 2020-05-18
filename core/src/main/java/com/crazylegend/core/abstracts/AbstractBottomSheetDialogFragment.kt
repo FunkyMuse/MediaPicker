@@ -9,8 +9,11 @@ import android.widget.ProgressBar
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.observe
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.crazylegend.core.R
 import com.crazylegend.core.gone
+import com.crazylegend.core.modifiers.TitleTextModifier
 import com.crazylegend.core.visible
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.android.material.button.MaterialButton
@@ -43,6 +46,20 @@ abstract class AbstractBottomSheetDialogFragment : BottomSheetDialogFragment() {
         }
         titleModifications(title)
         progressBarTint?.let { loadingIndicator.indeterminateDrawable.setTint(it) }
+    }
+
+    fun <T> setupList(adapter: ListAdapter<T, *>, list: List<T>, noContentText: MaterialTextView, noContentTextModifier: TitleTextModifier?) {
+        if (list.isEmpty()) {
+            adapter.submitList(emptyList())
+            noContentText.visible()
+            noContentTextModifier?.apply {
+                textString = textString ?: getString(R.string.no_content_found)
+                applyTextParams(noContentText)
+            }
+        } else {
+            noContentText.gone()
+            adapter.submitList(list)
+        }
     }
 
     fun setupUIForMultiPicker(gallery: RecyclerView,

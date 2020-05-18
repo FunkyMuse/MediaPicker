@@ -59,7 +59,7 @@ internal class MultiAudioPickerBottomSheetDialog : AbstractBottomSheetDialogFrag
                 ::applyDoneButtonModifications, ::applyTitleModifications)
 
         audiosVM.audio.observe(viewLifecycleOwner) {
-            audioMultiSelectAdapter.submitList(it)
+            setupList(audioMultiSelectAdapter, it, binding.noContentText, modifier?.noContentTextModifier)
         }
 
         binding.doneButton.setOnClickListener {
@@ -72,6 +72,7 @@ internal class MultiAudioPickerBottomSheetDialog : AbstractBottomSheetDialogFrag
             recycleBitmaps()
         }
     }
+
 
     override fun onDestroyView() {
         super.onDestroyView()

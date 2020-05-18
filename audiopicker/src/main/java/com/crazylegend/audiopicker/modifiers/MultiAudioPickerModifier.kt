@@ -20,9 +20,12 @@ data class MultiAudioPickerModifier(
         override val unSelectedIconModifier: SelectIconModifier = SelectIconModifier(),
         override var indicatorsGravity: Gravity = Gravity.BOTTOM_RIGHT,
         override val viewHolderPlaceholderModifier: ImageModifier = ImageModifier(),
+        override val noContentTextModifier: TitleTextModifier = TitleTextModifier(),
         override var loadingIndicatorTint: Int? = null,
+
         val viewHolderTitleTextModifier: TitleTextModifier = TitleTextModifier()
-) : BaseMultiPickerModifier(doneButtonModifier, titleTextModifier, selectIconModifier, unSelectedIconModifier, indicatorsGravity, viewHolderPlaceholderModifier, loadingIndicatorTint) {
+) : BaseMultiPickerModifier(doneButtonModifier, titleTextModifier, selectIconModifier, unSelectedIconModifier, indicatorsGravity, viewHolderPlaceholderModifier,
+        noContentTextModifier, loadingIndicatorTint) {
 
     inline fun setupViewHolderTitleText(viewHolderPlaceholderModifications: TitleTextModifier.() -> Unit = {}) {
         viewHolderTitleTextModifier.viewHolderPlaceholderModifications()

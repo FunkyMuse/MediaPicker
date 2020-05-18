@@ -33,7 +33,7 @@ object MultiImagePicker {
     }
 
     @RequiresPermission(READ_EXTERNAL_STORAGE)
-    fun bottomSheetPicker(
+    fun showPicker(
             context: Context, multiImagePickerModifier: BaseMultiPickerModifier.() -> Unit = {},
             imagesList: (list: List<ImageModel>) -> Unit
     ) {

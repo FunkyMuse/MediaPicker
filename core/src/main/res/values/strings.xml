@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="done">Done</string>
+    <string name="no_content_found">¯\_(ツ)_/¯\n\nNo content has been found on your device</string>
 </resources>

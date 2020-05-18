@@ -58,7 +58,7 @@ internal class MultiVideoPickerBottomSheetDialog : AbstractBottomSheetDialogFrag
                 ::applyDoneButtonModifications, ::applyTitleModifications)
 
         videosVM.videos.observe(viewLifecycleOwner) {
-            multiSelectAdapter.submitList(it)
+            setupList(multiSelectAdapter, it, binding.noContentText, modifier?.noContentTextModifier)
         }
         handleUIIndicator(videosVM.loadingIndicator, binding.loadingIndicator)
 

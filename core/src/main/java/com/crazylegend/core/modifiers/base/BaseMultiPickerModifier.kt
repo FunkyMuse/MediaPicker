@@ -27,6 +27,7 @@ open class BaseMultiPickerModifier(
         open val unSelectedIconModifier: SelectIconModifier = SelectIconModifier(),
         open var indicatorsGravity: Gravity = Gravity.BOTTOM_RIGHT,
         open val viewHolderPlaceholderModifier: ImageModifier = ImageModifier(),
+        open val noContentTextModifier: TitleTextModifier = TitleTextModifier(),
         open var loadingIndicatorTint: Int? = null
 ) : Parcelable {
 

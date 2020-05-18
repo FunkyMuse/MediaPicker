@@ -15,8 +15,9 @@ data class SingleAudioPickerModifier(
         override val viewHolderPlaceholderModifier: ImageModifier = ImageModifier(),
         override val titleTextModifier: TitleTextModifier = TitleTextModifier(),
         override var loadingIndicatorTint: Int? = null,
+        override val noContentTextModifier: TitleTextModifier = TitleTextModifier(),
         val viewHolderTitleTextModifier: TitleTextModifier = TitleTextModifier()
-) : BaseSinglePickerModifier(titleTextModifier, viewHolderPlaceholderModifier, loadingIndicatorTint) {
+) : BaseSinglePickerModifier(titleTextModifier, viewHolderPlaceholderModifier, noContentTextModifier, loadingIndicatorTint) {
 
     inline fun setupViewHolderTitleText(viewHolderPlaceholderModifications: TitleTextModifier.() -> Unit = {}) {
         viewHolderTitleTextModifier.viewHolderPlaceholderModifications()

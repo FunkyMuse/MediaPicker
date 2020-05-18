@@ -58,7 +58,7 @@ internal class SingleAudioPickerBottomSheetDialog : AbstractBottomSheetDialogFra
 
         setupUIForSinglePicker(binding.gallery, singleAudioAdapter, binding.title, binding.loadingIndicator, modifier?.loadingIndicatorTint, ::applyTitleModifications)
         audiosVM.audio.observe(viewLifecycleOwner) {
-            singleAudioAdapter.submitList(it)
+            setupList(singleAudioAdapter, it, binding.noContentText, modifier?.noContentTextModifier)
         }
 
         handleUIIndicator(audiosVM.loadingIndicator, binding.loadingIndicator)

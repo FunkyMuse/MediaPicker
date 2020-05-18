@@ -33,7 +33,7 @@ object SingleImagePicker {
     }
 
     @RequiresPermission(READ_EXTERNAL_STORAGE)
-    fun bottomSheetPicker(
+    fun showPicker(
             context: Context,
             singleImagePickerModifier: BaseSinglePickerModifier.() -> Unit = {},
             onPickedImage: (image: ImageModel) -> Unit
