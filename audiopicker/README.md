@@ -16,7 +16,7 @@ dependencies {
     implementation "com.github.CraZyLegenD.MediaPicker:audiopicker:$pickerVersion"
   }
 ```
-3. How to use single picker
+3. How to use single picker and check out [how to customize single audio picker](https://github.com/CraZyLegenD/MediaPicker/wiki/Single-audio-picker-customization)
 ```kotlin
     //simple usage without customization
     SingleAudioPicker.showPicker(this) {
