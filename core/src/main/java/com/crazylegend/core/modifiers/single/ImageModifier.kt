@@ -1,7 +1,6 @@
 package com.crazylegend.core.modifiers.single
 
 import android.os.Parcelable
-import android.widget.RelativeLayout
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.setMargins
@@ -41,27 +40,12 @@ data class ImageModifier(
     }
 
 
-    private fun updateMarginsRelative(imageView: AppCompatImageView) {
-        imageView.updateLayoutParams<RelativeLayout.LayoutParams> {
-            startMargin?.let { marginStart = it }
-            endMargin?.let { marginEnd = it }
-            marginTop?.let { topMargin = it }
-            marginBottom?.let { bottomMargin = it }
-        }
-    }
-
     private fun updateMarginsConstraint(imageView: AppCompatImageView) {
         imageView.updateLayoutParams<ConstraintLayout.LayoutParams> {
             startMargin?.let { marginStart = it }
             endMargin?.let { marginEnd = it }
             marginTop?.let { topMargin = it }
             marginBottom?.let { bottomMargin = it }
-        }
-    }
-
-    private fun updateAllMarginsRelative(imageView: AppCompatImageView) {
-        imageView.updateLayoutParams<RelativeLayout.LayoutParams> {
-            margin?.let { setMargins(it) }
         }
     }
 
