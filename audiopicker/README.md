@@ -90,8 +90,28 @@ dependencies {
             )
         }, ::doSomethingWithAudioList)
 ```
+
+If you're using Fragments to call the pickers you can leverage [set fragment result listener](https://developer.android.com/reference/androidx/fragment/app/FragmentManager#setfragmentresultlistener) to get back the result and you don't have to restore the listener nor provide a lambda for the listener, it can be as simple as
+```kotlin
+SingleAudioPicker.showPicker(requireContext())
+```
+```kotlin
+
+setFragmentResultListener(SingleAudioPicker.SINGLE_AUDIO_REQUEST_KEY) { _, bundle ->
+     val loadedModel = bundle.getParcelable<AudioModel>(SingleAudioPicker.ON_SINGLE_AUDIO_PICK_KEY)
+            loadedModel?.let { loadAudio(it) }
+        }
+	
+setFragmentResultListener(MultiAudioPicker.MULTI_AUDIO_REQUEST_KEY) { _, bundle ->
+     val loadedModel = bundle.getParcelableArrayList<AudioModel>(MultiAudioPicker.ON_MULTI_AUDIO_PICK_KEY)
+            loadedModel?.let { doSomethingWithAudioList(it) }
+        }
+```
 ##
 If you're still not sure how to use, take a look at the [Sample app](https://github.com/CraZyLegenD/MediaPicker/blob/master/app/src/main/java/com/crazylegend/mediapicker/MainActivity.kt) 
+
+##
+If you're still not sure how to use fragment listener, take a look at the [Sample app](https://github.com/CraZyLegenD/MediaPicker/blob/master/app/src/main/java/com/crazylegend/mediapicker/FragmentResult.kt#L330) 
 
 ## Screens
 
