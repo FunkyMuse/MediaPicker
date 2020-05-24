@@ -87,8 +87,29 @@ dependencies {
             doSomethingWithImageList(list)
         }
 ```
+
+If you're using Fragments to call the pickers you can leverage [set fragment result listener](https://developer.android.com/reference/androidx/fragment/app/FragmentManager#setfragmentresultlistener) to get back the result and you don't have to restore the listener nor provide a lambda for the listener, it can be as simple as
+```kotlin
+SingleImagePicker.showPicker(requireContext())
+```
+```kotlin
+
+setFragmentResultListener(SingleImagePicker.SINGLE_IMAGE_REQUEST_KEY) { _, bundle ->
+    val loadedModel = bundle.getParcelable<ImageModel>(SingleImagePicker.ON_SINGLE_IMAGE_PICK_KEY)
+            loadedModel?.let { loadImage(it) }
+        }
+        
+setFragmentResultListener(MultiImagePicker.MULTI_IMAGE_REQUEST_KEY) { _, bundle ->
+    val loadedModel = bundle.getParcelableArrayList<ImageModel>(MultiImagePicker.ON_MULTI_IMAGE_PICK_KEY)
+            loadedModel?.let { doSomethingWithImageList(it) }
+        }
+```
+
 ##
 If you're still not sure how to use, take a look at the [Sample app](https://github.com/CraZyLegenD/MediaPicker/blob/master/app/src/main/java/com/crazylegend/mediapicker/MainActivity.kt) 
+
+##
+If you're still not sure how to use fragment listener, take a look at the [Sample app](https://github.com/CraZyLegenD/MediaPicker/blob/master/app/src/main/java/com/crazylegend/mediapicker/FragmentResult.kt#L310)  
 
 ## Screens
 
