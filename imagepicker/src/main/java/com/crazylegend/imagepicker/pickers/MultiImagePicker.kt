@@ -19,7 +19,11 @@ import com.crazylegend.imagepicker.listeners.onImagesDSL
  */
 object MultiImagePicker {
 
-    fun restoreListener(context: Context, imagesList: (list: List<ImageModel>) -> Unit) {
+
+    const val MULTI_IMAGE_REQUEST_KEY = "multiImagesRequest"
+    const val ON_MULTI_IMAGE_PICK_KEY = "onMultiImagesPicked"
+
+    fun restoreListener(context: Context, imagesList: (list: List<ImageModel>) -> Unit = {}) {
         val manager = context.setupManager()
         when (val fragment = manager.findFragmentByTag(MULTI_PICKER_BOTTOM_SHEET)
                 ?: manager.findFragmentByTag(MULTI_PICKER_DIALOG)) {
@@ -35,7 +39,7 @@ object MultiImagePicker {
     @RequiresPermission(READ_EXTERNAL_STORAGE)
     fun showPicker(
             context: Context, multiImagePickerModifier: BaseMultiPickerModifier.() -> Unit = {},
-            imagesList: (list: List<ImageModel>) -> Unit
+            imagesList: (list: List<ImageModel>) -> Unit = {}
     ) {
         val manager = context.setupManager()
         val modifier = setupModifier(multiImagePickerModifier)

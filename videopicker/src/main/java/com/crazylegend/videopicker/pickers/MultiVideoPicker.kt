@@ -20,7 +20,10 @@ import com.crazylegend.videopicker.videos.VideoModel
 
 object MultiVideoPicker {
 
-    fun restoreListener(context: Context, videoList: (list: List<VideoModel>) -> Unit) {
+    const val MULTI_VIDEO_REQUEST_KEY = "multiVideosRequest"
+    const val ON_MULTI_VIDEO_PICK_KEY = "onMultiVideosPicked"
+
+    fun restoreListener(context: Context, videoList: (list: List<VideoModel>) -> Unit = {}) {
         val manager = context.setupManager()
         when (val fragment = manager.findFragmentByTag(MULTI_PICKER_BOTTOM_SHEET)
                 ?: manager.findFragmentByTag(MULTI_PICKER_DIALOG)) {
@@ -34,7 +37,7 @@ object MultiVideoPicker {
     }
 
     @RequiresPermission(Manifest.permission.READ_EXTERNAL_STORAGE)
-    fun showPicker(context: Context, modifier: BaseMultiPickerModifier.() -> Unit = {}, videoList: (list: List<VideoModel>) -> Unit) {
+    fun showPicker(context: Context, modifier: BaseMultiPickerModifier.() -> Unit = {}, videoList: (list: List<VideoModel>) -> Unit = {}) {
         val manager = context.setupManager()
         val setupModifier = setupModifier(modifier)
         with(MultiVideoPickerBottomSheetDialog()) {

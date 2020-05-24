@@ -18,7 +18,10 @@ import com.crazylegend.extensions.setupManager
  */
 object SingleAudioPicker {
 
-    fun restoreListener(context: Context, onPickedAudio: (audio: AudioModel) -> Unit) {
+    const val SINGLE_AUDIO_REQUEST_KEY = "singleAudioRequest"
+    const val ON_SINGLE_AUDIO_PICK_KEY = "onSingleAudioPicked"
+
+    fun restoreListener(context: Context, onPickedAudio: (audio: AudioModel) -> Unit = {}) {
         val manager = context.setupManager()
         when (val fragment = manager.findFragmentByTag(SINGLE_PICKER_BOTTOM_SHEET)
                 ?: manager.findFragmentByTag(SINGLE_PICKER_DIALOG)) {
@@ -32,7 +35,7 @@ object SingleAudioPicker {
     }
 
     @RequiresPermission(Manifest.permission.READ_EXTERNAL_STORAGE)
-    fun showPicker(context: Context, pickerModifier: SingleAudioPickerModifier.() -> Unit = {}, onPickedAudio: (audio: AudioModel) -> Unit) {
+    fun showPicker(context: Context, pickerModifier: SingleAudioPickerModifier.() -> Unit = {}, onPickedAudio: (audio: AudioModel) -> Unit = {}) {
         val modifier = setupModifier(pickerModifier)
         val manager = context.setupManager()
         with(SingleAudioPickerBottomSheetDialog()) {

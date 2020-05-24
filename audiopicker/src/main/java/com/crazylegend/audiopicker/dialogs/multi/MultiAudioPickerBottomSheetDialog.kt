@@ -8,6 +8,7 @@ import androidx.activity.invoke
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.core.os.bundleOf
+import androidx.fragment.app.setFragmentResult
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.observe
 import com.crazylegend.audiopicker.adapters.multi.AudioMultiSelectAdapter
@@ -16,6 +17,7 @@ import com.crazylegend.audiopicker.contracts.MultiPickerContracts
 import com.crazylegend.audiopicker.listeners.onAudiosPicked
 import com.crazylegend.audiopicker.listeners.recycleBitmapsDSL
 import com.crazylegend.audiopicker.modifiers.MultiAudioPickerModifier
+import com.crazylegend.audiopicker.pickers.MultiAudioPicker
 import com.crazylegend.core.abstracts.AbstractBottomSheetDialogFragment
 import com.crazylegend.core.databinding.FragmentImagesGalleryLayoutMultiBinding
 import com.crazylegend.extensions.viewBinding
@@ -63,7 +65,9 @@ internal class MultiAudioPickerBottomSheetDialog : AbstractBottomSheetDialogFrag
         }
 
         binding.doneButton.setOnClickListener {
-            onAudiosPicked?.forAudios(audioMultiSelectAdapter.currentList.filter { it.isSelected })
+            val selectedList = audioMultiSelectAdapter.currentList.filter { it.isSelected }
+            setFragmentResult(MultiAudioPicker.MULTI_AUDIO_REQUEST_KEY, bundleOf(MultiAudioPicker.ON_MULTI_AUDIO_PICK_KEY to selectedList))
+            onAudiosPicked?.forAudios(selectedList)
             dismissAllowingStateLoss()
         }
 

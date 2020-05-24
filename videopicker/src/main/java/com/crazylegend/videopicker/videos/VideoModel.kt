@@ -23,12 +23,7 @@ data class VideoModel(
         override val height: Int?,
         val resolution: String?,
         val private: Int?,
-        val artist: String?,
-        val album: String?,
-        val category: String?,
-        val tags: String?,
-        val language: String?,
-        val bookmark: Int?
+        val tags: String?
 ) : BaseCursorModel(id, displayName, dateAdded, contentUri, dateModified, description, size, width, height), Parcelable {
 
 

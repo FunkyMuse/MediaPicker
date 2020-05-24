@@ -19,7 +19,10 @@ import com.crazylegend.imagepicker.listeners.onImageDSL
  */
 object SingleImagePicker {
 
-    fun restoreListener(context: Context, onPickedImage: (image: ImageModel) -> Unit) {
+    const val SINGLE_IMAGE_REQUEST_KEY = "singleImageRequest"
+    const val ON_SINGLE_IMAGE_PICK_KEY = "onSingleImagePicked"
+
+    fun restoreListener(context: Context, onPickedImage: (image: ImageModel) -> Unit = {}) {
         val manager = context.setupManager()
         when (val fragment = manager.findFragmentByTag(SINGLE_PICKER_BOTTOM_SHEET)
                 ?: manager.findFragmentByTag(SINGLE_PICKER_DIALOG)) {
@@ -36,7 +39,7 @@ object SingleImagePicker {
     fun showPicker(
             context: Context,
             pickerModifier: BaseSinglePickerModifier.() -> Unit = {},
-            onPickedImage: (image: ImageModel) -> Unit
+            onPickedImage: (image: ImageModel) -> Unit = {}
     ) {
         val modifier = setupModifier(pickerModifier)
         val manager = context.setupManager()

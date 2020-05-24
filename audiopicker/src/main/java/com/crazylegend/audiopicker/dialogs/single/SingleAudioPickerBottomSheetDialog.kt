@@ -9,6 +9,7 @@ import androidx.activity.invoke
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.core.os.bundleOf
+import androidx.fragment.app.setFragmentResult
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.observe
 import com.crazylegend.audiopicker.adapters.single.AudioSingleAdapter
@@ -17,6 +18,7 @@ import com.crazylegend.audiopicker.contracts.SinglePickerContracts
 import com.crazylegend.audiopicker.listeners.onAudioPicked
 import com.crazylegend.audiopicker.listeners.recycleBitmapsDSL
 import com.crazylegend.audiopicker.modifiers.SingleAudioPickerModifier
+import com.crazylegend.audiopicker.pickers.SingleAudioPicker
 import com.crazylegend.core.abstracts.AbstractBottomSheetDialogFragment
 import com.crazylegend.core.databinding.FragmentImagesGalleryLayoutBinding
 import com.crazylegend.extensions.viewBinding
@@ -37,6 +39,7 @@ internal class SingleAudioPickerBottomSheetDialog : AbstractBottomSheetDialogFra
     private val singleAudioAdapter by lazy {
         AudioSingleAdapter(modifier?.viewHolderPlaceholderModifier, modifier?.viewHolderTitleTextModifier) {
             recycleThubmnail(it.thumbnail)
+            setFragmentResult(SingleAudioPicker.SINGLE_AUDIO_REQUEST_KEY, bundleOf(SingleAudioPicker.ON_SINGLE_AUDIO_PICK_KEY to it))
             onAudioPicked?.forAudio(it)
             dismissAllowingStateLoss()
         }

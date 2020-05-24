@@ -1,6 +1,6 @@
 package com.crazylegend.mediapicker
 
-import android.Manifest.permission.READ_EXTERNAL_STORAGE
+import android.Manifest
 import android.annotation.SuppressLint
 import android.graphics.Color
 import android.os.Bundle
@@ -9,8 +9,9 @@ import android.view.View
 import android.widget.TextView
 import androidx.activity.invoke
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import androidx.fragment.app.DialogFragment
+import androidx.fragment.app.setFragmentResultListener
 import com.bumptech.glide.Glide
 import com.crazylegend.audiopicker.audios.AudioModel
 import com.crazylegend.audiopicker.pickers.MultiAudioPicker
@@ -25,8 +26,11 @@ import com.crazylegend.videopicker.pickers.SingleVideoPicker
 import com.crazylegend.videopicker.videos.VideoModel
 import kotlinx.android.synthetic.main.activity_main.*
 
-@SuppressLint("MissingPermission")
-class MainActivity : AppCompatActivity(), View.OnClickListener {
+
+/**
+ * Created by crazy on 5/24/20 to long live and prosper !
+ */
+class FragmentResult : DialogFragment(R.layout.activity_main), View.OnClickListener {
 
     private var clickedID = R.id.singleImageBottomSheetPick
 
@@ -52,7 +56,6 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
                             showVideoMultiBottomSheetPicker()
                         }
 
-
                         //audios
                         R.id.singleAudioBottomSheetPick -> {
                             showSingleAudioBottomSheetPicker()
@@ -62,12 +65,6 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
                             showAudioMultiBottomSheetPicker()
                         }
 
-
-                        //fragment result
-                        R.id.launchFragmentResult -> {
-                            val dialog = FragmentResult()
-                            dialog.show(supportFragmentManager, FragmentResult::class.java.name)
-                        }
                     }
                 } else {
                     Log.e("PERMISSION", "NOT ALLOWED!")
@@ -75,8 +72,9 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
             }
 
     //audios
+    @SuppressLint("MissingPermission")
     private fun showSingleAudioBottomSheetPicker() {
-        SingleAudioPicker.showPicker(this, {
+        SingleAudioPicker.showPicker(requireContext(), {
             setupViewHolderTitleText {
                 textColor = Color.BLACK
                 textPadding = 10 // use dp or sp this is only for demonstration purposes
@@ -96,19 +94,20 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
                         resID = R.drawable.ic_image
                     }
             )
-        }, ::loadAudio)
+        })
     }
 
 
+    @SuppressLint("MissingPermission")
     private fun showAudioMultiBottomSheetPicker() {
-        MultiAudioPicker.showPicker(this, {
+        MultiAudioPicker.showPicker(requireContext(), {
             setupViewHolderTitleText {
-                textColor = ContextCompat.getColor(this@MainActivity, R.color.colorPrimaryDark)
+                textColor = ContextCompat.getColor(requireContext(), R.color.colorPrimaryDark)
                 textStyle = TitleTextModifier.TextStyle.BOLD
                 textPadding = 10 // use dp or sp this is only for demonstration purposes
             }
             setupBaseMultiPicker(
-                    tintForLoadingProgressBar = ContextCompat.getColor(this@MainActivity, R.color.colorPrimaryDark),
+                    tintForLoadingProgressBar = ContextCompat.getColor(requireContext(), R.color.colorPrimaryDark),
                     gravityForSelectAndUnSelectIndicators = BaseMultiPickerModifier.Gravity.BOTTOM_LEFT,
                     titleModifications = {
                         textAlignment = TextView.TEXT_ALIGNMENT_VIEW_START
@@ -131,12 +130,12 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
                         resID = R.drawable.ic_album_second
                     }
             )
-        }, ::doSomethingWithAudioList)
+        })
     }
 
     private fun loadAudio(audioModel: AudioModel) {
         Glide.with(this)
-                .load(audioModel.loadThumbnail(contentResolver))
+                .load(audioModel.loadThumbnail(requireContext().contentResolver))
                 .error(R.drawable.ic_album)
                 .into(audio)
         audioTitle.text = audioModel.displayName
@@ -151,10 +150,11 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
 
     //videos
 
+    @SuppressLint("MissingPermission")
     private fun showVideoMultiBottomSheetPicker() {
-        MultiVideoPicker.showPicker(this, {
+        MultiVideoPicker.showPicker(requireContext(), {
             setupBaseMultiPicker(
-                    tintForLoadingProgressBar = ContextCompat.getColor(this@MainActivity, R.color.colorPrimaryDark),
+                    tintForLoadingProgressBar = ContextCompat.getColor(requireContext(), R.color.colorPrimaryDark),
                     gravityForSelectAndUnSelectIndicators = BaseMultiPickerModifier.Gravity.TOP_RIGHT,
                     titleModifications = {
                         textAlignment = TextView.TEXT_ALIGNMENT_CENTER
@@ -177,14 +177,15 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
                         resID = R.drawable.ic_close
                     }
             )
-        }, ::doSomethingWithVideoList)
+        })
     }
 
+    @SuppressLint("MissingPermission")
 
     private fun showSingleVideoBottomSheetPicker() {
         //SingleVideoPicker.showPicker(context = this, onPickedVideo = ::loadVideo)
 
-        SingleVideoPicker.showPicker(this, {
+        SingleVideoPicker.showPicker(requireContext(), {
             setupBaseModifier(
                     loadingIndicatorColor = R.color.minusColor,
                     titleTextModifications = {
@@ -200,7 +201,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
                         resID = R.drawable.ic_image
                     }
             )
-        }, ::loadVideo)
+        })
 
     }
 
@@ -218,11 +219,11 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
     }
 
     //images
-
+    @SuppressLint("MissingPermission")
     private fun showImageMultiBottomSheetPicker() {
-        MultiImagePicker.showPicker(this, {
+        MultiImagePicker.showPicker(requireContext(), {
             setupBaseMultiPicker(
-                    tintForLoadingProgressBar = ContextCompat.getColor(this@MainActivity, R.color.colorPrimaryDark),
+                    tintForLoadingProgressBar = ContextCompat.getColor(requireContext(), R.color.colorPrimaryDark),
                     gravityForSelectAndUnSelectIndicators = BaseMultiPickerModifier.Gravity.TOP_LEFT,
                     titleModifications = {
                         textAlignment = TextView.TEXT_ALIGNMENT_VIEW_START
@@ -245,15 +246,13 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
                         resID = R.drawable.ic_image
                     }
             )
-        }) { list ->
-            doSomethingWithImageList(list)
-        }
+        })
     }
 
-
+    @SuppressLint("MissingPermission")
     private fun showSingleImageBottomSheetPicker() {
-        SingleImagePicker.showPicker(this, {
-            loadingIndicatorTint = ContextCompat.getColor(this@MainActivity, R.color.colorPrimaryDark)
+        SingleImagePicker.showPicker(requireContext(), {
+            loadingIndicatorTint = ContextCompat.getColor(requireContext(), R.color.colorPrimaryDark)
             titleTextModifier.apply {
                 textAlignment = TextView.TEXT_ALIGNMENT_VIEW_START
                 textStyle = TitleTextModifier.TextStyle.BOLD_ITALIC
@@ -274,7 +273,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
             viewHolderPlaceholderModifier.apply {
                 resID = R.drawable.ic_image
             }
-        }, ::loadImage)
+        })
     }
 
     private fun loadImage(imageModel: ImageModel) {
@@ -290,9 +289,10 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         }
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        launchFragmentResult.hide()
 
         //images
         singleImageBottomSheetPick.setOnClickListener(this)
@@ -306,30 +306,42 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         singleAudioBottomSheetPick.setOnClickListener(this)
         audioBottomSheetMultiPick.setOnClickListener(this)
 
-        //fragment result
-        launchFragmentResult.setOnClickListener(this)
+
+        //listeners images
+        setFragmentResultListener(SingleImagePicker.SINGLE_IMAGE_REQUEST_KEY) { _, bundle ->
+            val loadedModel = bundle.getParcelable<ImageModel>(SingleImagePicker.ON_SINGLE_IMAGE_PICK_KEY)
+            loadedModel?.let { loadImage(it) }
+        }
+        setFragmentResultListener(MultiImagePicker.MULTI_IMAGE_REQUEST_KEY) { _, bundle ->
+            val loadedModel = bundle.getParcelableArrayList<ImageModel>(MultiImagePicker.ON_MULTI_IMAGE_PICK_KEY)
+            loadedModel?.let { doSomethingWithImageList(it) }
+        }
+
+        //listeners video
+        setFragmentResultListener(SingleVideoPicker.SINGLE_VIDEO_REQUEST_KEY) { _, bundle ->
+            val loadedModel = bundle.getParcelable<VideoModel>(SingleVideoPicker.ON_SINGLE_VIDEO_PICK_KEY)
+            loadedModel?.let { loadVideo(it) }
+        }
+        setFragmentResultListener(MultiVideoPicker.MULTI_VIDEO_REQUEST_KEY) { _, bundle ->
+            val loadedModel = bundle.getParcelableArrayList<VideoModel>(MultiVideoPicker.ON_MULTI_VIDEO_PICK_KEY)
+            loadedModel?.let { doSomethingWithVideoList(it) }
+        }
+
+        //listeners audio
+        setFragmentResultListener(SingleAudioPicker.SINGLE_AUDIO_REQUEST_KEY) { _, bundle ->
+            val loadedModel = bundle.getParcelable<AudioModel>(SingleAudioPicker.ON_SINGLE_AUDIO_PICK_KEY)
+            loadedModel?.let { loadAudio(it) }
+        }
+        setFragmentResultListener(MultiAudioPicker.MULTI_AUDIO_REQUEST_KEY) { _, bundle ->
+            val loadedModel = bundle.getParcelableArrayList<AudioModel>(MultiAudioPicker.ON_MULTI_AUDIO_PICK_KEY)
+            loadedModel?.let { doSomethingWithAudioList(it) }
+        }
+
     }
-
-    override fun onRestoreInstanceState(savedInstanceState: Bundle) {
-        super.onRestoreInstanceState(savedInstanceState)
-        //images
-        MultiImagePicker.restoreListener(this, ::doSomethingWithImageList)
-        SingleImagePicker.restoreListener(this, ::loadImage)
-
-        //videos
-        MultiVideoPicker.restoreListener(this, ::doSomethingWithVideoList)
-        SingleVideoPicker.restoreListener(this, ::loadVideo)
-
-        //audios
-        MultiAudioPicker.restoreListener(this, ::doSomethingWithAudioList)
-        SingleAudioPicker.restoreListener(this, ::loadAudio)
-    }
-
 
     override fun onClick(clickedview: View?) {
         clickedview ?: return
         clickedID = clickedview.id
-        askForStoragePermission(READ_EXTERNAL_STORAGE)
+        askForStoragePermission(Manifest.permission.READ_EXTERNAL_STORAGE)
     }
-
 }

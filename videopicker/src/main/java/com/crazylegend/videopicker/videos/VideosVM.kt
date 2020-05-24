@@ -68,6 +68,8 @@ internal class VideosVM(application: Application) : AbstractAVM(application) {
                     arrayOf(
                             MediaStore.Video.Media._ID,
                             MediaStore.Video.Media.DISPLAY_NAME,
+                            MediaStore.Video.Media.RESOLUTION,
+                            MediaStore.Video.Media.IS_PRIVATE,
                             MediaStore.Video.Media.DATE_ADDED,
                             MediaStore.Video.Media.DATE_MODIFIED,
                             MediaStore.Video.Media.DESCRIPTION,
@@ -82,12 +84,7 @@ internal class VideosVM(application: Application) : AbstractAVM(application) {
                 val displayNameColumn = cursor.getColumnIndexOrThrow(MediaStore.Video.Media.DISPLAY_NAME)
                 val resolutionColumn = cursor.getSafeColumn(MediaStore.Video.Media.RESOLUTION)
                 val isPrivateColumn = cursor.getSafeColumn(MediaStore.Video.Media.IS_PRIVATE)
-                val artistColumn = cursor.getSafeColumn(MediaStore.Video.Media.ARTIST)
-                val albumColumn = cursor.getSafeColumn(MediaStore.Video.Media.ALBUM)
                 val tagsColumn = cursor.getSafeColumn(MediaStore.Video.Media.TAGS)
-                val categoryColumn = cursor.getSafeColumn(MediaStore.Video.Media.CATEGORY)
-                val languageColumn = cursor.getSafeColumn(MediaStore.Video.Media.LANGUAGE)
-                val bookmarkColumn = cursor.getSafeColumn(MediaStore.Video.Media.BOOKMARK)
                 val dateAddedColumn = cursor.getSafeColumn(MediaStore.Video.Media.DATE_ADDED)
                 val dateModifiedColumn = cursor.getSafeColumn(MediaStore.Video.Media.DATE_MODIFIED)
                 val descriptionColumn = cursor.getSafeColumn(MediaStore.Video.Media.DESCRIPTION)
@@ -101,12 +98,7 @@ internal class VideosVM(application: Application) : AbstractAVM(application) {
                     val displayName = cursor.getStringOrNull(displayNameColumn)
                     val resolution = resolutionColumn?.let { cursor.getStringOrNull(it) }
                     val isPrivate = isPrivateColumn?.let { cursor.getIntOrNull(it) }
-                    val artist = artistColumn?.let { cursor.getStringOrNull(it) }
-                    val album = albumColumn?.let { cursor.getStringOrNull(it) }
-                    val category = categoryColumn?.let { cursor.getStringOrNull(it) }
                     val tags = tagsColumn?.let { cursor.getStringOrNull(it) }
-                    val language = languageColumn?.let { cursor.getStringOrNull(it) }
-                    val bookmark = bookmarkColumn?.let { cursor.getIntOrNull(it) }
                     val dateAdded = dateAddedColumn?.let { cursor.getLongOrNull(it) }
                     val dateModified = dateModifiedColumn?.let { cursor.getLongOrNull(it) }
                     val description = descriptionColumn?.let { cursor.getStringOrNull(it) }
@@ -116,7 +108,7 @@ internal class VideosVM(application: Application) : AbstractAVM(application) {
 
                     val contentUri = ContentUris.withAppendedId(MediaStore.Video.Media.EXTERNAL_CONTENT_URI, id)
                     val videoModel = VideoModel(id, displayName, dateAdded, contentUri, dateModified, description, size, width, height,
-                            resolution, isPrivate, artist, album, category, tags, language, bookmark)
+                            resolution, isPrivate, tags)
                     videoModel.isSelected = videoData.value?.find { it.id == videoModel.id }?.isSelected
                             ?: false
                     video += videoModel

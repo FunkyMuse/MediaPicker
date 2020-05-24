@@ -8,6 +8,7 @@ import androidx.activity.invoke
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.core.os.bundleOf
+import androidx.fragment.app.setFragmentResult
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.observe
 import com.crazylegend.core.abstracts.AbstractBottomSheetDialogFragment
@@ -20,6 +21,7 @@ import com.crazylegend.imagepicker.contracts.MultiPickerContracts
 import com.crazylegend.imagepicker.images.ImageModel
 import com.crazylegend.imagepicker.images.ImagesVM
 import com.crazylegend.imagepicker.listeners.onImagesPicked
+import com.crazylegend.imagepicker.pickers.MultiImagePicker
 import com.google.android.material.button.MaterialButton
 
 
@@ -67,8 +69,10 @@ internal class MultiImagePickerBottomSheetDialog : AbstractBottomSheetDialogFrag
 
 
         binding.doneButton.setOnClickListener {
-            onImagesPicked?.onImagesPicked(multiSelectAdapter.currentList.filter { it.isSelected } as? List<ImageModel>
-                    ?: emptyList())
+            val imagesList = multiSelectAdapter.currentList.filter { it.isSelected } as? List<ImageModel>
+                    ?: emptyList()
+            setFragmentResult(MultiImagePicker.MULTI_IMAGE_REQUEST_KEY, bundleOf(MultiImagePicker.ON_MULTI_IMAGE_PICK_KEY to imagesList))
+            onImagesPicked?.onImagesPicked(imagesList)
             dismissAllowingStateLoss()
         }
     }

@@ -8,6 +8,7 @@ import androidx.activity.invoke
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.core.os.bundleOf
+import androidx.fragment.app.setFragmentResult
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.observe
 import com.crazylegend.core.abstracts.AbstractBottomSheetDialogFragment
@@ -17,6 +18,7 @@ import com.crazylegend.core.modifiers.base.BaseSinglePickerModifier
 import com.crazylegend.extensions.viewBinding
 import com.crazylegend.videopicker.contracts.SinglePickerContracts
 import com.crazylegend.videopicker.listeners.onVideoPicked
+import com.crazylegend.videopicker.pickers.SingleVideoPicker
 import com.crazylegend.videopicker.videos.VideoModel
 import com.crazylegend.videopicker.videos.VideosVM
 
@@ -35,7 +37,8 @@ internal class SingleVideoPickerBottomSheetDialog : AbstractBottomSheetDialogFra
 
     override val singleAdapter by lazy {
         SingleAdapter(modifier?.viewHolderPlaceholderModifier) {
-            onVideoPicked?.forVideo(it as VideoModel)
+            setFragmentResult(SingleVideoPicker.SINGLE_VIDEO_REQUEST_KEY, bundleOf(SingleVideoPicker.ON_SINGLE_VIDEO_PICK_KEY to it as VideoModel))
+            onVideoPicked?.forVideo(it)
             dismissAllowingStateLoss()
         }
     }

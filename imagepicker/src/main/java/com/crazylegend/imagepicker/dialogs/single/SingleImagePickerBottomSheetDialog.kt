@@ -8,6 +8,7 @@ import androidx.activity.invoke
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.core.os.bundleOf
+import androidx.fragment.app.setFragmentResult
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.observe
 import com.crazylegend.core.abstracts.AbstractBottomSheetDialogFragment
@@ -19,6 +20,7 @@ import com.crazylegend.imagepicker.contracts.SinglePickerContracts
 import com.crazylegend.imagepicker.images.ImageModel
 import com.crazylegend.imagepicker.images.ImagesVM
 import com.crazylegend.imagepicker.listeners.onImagePicked
+import com.crazylegend.imagepicker.pickers.SingleImagePicker
 
 
 /**
@@ -36,7 +38,9 @@ internal class SingleImagePickerBottomSheetDialog : AbstractBottomSheetDialogFra
 
     override val singleAdapter by lazy {
         SingleAdapter(modifier?.viewHolderPlaceholderModifier) {
-            onImagePicked?.forImage(it as ImageModel)
+            val image = it as ImageModel
+            setFragmentResult(SingleImagePicker.SINGLE_IMAGE_REQUEST_KEY, bundleOf(SingleImagePicker.ON_SINGLE_IMAGE_PICK_KEY to image))
+            onImagePicked?.forImage(image)
             dismissAllowingStateLoss()
         }
     }

@@ -19,7 +19,10 @@ import com.crazylegend.videopicker.videos.VideoModel
  */
 object SingleVideoPicker {
 
-    fun restoreListener(context: Context, onPickedVideo: (video: VideoModel) -> Unit) {
+    const val SINGLE_VIDEO_REQUEST_KEY = "singleVideoRequest"
+    const val ON_SINGLE_VIDEO_PICK_KEY = "onSingleVideoPicked"
+
+    fun restoreListener(context: Context, onPickedVideo: (video: VideoModel) -> Unit = {}) {
         val manager = context.setupManager()
         when (val fragment = manager.findFragmentByTag(SINGLE_PICKER_BOTTOM_SHEET)
                 ?: manager.findFragmentByTag(SINGLE_PICKER_DIALOG)) {
@@ -33,7 +36,7 @@ object SingleVideoPicker {
     }
 
     @RequiresPermission(Manifest.permission.READ_EXTERNAL_STORAGE)
-    fun showPicker(context: Context, pickerModifier: BaseSinglePickerModifier.() -> Unit = {}, onPickedVideo: (video: VideoModel) -> Unit) {
+    fun showPicker(context: Context, pickerModifier: BaseSinglePickerModifier.() -> Unit = {}, onPickedVideo: (video: VideoModel) -> Unit = {}) {
         val modifier = setupModifier(pickerModifier)
         val manager = context.setupManager()
         with(SingleVideoPickerBottomSheetDialog()) {

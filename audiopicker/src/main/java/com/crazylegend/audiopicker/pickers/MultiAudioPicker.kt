@@ -18,7 +18,11 @@ import com.crazylegend.extensions.setupManager
  */
 object MultiAudioPicker {
 
-    fun restoreListener(context: Context, audioList: (list: List<AudioModel>) -> Unit) {
+
+    const val MULTI_AUDIO_REQUEST_KEY = "multiAudiosRequest"
+    const val ON_MULTI_AUDIO_PICK_KEY = "onMultiAudiosPicked"
+
+    fun restoreListener(context: Context, audioList: (list: List<AudioModel>) -> Unit = {}) {
         val manager = context.setupManager()
         when (val fragment = manager.findFragmentByTag(MULTI_PICKER_BOTTOM_SHEET)
                 ?: manager.findFragmentByTag(MULTI_PICKER_DIALOG)) {
@@ -32,7 +36,7 @@ object MultiAudioPicker {
     }
 
     @RequiresPermission(Manifest.permission.READ_EXTERNAL_STORAGE)
-    fun showPicker(context: Context, modifier: MultiAudioPickerModifier.() -> Unit = {}, audioList: (list: List<AudioModel>) -> Unit) {
+    fun showPicker(context: Context, modifier: MultiAudioPickerModifier.() -> Unit = {}, audioList: (list: List<AudioModel>) -> Unit = {}) {
         val manager = context.setupManager()
         val setupModifier = setupModifier(modifier)
         with(MultiAudioPickerBottomSheetDialog()) {

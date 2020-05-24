@@ -8,6 +8,7 @@ import androidx.activity.invoke
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.core.os.bundleOf
+import androidx.fragment.app.setFragmentResult
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.observe
 import com.crazylegend.core.abstracts.AbstractBottomSheetDialogFragment
@@ -17,6 +18,7 @@ import com.crazylegend.core.modifiers.base.BaseMultiPickerModifier
 import com.crazylegend.extensions.viewBinding
 import com.crazylegend.videopicker.contracts.MultiPickerContracts
 import com.crazylegend.videopicker.listeners.onVideosPicked
+import com.crazylegend.videopicker.pickers.MultiVideoPicker
 import com.crazylegend.videopicker.videos.VideoModel
 import com.crazylegend.videopicker.videos.VideosVM
 import com.google.android.material.button.MaterialButton
@@ -64,8 +66,10 @@ internal class MultiVideoPickerBottomSheetDialog : AbstractBottomSheetDialogFrag
 
 
         binding.doneButton.setOnClickListener {
-            onVideosPicked?.onVideosPicked(multiSelectAdapter.currentList.filter { it.isSelected } as? List<VideoModel>
-                    ?: emptyList())
+            val videoList = multiSelectAdapter.currentList.filter { it.isSelected } as? List<VideoModel>
+                    ?: emptyList()
+            setFragmentResult(MultiVideoPicker.MULTI_VIDEO_REQUEST_KEY, bundleOf(MultiVideoPicker.ON_MULTI_VIDEO_PICK_KEY to videoList))
+            onVideosPicked?.onVideosPicked(videoList)
             dismissAllowingStateLoss()
         }
     }
