@@ -7,7 +7,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.TextView
-import androidx.activity.invoke
+
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
@@ -329,7 +329,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
     override fun onClick(clickedview: View?) {
         clickedview ?: return
         clickedID = clickedview.id
-        askForStoragePermission(READ_EXTERNAL_STORAGE)
+        askForStoragePermission.launch(READ_EXTERNAL_STORAGE)
     }
 
 }

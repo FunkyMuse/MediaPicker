@@ -4,7 +4,7 @@ import android.Manifest
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import androidx.activity.invoke
+
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.core.os.bundleOf
@@ -51,9 +51,10 @@ internal class MultiVideoPickerBottomSheetDialog : AbstractBottomSheetDialogFrag
                 }
             }
 
+    @Suppress("UNCHECKED_CAST")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        askForStoragePermission(Manifest.permission.READ_EXTERNAL_STORAGE)
+        askForStoragePermission.launch(Manifest.permission.READ_EXTERNAL_STORAGE)
 
         setupUIForMultiPicker(
                 binding.gallery, multiSelectAdapter, binding.doneButton, binding.title, binding.loadingIndicator, modifier?.loadingIndicatorTint,

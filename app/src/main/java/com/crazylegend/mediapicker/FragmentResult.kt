@@ -7,7 +7,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.TextView
-import androidx.activity.invoke
+
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.DialogFragment
@@ -342,6 +342,6 @@ class FragmentResult : DialogFragment(R.layout.activity_main), View.OnClickListe
     override fun onClick(clickedview: View?) {
         clickedview ?: return
         clickedID = clickedview.id
-        askForStoragePermission(Manifest.permission.READ_EXTERNAL_STORAGE)
+        askForStoragePermission.launch(Manifest.permission.READ_EXTERNAL_STORAGE)
     }
 }

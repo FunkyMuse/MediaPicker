@@ -4,7 +4,7 @@ import android.Manifest
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import androidx.activity.invoke
+
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.core.os.bundleOf
@@ -57,7 +57,7 @@ internal class SingleImagePickerBottomSheetDialog : AbstractBottomSheetDialogFra
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        askForStoragePermission(Manifest.permission.READ_EXTERNAL_STORAGE)
+        askForStoragePermission.launch(Manifest.permission.READ_EXTERNAL_STORAGE)
         setupUIForSinglePicker(binding.gallery, singleAdapter, binding.title, binding.loadingIndicator, modifier?.loadingIndicatorTint, ::applyTitleModifications)
         imagesVM.images.observe(viewLifecycleOwner) {
             setupList(singleAdapter, it, binding.noContentText, modifier?.noContentTextModifier)
