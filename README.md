@@ -7,7 +7,7 @@
 
 [![](https://jitpack.io/v/CraZyLegenD/MediaPicker.svg)](https://jitpack.io/#CraZyLegenD/MediaPicker) [![Kotlin](https://img.shields.io/badge/Kotlin-1.3.72-blue.svg)](https://kotlinlang.org) [![Platform](https://img.shields.io/badge/Platform-Android-green.svg)](https://developer.android.com/guide/) 
 ![API](https://img.shields.io/badge/Min%20API-21-green)
-![API](https://img.shields.io/badge/Compiled%20API-29-green)
+![API](https://img.shields.io/badge/Compiled%20API-30-green)
 
 ## Usage
 1. Add JitPack to your project build.gradle
