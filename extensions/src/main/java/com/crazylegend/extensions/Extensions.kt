@@ -6,6 +6,7 @@ import android.database.ContentObserver
 import android.database.Cursor
 import android.net.Uri
 import android.os.Handler
+import android.os.Looper
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
@@ -50,11 +51,11 @@ val AndroidViewModel.context: Context
     get() = getApplication()
 
 
-fun ContentResolver.registerObserver(
+inline fun ContentResolver.registerObserver(
         uri: Uri,
-        observer: (change: Boolean) -> Unit
+        crossinline observer: (change: Boolean) -> Unit
 ): ContentObserver {
-    val contentObserver = object : ContentObserver(Handler()) {
+    val contentObserver = object : ContentObserver(Handler(Looper.getMainLooper())) {
         override fun onChange(selfChange: Boolean) {
             observer(selfChange)
         }
