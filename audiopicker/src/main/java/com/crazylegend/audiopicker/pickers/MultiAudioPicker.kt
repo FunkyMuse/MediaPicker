@@ -4,6 +4,7 @@ import android.Manifest
 import android.content.Context
 import android.util.Log
 import androidx.annotation.RequiresPermission
+import androidx.fragment.app.FragmentManager
 import com.crazylegend.audiopicker.audios.AudioModel
 import com.crazylegend.audiopicker.consts.MULTI_PICKER_BOTTOM_SHEET
 import com.crazylegend.audiopicker.consts.MULTI_PICKER_DIALOG
@@ -43,6 +44,16 @@ object MultiAudioPicker {
             addModifier(setupModifier)
             onAudiosPicked = onAudiosDSL(audioList)
             show(manager, MULTI_PICKER_BOTTOM_SHEET)
+        }
+    }
+
+    @RequiresPermission(Manifest.permission.READ_EXTERNAL_STORAGE)
+    fun showPicker(fragmentManager: FragmentManager, modifier: MultiAudioPickerModifier.() -> Unit = {}, audioList: (list: List<AudioModel>) -> Unit = {}) {
+        val setupModifier = setupModifier(modifier)
+        with(MultiAudioPickerBottomSheetDialog()) {
+            addModifier(setupModifier)
+            onAudiosPicked = onAudiosDSL(audioList)
+            show(fragmentManager, MULTI_PICKER_BOTTOM_SHEET)
         }
     }
 

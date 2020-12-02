@@ -5,7 +5,7 @@ import com.crazylegend.core.modifiers.base.BaseMultiPickerModifier
 import com.crazylegend.core.modifiers.multi.DoneButtonModifier
 import com.crazylegend.core.modifiers.multi.SelectIconModifier
 import com.crazylegend.core.modifiers.single.ImageModifier
-import kotlinx.android.parcel.Parcelize
+import kotlinx.parcelize.Parcelize
 
 
 /**

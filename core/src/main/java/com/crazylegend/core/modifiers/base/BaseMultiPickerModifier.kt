@@ -12,7 +12,7 @@ import com.crazylegend.core.modifiers.TitleTextModifier
 import com.crazylegend.core.modifiers.multi.DoneButtonModifier
 import com.crazylegend.core.modifiers.multi.SelectIconModifier
 import com.crazylegend.core.modifiers.single.ImageModifier
-import kotlinx.android.parcel.Parcelize
+import kotlinx.parcelize.Parcelize
 
 
 /**

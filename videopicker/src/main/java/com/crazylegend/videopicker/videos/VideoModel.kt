@@ -3,7 +3,7 @@ package com.crazylegend.videopicker.videos
 import android.net.Uri
 import android.os.Parcelable
 import com.crazylegend.core.dto.BaseCursorModel
-import kotlinx.android.parcel.Parcelize
+import kotlinx.parcelize.Parcelize
 
 
 /**

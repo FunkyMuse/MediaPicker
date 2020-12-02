@@ -3,7 +3,7 @@ package com.crazylegend.core.modifiers.base
 import android.os.Parcelable
 import com.crazylegend.core.modifiers.TitleTextModifier
 import com.crazylegend.core.modifiers.single.ImageModifier
-import kotlinx.android.parcel.Parcelize
+import kotlinx.parcelize.Parcelize
 
 
 /**

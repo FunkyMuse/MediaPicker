@@ -4,6 +4,7 @@ import android.Manifest
 import android.content.Context
 import android.util.Log
 import androidx.annotation.RequiresPermission
+import androidx.fragment.app.FragmentManager
 import com.crazylegend.audiopicker.audios.AudioModel
 import com.crazylegend.audiopicker.consts.SINGLE_PICKER_BOTTOM_SHEET
 import com.crazylegend.audiopicker.consts.SINGLE_PICKER_DIALOG
@@ -38,6 +39,16 @@ object SingleAudioPicker {
     fun showPicker(context: Context, pickerModifier: SingleAudioPickerModifier.() -> Unit = {}, onPickedAudio: (audio: AudioModel) -> Unit = {}) {
         val modifier = setupModifier(pickerModifier)
         val manager = context.setupManager()
+        with(SingleAudioPickerBottomSheetDialog()) {
+            addModifier(modifier)
+            onAudioPicked = onAudioDSL(onPickedAudio)
+            show(manager, SINGLE_PICKER_BOTTOM_SHEET)
+        }
+    }
+
+    @RequiresPermission(Manifest.permission.READ_EXTERNAL_STORAGE)
+    fun showPicker(manager: FragmentManager, pickerModifier: SingleAudioPickerModifier.() -> Unit = {}, onPickedAudio: (audio: AudioModel) -> Unit = {}) {
+        val modifier = setupModifier(pickerModifier)
         with(SingleAudioPickerBottomSheetDialog()) {
             addModifier(modifier)
             onAudioPicked = onAudioDSL(onPickedAudio)

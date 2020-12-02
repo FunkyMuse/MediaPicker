@@ -4,6 +4,7 @@ import android.Manifest.permission.READ_EXTERNAL_STORAGE
 import android.content.Context
 import android.util.Log
 import androidx.annotation.RequiresPermission
+import androidx.fragment.app.FragmentManager
 import com.crazylegend.core.modifiers.base.BaseSinglePickerModifier
 import com.crazylegend.core.setupModifier
 import com.crazylegend.extensions.setupManager
@@ -47,6 +48,21 @@ object SingleImagePicker {
             addModifier(modifier)
             onImagePicked = onImageDSL(onPickedImage)
             show(manager, SINGLE_PICKER_BOTTOM_SHEET)
+        }
+    }
+
+
+    @RequiresPermission(READ_EXTERNAL_STORAGE)
+    fun showPicker(
+            fragmentManager: FragmentManager,
+            pickerModifier: BaseSinglePickerModifier.() -> Unit = {},
+            onPickedImage: (image: ImageModel) -> Unit = {}
+    ) {
+        val modifier = setupModifier(pickerModifier)
+        with(SingleImagePickerBottomSheetDialog()) {
+            addModifier(modifier)
+            onImagePicked = onImageDSL(onPickedImage)
+            show(fragmentManager, SINGLE_PICKER_BOTTOM_SHEET)
         }
     }
 

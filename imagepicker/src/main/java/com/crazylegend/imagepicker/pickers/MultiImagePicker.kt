@@ -4,6 +4,7 @@ import android.Manifest.permission.READ_EXTERNAL_STORAGE
 import android.content.Context
 import android.util.Log
 import androidx.annotation.RequiresPermission
+import androidx.fragment.app.FragmentManager
 import com.crazylegend.core.modifiers.base.BaseMultiPickerModifier
 import com.crazylegend.core.setupModifier
 import com.crazylegend.extensions.setupManager
@@ -47,6 +48,19 @@ object MultiImagePicker {
             addModifier(modifier)
             onImagesPicked = onImagesDSL(imagesList)
             show(manager, MULTI_PICKER_BOTTOM_SHEET)
+        }
+    }
+
+    @RequiresPermission(READ_EXTERNAL_STORAGE)
+    fun showPicker(
+            fragmentManager: FragmentManager, multiImagePickerModifier: BaseMultiPickerModifier.() -> Unit = {},
+            imagesList: (list: List<ImageModel>) -> Unit = {}
+    ) {
+        val modifier = setupModifier(multiImagePickerModifier)
+        with(MultiImagePickerBottomSheetDialog()) {
+            addModifier(modifier)
+            onImagesPicked = onImagesDSL(imagesList)
+            show(fragmentManager, MULTI_PICKER_BOTTOM_SHEET)
         }
     }
 

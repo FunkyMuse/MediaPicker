@@ -4,6 +4,7 @@ import android.Manifest
 import android.content.Context
 import android.util.Log
 import androidx.annotation.RequiresPermission
+import androidx.fragment.app.FragmentManager
 import com.crazylegend.core.modifiers.base.BaseMultiPickerModifier
 import com.crazylegend.core.setupModifier
 import com.crazylegend.extensions.setupManager
@@ -44,6 +45,16 @@ object MultiVideoPicker {
             addModifier(setupModifier)
             onVideosPicked = onVideosDSL(videoList)
             show(manager, MULTI_PICKER_BOTTOM_SHEET)
+        }
+    }
+
+    @RequiresPermission(Manifest.permission.READ_EXTERNAL_STORAGE)
+    fun showPicker(fragmentManager: FragmentManager, modifier: BaseMultiPickerModifier.() -> Unit = {}, videoList: (list: List<VideoModel>) -> Unit = {}) {
+        val setupModifier = setupModifier(modifier)
+        with(MultiVideoPickerBottomSheetDialog()) {
+            addModifier(setupModifier)
+            onVideosPicked = onVideosDSL(videoList)
+            show(fragmentManager, MULTI_PICKER_BOTTOM_SHEET)
         }
     }
 

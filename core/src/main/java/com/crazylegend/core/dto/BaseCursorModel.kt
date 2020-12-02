@@ -8,7 +8,7 @@ import android.os.Build
 import android.os.Parcelable
 import android.provider.MediaStore
 import android.util.Size
-import kotlinx.android.parcel.Parcelize
+import kotlinx.parcelize.Parcelize
 import java.util.*
 import java.util.concurrent.TimeUnit
 

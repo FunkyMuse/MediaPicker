@@ -3,7 +3,7 @@ package com.crazylegend.imagepicker.images
 import android.net.Uri
 import android.os.Parcelable
 import com.crazylegend.core.dto.BaseCursorModel
-import kotlinx.android.parcel.Parcelize
+import kotlinx.parcelize.Parcelize
 
 /**
  * Simple data class to hold information about an image included in the device's MediaStore.

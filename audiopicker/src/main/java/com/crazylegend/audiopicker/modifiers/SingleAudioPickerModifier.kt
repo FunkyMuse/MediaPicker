@@ -3,7 +3,7 @@ package com.crazylegend.audiopicker.modifiers
 import com.crazylegend.core.modifiers.TitleTextModifier
 import com.crazylegend.core.modifiers.base.BaseSinglePickerModifier
 import com.crazylegend.core.modifiers.single.ImageModifier
-import kotlinx.android.parcel.Parcelize
+import kotlinx.parcelize.Parcelize
 
 
 /**
