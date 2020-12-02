@@ -5,7 +5,7 @@
 # MediaPicker
 ### Kotlin Android library to pick images, videos and audios 
 
-[![](https://jitpack.io/v/CraZyLegenD/MediaPicker.svg)](https://jitpack.io/#CraZyLegenD/MediaPicker) [![Kotlin](https://img.shields.io/badge/Kotlin-1.3.72-blue.svg)](https://kotlinlang.org) [![Platform](https://img.shields.io/badge/Platform-Android-green.svg)](https://developer.android.com/guide/) 
+[![](https://jitpack.io/v/FunkyMuse/MediaPicker.svg)](https://jitpack.io/#FunkyMuse/MediaPicker) [![Kotlin](https://img.shields.io/badge/Kotlin-1.3.72-blue.svg)](https://kotlinlang.org) [![Platform](https://img.shields.io/badge/Platform-Android-green.svg)](https://developer.android.com/guide/) 
 ![API](https://img.shields.io/badge/Min%20API-21-green)
 ![API](https://img.shields.io/badge/Compiled%20API-30-green)
 
@@ -25,17 +25,17 @@ allprojects {
 
 ```gradle
 dependencies {
-    def pickerVersion = "0.0.1" //look-up the latest one on jitpack
+    def pickerVersion = "1.0.0" //look-up the latest one on jitpack
     
     //the core package is a must then you include the one you need
-    implementation "com.github.CraZyLegenD.MediaPicker:core:$pickerVersion"
+    implementation "com.github.FunkyMuse.MediaPicker:core:$pickerVersion"
     
     //images
-    implementation "com.github.CraZyLegenD.MediaPicker:imagepicker:$pickerVersion"
+    implementation "com.github.FunkyMuse.MediaPicker:imagepicker:$pickerVersion"
     //audios
-    implementation "com.github.CraZyLegenD.MediaPicker:audiopicker:$pickerVersion"
+    implementation "com.github.FunkyMuse.MediaPicker:audiopicker:$pickerVersion"
     //videos
-    implementation "com.github.CraZyLegenD.MediaPicker:videopicker:$pickerVersion"
+    implementation "com.github.FunkyMuse.MediaPicker:videopicker:$pickerVersion"
   }
 ```
 
@@ -64,13 +64,13 @@ org.gradle.parallel=true
 
 5. How to use and screens
 
-[Image picker](https://github.com/CraZyLegenD/MediaPicker/tree/master/imagepicker)
+[Image picker](https://github.com/FunkyMuse/MediaPicker/tree/master/imagepicker)
 
-[Video picker](https://github.com/CraZyLegenD/MediaPicker/tree/master/videopicker)
+[Video picker](https://github.com/FunkyMuse/MediaPicker/tree/master/videopicker)
 
-[Audio picker](https://github.com/CraZyLegenD/MediaPicker/tree/master/audiopicker)
+[Audio picker](https://github.com/FunkyMuse/MediaPicker/tree/master/audiopicker)
 
-[Sample app](https://github.com/CraZyLegenD/MediaPicker/blob/master/app/src/main/java/com/crazylegend/mediapicker/MainActivity.kt)
+[Sample app](https://github.com/FunkyMuse/MediaPicker/blob/master/app/src/main/java/com/crazylegend/mediapicker/MainActivity.kt)
 
 ## Contributing
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
