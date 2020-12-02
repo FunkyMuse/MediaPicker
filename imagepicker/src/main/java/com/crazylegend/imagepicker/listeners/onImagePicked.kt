@@ -6,12 +6,8 @@ import com.crazylegend.imagepicker.images.ImageModel
 /**
  * Created by crazy on 5/8/20 to long live and prosper !
  */
-internal interface onImagePicked {
+internal fun interface onImagePicked {
     fun forImage(imageModel: ImageModel)
 }
 
-internal inline fun onImageDSL(crossinline imageCallback: (image: ImageModel) -> Unit) = object : onImagePicked {
-    override fun forImage(imageModel: ImageModel) {
-        imageCallback(imageModel)
-    }
-}
+internal inline fun onImageDSL(crossinline imageCallback: (image: ImageModel) -> Unit) = onImagePicked { imageModel -> imageCallback(imageModel) }

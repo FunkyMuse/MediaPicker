@@ -21,16 +21,23 @@ import com.crazylegend.core.modifiers.base.BaseMultiPickerModifier
 import com.crazylegend.imagepicker.images.ImageModel
 import com.crazylegend.imagepicker.pickers.MultiImagePicker
 import com.crazylegend.imagepicker.pickers.SingleImagePicker
+import com.crazylegend.mediapicker.databinding.ActivityMainBinding
 import com.crazylegend.videopicker.pickers.MultiVideoPicker
 import com.crazylegend.videopicker.pickers.SingleVideoPicker
 import com.crazylegend.videopicker.videos.VideoModel
-import kotlinx.android.synthetic.main.activity_main.*
 
 
 /**
  * Created by crazy on 5/24/20 to long live and prosper !
  */
 class FragmentResult : DialogFragment(R.layout.activity_main), View.OnClickListener {
+
+    private var binding: ActivityMainBinding? = null
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        binding = null
+    }
 
     private var clickedID = R.id.singleImageBottomSheetPick
 
@@ -137,8 +144,8 @@ class FragmentResult : DialogFragment(R.layout.activity_main), View.OnClickListe
         Glide.with(this)
                 .load(audioModel.loadThumbnail(requireContext().contentResolver))
                 .error(R.drawable.ic_album)
-                .into(audio)
-        audioTitle.text = audioModel.displayName
+                .into(binding!!.audio)
+        binding!!.audioTitle.text = audioModel.displayName
         Log.d("AUDIO_PICKED ${audioModel.thumbnail?.isRecycled}", audioModel.toString())
     }
 
@@ -208,7 +215,7 @@ class FragmentResult : DialogFragment(R.layout.activity_main), View.OnClickListe
     private fun loadVideo(videoModel: VideoModel) {
         Glide.with(this)
                 .load(videoModel.contentUri)
-                .into(video)
+                .into(binding!!.video)
         Log.d("VIDEO_PICKED", videoModel.toString())
     }
 
@@ -279,7 +286,7 @@ class FragmentResult : DialogFragment(R.layout.activity_main), View.OnClickListe
     private fun loadImage(imageModel: ImageModel) {
         Glide.with(this)
                 .load(imageModel.contentUri)
-                .into(image)
+                .into(binding!!.image)
         Log.d("IMAGE_PICKED", imageModel.toString())
     }
 
@@ -291,20 +298,21 @@ class FragmentResult : DialogFragment(R.layout.activity_main), View.OnClickListe
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        binding = ActivityMainBinding.bind(view)
 
-        launchFragmentResult.hide()
+        binding!!.launchFragmentResult.hide()
 
         //images
-        singleImageBottomSheetPick.setOnClickListener(this)
-        imageBottomSheetMultiPick.setOnClickListener(this)
+        binding!!.singleImageBottomSheetPick.setOnClickListener(this)
+        binding!!.imageBottomSheetMultiPick.setOnClickListener(this)
 
         //videos
-        singleVideoBottomSheetPick.setOnClickListener(this)
-        videoBottomSheetMultiPick.setOnClickListener(this)
+        binding!!.singleVideoBottomSheetPick.setOnClickListener(this)
+        binding!!.videoBottomSheetMultiPick.setOnClickListener(this)
 
         //audios
-        singleAudioBottomSheetPick.setOnClickListener(this)
-        audioBottomSheetMultiPick.setOnClickListener(this)
+        binding!!.singleAudioBottomSheetPick.setOnClickListener(this)
+        binding!!.audioBottomSheetMultiPick.setOnClickListener(this)
 
 
         //listeners images

@@ -20,13 +20,15 @@ import com.crazylegend.core.modifiers.base.BaseMultiPickerModifier
 import com.crazylegend.imagepicker.images.ImageModel
 import com.crazylegend.imagepicker.pickers.MultiImagePicker
 import com.crazylegend.imagepicker.pickers.SingleImagePicker
+import com.crazylegend.mediapicker.databinding.ActivityMainBinding
 import com.crazylegend.videopicker.pickers.MultiVideoPicker
 import com.crazylegend.videopicker.pickers.SingleVideoPicker
 import com.crazylegend.videopicker.videos.VideoModel
-import kotlinx.android.synthetic.main.activity_main.*
 
 @SuppressLint("MissingPermission")
 class MainActivity : AppCompatActivity(), View.OnClickListener {
+
+    private lateinit var binding: ActivityMainBinding
 
     private var clickedID = R.id.singleImageBottomSheetPick
 
@@ -138,8 +140,8 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         Glide.with(this)
                 .load(audioModel.loadThumbnail(contentResolver))
                 .error(R.drawable.ic_album)
-                .into(audio)
-        audioTitle.text = audioModel.displayName
+                .into(binding.audio)
+        binding.audioTitle.text = audioModel.displayName
         Log.d("AUDIO_PICKED ${audioModel.thumbnail?.isRecycled}", audioModel.toString())
     }
 
@@ -207,7 +209,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
     private fun loadVideo(videoModel: VideoModel) {
         Glide.with(this)
                 .load(videoModel.contentUri)
-                .into(video)
+                .into(binding.video)
         Log.d("VIDEO_PICKED", videoModel.toString())
     }
 
@@ -280,7 +282,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
     private fun loadImage(imageModel: ImageModel) {
         Glide.with(this)
                 .load(imageModel.contentUri)
-                .into(image)
+                .into(binding.image)
         Log.d("IMAGE_PICKED", imageModel.toString())
     }
 
@@ -292,22 +294,23 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
         //images
-        singleImageBottomSheetPick.setOnClickListener(this)
-        imageBottomSheetMultiPick.setOnClickListener(this)
+        binding.singleImageBottomSheetPick.setOnClickListener(this)
+        binding.imageBottomSheetMultiPick.setOnClickListener(this)
 
         //videos
-        singleVideoBottomSheetPick.setOnClickListener(this)
-        videoBottomSheetMultiPick.setOnClickListener(this)
+        binding.singleVideoBottomSheetPick.setOnClickListener(this)
+        binding.videoBottomSheetMultiPick.setOnClickListener(this)
 
         //audios
-        singleAudioBottomSheetPick.setOnClickListener(this)
-        audioBottomSheetMultiPick.setOnClickListener(this)
+        binding.singleAudioBottomSheetPick.setOnClickListener(this)
+        binding.audioBottomSheetMultiPick.setOnClickListener(this)
 
         //fragment result
-        launchFragmentResult.setOnClickListener(this)
+        binding.launchFragmentResult.setOnClickListener(this)
     }
 
     override fun onRestoreInstanceState(savedInstanceState: Bundle) {
