@@ -1,5 +1,5 @@
 
-Current jitpack version: [![](https://jitpack.io/v/CraZyLegenD/MediaPicker.svg)](https://jitpack.io/#CraZyLegenD/MediaPicker)
+Current jitpack version: [![](https://jitpack.io/v/FunkyMuse/MediaPicker.svg)](https://jitpack.io/#CraZyLegenD/MediaPicker)
 
 1. You must declare the permission in your manifest
 ```xml
@@ -8,16 +8,16 @@ Current jitpack version: [![](https://jitpack.io/v/CraZyLegenD/MediaPicker.svg)]
 2. If you haven't included the dependencies from the previous screen now's a good time
 ```gradle
 dependencies {
-    def pickerVersion = "0.0.1" //look-up the latest one on jitpack 
+    def pickerVersion = "1.0.0" //look-up the latest one on jitpack 
     
     //the core package is a must
-    implementation "com.github.CraZyLegenD.MediaPicker:core:$pickerVersion"
+    implementation "com.github.FunkyMuse.MediaPicker:core:$pickerVersion"
     
     //videos
-    implementation "com.github.CraZyLegenD.MediaPicker:videopicker:$pickerVersion"
+    implementation "com.github.FunkyMuse.MediaPicker:videopicker:$pickerVersion"
   }
 ```
-3. How to use single picker and check out [how to customize single video picker](https://github.com/CraZyLegenD/MediaPicker/wiki/Single--image-video-picker-customization)
+3. How to use single picker and check out [how to customize single video picker](https://github.com/FunkyMuse/MediaPicker/wiki/Single--image-video-picker-customization)
 ```kotlin
     //simple usage without customization
     SingleVideoPicker.showPicker(context = this, onPickedVideo = ::loadVideo)
@@ -43,7 +43,7 @@ dependencies {
     
 ```
 
-4. How to use multi picker and check out [how to customize multi video picker](https://github.com/CraZyLegenD/MediaPicker/wiki/Multi-image-video-picker-customization)
+4. How to use multi picker and check out [how to customize multi video picker](https://github.com/FunkyMuse/MediaPicker/wiki/Multi-image-video-picker-customization)
 ```kotlin
     //simple usage without customization
     MultiVideoPicker.showPicker(this) { loadVideos(it) }
@@ -96,17 +96,17 @@ setFragmentResultListener(MultiVideoPicker.MULTI_VIDEO_REQUEST_KEY) { _, bundle 
 ```
 
 ##
-If you're still not sure how to use, take a look at the [Sample app](https://github.com/CraZyLegenD/MediaPicker/blob/master/app/src/main/java/com/crazylegend/mediapicker/MainActivity.kt) 
+If you're still not sure how to use, take a look at the [Sample app](https://github.com/FunkyMuse/MediaPicker/blob/master/app/src/main/java/com/crazylegend/mediapicker/MainActivity.kt) 
 
 ##
-If you're still not sure how to use fragment listener, take a look at the [Sample app](https://github.com/CraZyLegenD/MediaPicker/blob/master/app/src/main/java/com/crazylegend/mediapicker/FragmentResult.kt#L320) 
+If you're still not sure how to use fragment listener, take a look at the [Sample app](https://github.com/FunkyMuse/MediaPicker/blob/master/app/src/main/java/com/crazylegend/mediapicker/FragmentResult.kt#L320) 
 
 ## Screens
 
 Single picker
 
-<img src="https://raw.githubusercontent.com/CraZyLegenD/MediaPicker/master/videopicker/screens/screen_1.png" width="15%"></img>
+<img src="https://raw.githubusercontent.com/FunkyMuse/MediaPicker/master/videopicker/screens/screen_1.png" width="15%"></img>
 
 Multi pickers
 
-<img src="https://raw.githubusercontent.com/CraZyLegenD/MediaPicker/master/videopicker/screens/screen_3.png" width="15%"></img>
+<img src="https://raw.githubusercontent.com/FunkyMuse/MediaPicker/master/videopicker/screens/screen_3.png" width="15%"></img>
