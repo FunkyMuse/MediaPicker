@@ -7,7 +7,7 @@ Current jitpack version: [![](https://jitpack.io/v/FunkyMuse/MediaPicker.svg)](h
 2. If you haven't included the dependencies from the previous screen now's a good time
 ```gradle
 dependencies {
-    def pickerVersion = "0.0.1" //look-up the latest one on jitpack 
+    def pickerVersion = "1.0.0" //look-up the latest one on jitpack 
     
     //the core package is a must
     implementation "com.github.FunkyMuse.MediaPicker:core:$pickerVersion"
