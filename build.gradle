@@ -1,10 +1,10 @@
 ext {
-    lifecycle = '2.3.0-beta01'
+    lifecycle = '2.3.0-rc01'
     glide = "4.11.0"
     constraint_layout = '2.0.4'
-    material = "1.3.0-alpha04"
-    fragment  = "1.3.0-beta01"
-    activity = "1.2.0-beta01"
+    material = "1.3.0-beta01"
+    fragment  = "1.3.0-rc01"
+    activity = "1.2.0-rc01"
     recycler = "1.0.0"
     appCompat = "1.2.0"
     coreKTX = "1.5.0-alpha05"
@@ -18,7 +18,7 @@ ext {
 }
 
 buildscript {
-    ext.kotlin_version = '1.4.20'
+    ext.kotlin_version = '1.4.21'
 
     ext.compiledAppVersion = 30
 

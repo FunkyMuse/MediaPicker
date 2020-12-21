@@ -77,8 +77,6 @@ internal class AudiosVM(application: Application) : AbstractAVM(application) {
                             MediaStore.Audio.Media.DATE_ADDED,
                             MediaStore.Audio.Media.DATE_MODIFIED,
                             MediaStore.Audio.Media.SIZE,
-                            MediaStore.Audio.Media.WIDTH,
-                            MediaStore.Audio.Media.HEIGHT,
                             MediaStore.Audio.Media.ALBUM,
                             MediaStore.Audio.Media.IS_NOTIFICATION,
                             MediaStore.Audio.Media.IS_ALARM,
@@ -98,8 +96,6 @@ internal class AudiosVM(application: Application) : AbstractAVM(application) {
                 val dateAddedColumn = cursor.getSafeColumn(MediaStore.Audio.Media.DATE_ADDED)
                 val dateModifiedColumn = cursor.getSafeColumn(MediaStore.Audio.Media.DATE_MODIFIED)
                 val sizeColumn = cursor.getSafeColumn(MediaStore.Audio.Media.SIZE)
-                val widthColumn = cursor.getSafeColumn(MediaStore.Audio.Media.WIDTH)
-                val heightColumn = cursor.getSafeColumn(MediaStore.Audio.Media.HEIGHT)
                 val albumColumn = cursor.getSafeColumn(MediaStore.Audio.Media.ALBUM)
                 val isNotificationColumn = cursor.getSafeColumn(MediaStore.Audio.Media.IS_NOTIFICATION)
                 val isAlarmColumn = cursor.getSafeColumn(MediaStore.Audio.Media.IS_ALARM)
@@ -116,8 +112,6 @@ internal class AudiosVM(application: Application) : AbstractAVM(application) {
                     val dateAdded = dateAddedColumn?.let { cursor.getLongOrNull(it) }
                     val dateModified = dateModifiedColumn?.let { cursor.getLongOrNull(it) }
                     val size = sizeColumn?.let { cursor.getIntOrNull(it) }
-                    val width = widthColumn?.let { cursor.getIntOrNull(it) }
-                    val height = heightColumn?.let { cursor.getIntOrNull(it) }
                     val album = albumColumn?.let { cursor.getStringOrNull(it) }
                     val composer = composerColumn?.let { cursor.getStringOrNull(it) }
                     val artist = artistColumn?.let { cursor.getStringOrNull(it) }
@@ -128,7 +122,7 @@ internal class AudiosVM(application: Application) : AbstractAVM(application) {
                     val track = trackColumn?.let { cursor.getIntOrNull(it) }
 
                     val contentUri = ContentUris.withAppendedId(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, id)
-                    val audioModel = AudioModel(id, displayName, dateAdded, contentUri, dateModified, null, size, width, height,
+                    val audioModel = AudioModel(id, displayName, dateAdded, contentUri, dateModified, null, size, null, null,
                             album, composer, artist, isNotification, isAlarm, isRingtone, track, year, thumbnail = loadThumbnail(
                             contentResolver, contentUri, id
                     ))
