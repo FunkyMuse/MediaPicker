@@ -8,6 +8,7 @@ import androidx.core.database.getLongOrNull
 import androidx.core.database.getStringOrNull
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import com.crazylegend.core.abstracts.AbstractAVM
 import com.crazylegend.core.sorting.SortOrder
@@ -21,7 +22,7 @@ import kotlinx.coroutines.withContext
 /**
  * Created by crazy on 5/8/20 to long live and prosper !
  */
-internal class ImagesVM(application: Application) : AbstractAVM(application) {
+internal class ImagesVM(application: Application, stateHandle: SavedStateHandle) : AbstractAVM(application, stateHandle) {
 
     private val imagesData = MutableLiveData<List<ImageModel>>()
     val images: LiveData<List<ImageModel>> = imagesData
@@ -39,7 +40,7 @@ internal class ImagesVM(application: Application) : AbstractAVM(application) {
     private fun initializeContentObserver(sortOrder: SortOrder) {
         if (contentObserver == null) {
             contentObserver = contentResolver.registerObserver(MediaStore.Images.Media.EXTERNAL_CONTENT_URI) {
-                canLoad = true
+                setCanLoad()
                 loadImages(sortOrder)
             }
         }
@@ -108,7 +109,7 @@ internal class ImagesVM(application: Application) : AbstractAVM(application) {
                 }
             }
         }
-        canLoad = false
+        setCanNotLoad()
         loadingIndicatorData.value = false
         return images
     }

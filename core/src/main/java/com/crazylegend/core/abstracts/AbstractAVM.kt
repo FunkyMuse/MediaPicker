@@ -12,13 +12,19 @@ import android.util.Size
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.SavedStateHandle
 import com.crazylegend.core.context
 
 
 /**
  * Created by crazy on 5/14/20 to long live and prosper !
  */
-abstract class AbstractAVM(application: Application) : AndroidViewModel(application) {
+abstract class AbstractAVM(application: Application,
+                           private val stateHandle: SavedStateHandle) : AndroidViewModel(application) {
+
+    companion object {
+        private const val CAN_LOAD_KEY = "canLoad"
+    }
 
     protected val contentResolver get() = context.contentResolver
     protected var contentObserver: ContentObserver? = null
@@ -29,8 +35,15 @@ abstract class AbstractAVM(application: Application) : AndroidViewModel(applicat
     /**
      * Using this instead of event since it serves the same purpose thus it's needed here
      */
-    protected var canLoad = true
+    protected val canLoad get() = stateHandle[CAN_LOAD_KEY] ?: true
 
+    protected fun setCanLoad() {
+        stateHandle[CAN_LOAD_KEY] = true
+    }
+
+    protected fun setCanNotLoad() {
+        stateHandle[CAN_LOAD_KEY] = false
+    }
 
     override fun onCleared() {
         super.onCleared()

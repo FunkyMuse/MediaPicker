@@ -8,6 +8,7 @@ import androidx.core.database.getLongOrNull
 import androidx.core.database.getStringOrNull
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import com.crazylegend.audiopicker.listeners.onShouldRecycleBitmaps
 import com.crazylegend.core.abstracts.AbstractAVM
@@ -22,7 +23,8 @@ import kotlinx.coroutines.withContext
 /**
  * Created by crazy on 5/8/20 to long live and prosper !
  */
-internal class AudiosVM(application: Application) : AbstractAVM(application) {
+internal class AudiosVM(application: Application,
+                        stateHandle: SavedStateHandle) : AbstractAVM(application, stateHandle) {
 
     private val audioData = MutableLiveData<List<AudioModel>>()
     val audio: LiveData<List<AudioModel>> = audioData
@@ -46,7 +48,8 @@ internal class AudiosVM(application: Application) : AbstractAVM(application) {
     private fun initializeContentObserver(sortOrder: SortOrder) {
         if (contentObserver == null) {
             contentObserver = contentResolver.registerObserver(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI) {
-                canLoad = true
+                setCanLoad()
+
                 loadAudios(sortOrder)
             }
         }
@@ -132,7 +135,8 @@ internal class AudiosVM(application: Application) : AbstractAVM(application) {
                 }
             }
         }
-        canLoad = false
+
+        setCanNotLoad()
         loadingIndicatorData.value = false
         return audio
     }

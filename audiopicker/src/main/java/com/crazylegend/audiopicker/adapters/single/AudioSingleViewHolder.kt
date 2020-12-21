@@ -1,5 +1,6 @@
 package com.crazylegend.audiopicker.adapters.single
 
+import com.bumptech.glide.Glide
 import com.crazylegend.audiopicker.audios.AudioModel
 import com.crazylegend.audiopicker.databinding.ItemviewAudioBinding
 import com.crazylegend.core.adapters.BaseViewHolder
@@ -23,7 +24,10 @@ internal class AudioSingleViewHolder(private val binding: ItemviewAudioBinding, 
         if (item.thumbnail == null) {
             loadPlaceHolders(viewHolderPlaceholderModifier, binding.image)
         } else {
-            binding.image.setImageBitmap(item.thumbnail)
+            Glide
+                    .with(binding.image)
+                    .load(item.thumbnail)
+                    .into(binding.image)
         }
         viewHolderTitleTextModifier?.apply {
             applyTextParamsConstraint(binding.bottomText)

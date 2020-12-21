@@ -1,6 +1,12 @@
 package com.crazylegend.core.adapters
 
+import android.content.ContentResolver
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.net.Uri
+import android.os.Build
+import android.provider.MediaStore
+import android.util.Size
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewbinding.ViewBinding
@@ -20,6 +26,38 @@ open class BaseViewHolder(binding: ViewBinding) : RecyclerView.ViewHolder(bindin
             if (viewHolderPlaceholderModifier != null) {
                 loadPlaceHolders(viewHolderPlaceholderModifier, image)
             }
+        }
+    }
+
+    /**
+     * Or just use Glide with the contentUri
+     * @param contentResolver ContentResolver
+     * @param customSize Size
+     * @param options Options?
+     * @return Bitmap?
+     */
+    @Suppress("DEPRECATION")
+    fun loadThumbnail(contentResolver: ContentResolver,
+                      contentUri: Uri,
+                      id: Long,
+                      customSize: Size = Size(350, 350),
+                      legacyKind: Int = MediaStore.Video.Thumbnails.MICRO_KIND,
+                      options: BitmapFactory.Options? = null): Bitmap? {
+        return tryOrNull {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                contentResolver.loadThumbnail(contentUri, customSize, null)
+            } else {
+                MediaStore.Video.Thumbnails.getThumbnail(contentResolver, id, legacyKind,
+                        options ?: BitmapFactory.Options())
+            }
+        }
+    }
+
+    private fun tryOrNull(function: () -> Bitmap): Bitmap? {
+        return try {
+            function()
+        } catch (e: Exception) {
+            null
         }
     }
 

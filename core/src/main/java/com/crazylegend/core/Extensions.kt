@@ -43,6 +43,23 @@ internal inline fun AppCompatImageView.loadImage(uri: Uri, crossinline onLoadFai
             .into(this)
 }
 
+internal inline fun AppCompatImageView.loadWholeImage(uri: Uri, crossinline onLoadFailed: () -> Unit = {}) {
+    Glide.with(this)
+            .load(uri)
+            .listener(object : RequestListener<Drawable> {
+                override fun onLoadFailed(e: GlideException?, model: Any?, target: Target<Drawable>?, isFirstResource: Boolean): Boolean {
+                    onLoadFailed()
+                    return true
+                }
+
+                override fun onResourceReady(resource: Drawable?, model: Any?, target: Target<Drawable>?, dataSource: DataSource?, isFirstResource: Boolean): Boolean {
+                    return false
+                }
+            })
+            .centerCrop()
+            .into(this)
+}
+
 inline fun setupModifier(modifier: BaseMultiPickerModifier.() -> Unit) = BaseMultiPickerModifier().also(modifier)
 
 
