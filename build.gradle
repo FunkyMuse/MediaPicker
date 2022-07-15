@@ -29,7 +29,6 @@ buildscript {
     dependencies {
         classpath 'com.android.tools.build:gradle:7.2.1'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
-        classpath 'com.github.dcendents:android-maven-gradle-plugin:2.1'
     }
 }
 
@@ -72,6 +71,8 @@ subprojects {
             apply plugin: 'kotlin-android'
             apply plugin: 'kotlin-parcelize'
             apply plugin: 'kotlin-kapt'
+            apply plugin: 'maven-publish'
+
 
             dependencies {
                 testImplementation 'junit:junit:4.13.2'
@@ -99,6 +100,17 @@ subprojects {
                 api "androidx.lifecycle:lifecycle-common-java8:$lifecycle"
                 api "androidx.lifecycle:lifecycle-runtime-ktx:$lifecycle"
             }
+
+            it.afterEvaluate {
+                publishing {
+                    publications {
+                        release(MavenPublication) {
+                            from components.release
+                        }
+                    }
+                }
+            }
+
             break
 
         case 'extensions':
@@ -108,6 +120,7 @@ subprojects {
             apply plugin: 'kotlin-android'
             apply plugin: 'kotlin-parcelize'
             apply plugin: 'kotlin-kapt'
+            apply plugin: 'maven-publish'
 
             dependencies {
                 implementation project(path: ':core')
@@ -120,12 +133,24 @@ subprojects {
             apply plugin: 'kotlin-android'
             apply plugin: 'kotlin-parcelize'
             apply plugin: 'kotlin-kapt'
+            apply plugin: 'maven-publish'
 
             dependencies {
                 api project(path: ':core')
                 implementation project(path: ':extensions')
             }
 
+            it.afterEvaluate {
+                publishing {
+                    publications {
+                        release(MavenPublication) {
+                            from components.release
+                        }
+                    }
+                }
+            }
+
+            break
 
     }
 
