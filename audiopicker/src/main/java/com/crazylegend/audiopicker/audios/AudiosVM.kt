@@ -126,11 +126,14 @@ internal class AudiosVM(application: Application,
 
                     val contentUri = ContentUris.withAppendedId(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, id)
                     val audioModel = AudioModel(id, displayName, dateAdded, contentUri, dateModified, null, size, null, null,
-                            album, composer, artist, isNotification, isAlarm, isRingtone, track, year, thumbnail = loadThumbnail(
-                            contentResolver, contentUri, id
-                    ))
-                    audioModel.isSelected = audioData.value?.find { it.id == audioModel.id }?.isSelected
-                            ?: false
+                            album, composer, artist, isNotification, isAlarm, isRingtone, track, year)
+                    audioModel.apply {
+                        isSelected = audioData.value?.find { it.id == audioModel.id }?.isSelected
+                                ?: false
+                        thumbnail = loadThumbnail(
+                                contentResolver, contentUri, id
+                        )
+                    }
                     audio += audioModel
                 }
             }
