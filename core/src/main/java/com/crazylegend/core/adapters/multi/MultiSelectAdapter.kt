@@ -19,9 +19,9 @@ class MultiSelectAdapter(private val modifier: BaseMultiPickerModifier?) :
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MultiSelectViewHolder {
         val holder = MultiSelectViewHolder(ItemviewImageBinding.inflate(parent.inflater, parent, false), modifier)
         holder.itemView.setOnClickListener {
-            val item = getItem(holder.adapterPosition)
+            val item = getItem(holder.bindingAdapterPosition)
             item.isSelected = !item.isSelected
-            notifyItemChanged(holder.adapterPosition)
+            notifyItemChanged(holder.bindingAdapterPosition)
         }
         return holder
     }

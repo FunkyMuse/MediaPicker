@@ -27,9 +27,6 @@ allprojects {
 dependencies {
     def pickerVersion = "1.0.0" //look-up the latest one on jitpack
     
-    //the core package is a must then you include the one you need
-    implementation "com.github.FunkyMuse.MediaPicker:core:$pickerVersion"
-    
     //images
     implementation "com.github.FunkyMuse.MediaPicker:imagepicker:$pickerVersion"
     //audios

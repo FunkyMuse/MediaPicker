@@ -1,16 +1,16 @@
 ext {
-    lifecycle = '2.3.0-rc01'
-    glide = "4.11.0"
-    constraint_layout = '2.0.4'
-    material = "1.3.0-beta01"
-    fragment  = "1.3.0-rc01"
-    activity = "1.2.0-rc01"
-    recycler = "1.0.0"
+    lifecycle = '2.3.0'
+    glide = "4.13.2"
+    constraint_layout = '2.1.4'
+    material = "1.3.0"
+    fragment  = "1.5.0"
+    activity = "1.2.0"
+    recycler = "1.2.1"
     appCompat = "1.2.0"
-    coreKTX = "1.5.0-alpha05"
+    coreKTX = "1.5.0"
 
     //compilation
-    compileVersion = 30
+    compileVersion = 32
     minVersion = 21
     verCode = 1
     verName = "1.0.0"
@@ -18,16 +18,16 @@ ext {
 }
 
 buildscript {
-    ext.kotlin_version = '1.4.21'
+    ext.kotlin_version = '1.7.10'
 
-    ext.compiledAppVersion = 30
+    ext.compiledAppVersion = 32
 
     repositories {
         google()
-        jcenter()
+        mavenCentral()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:4.1.1'
+        classpath 'com.android.tools.build:gradle:7.2.1'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
         classpath 'com.github.dcendents:android-maven-gradle-plugin:2.1'
     }
@@ -38,7 +38,7 @@ allprojects {
 
     repositories {
         google()
-        jcenter()
+        mavenCentral()
     }
 }
 
@@ -58,7 +58,6 @@ subprojects {
             apply plugin: 'kotlin-parcelize'
 
             dependencies {
-                implementation fileTree(dir: 'libs', include: ['*.jar'])
                 implementation project(path: ':imagepicker')
                 implementation project(path: ':videopicker')
                 implementation project(path: ':audiopicker')
@@ -72,14 +71,12 @@ subprojects {
             apply plugin: 'com.android.library'
             apply plugin: 'kotlin-android'
             apply plugin: 'kotlin-parcelize'
-            apply plugin: 'com.github.dcendents.android-maven'
             apply plugin: 'kotlin-kapt'
 
             dependencies {
-                implementation fileTree(dir: 'libs', include: ['*.jar'])
-                testImplementation 'junit:junit:4.13.1'
-                androidTestImplementation 'androidx.test.ext:junit:1.1.2'
-                androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
+                testImplementation 'junit:junit:4.13.2'
+                androidTestImplementation 'androidx.test.ext:junit:1.1.3'
+                androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
 
                 //glide
                 api "com.github.bumptech.glide:glide:$glide"
@@ -110,11 +107,9 @@ subprojects {
             apply plugin: 'com.android.library'
             apply plugin: 'kotlin-android'
             apply plugin: 'kotlin-parcelize'
-            apply plugin: 'com.github.dcendents.android-maven'
             apply plugin: 'kotlin-kapt'
 
             dependencies {
-                implementation fileTree(dir: 'libs', include: ['*.jar'])
                 implementation project(path: ':core')
             }
 
@@ -124,12 +119,10 @@ subprojects {
             apply plugin: 'com.android.library'
             apply plugin: 'kotlin-android'
             apply plugin: 'kotlin-parcelize'
-            apply plugin: 'com.github.dcendents.android-maven'
             apply plugin: 'kotlin-kapt'
 
             dependencies {
-                implementation fileTree(dir: 'libs', include: ['*.jar'])
-                implementation project(path: ':core')
+                api project(path: ':core')
                 implementation project(path: ':extensions')
             }
 
