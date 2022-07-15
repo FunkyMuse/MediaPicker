@@ -4,6 +4,7 @@ import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Parcelable
 import com.crazylegend.core.dto.BaseCursorModel
+import kotlinx.parcelize.IgnoredOnParcel
 import kotlinx.parcelize.Parcelize
 
 
@@ -28,8 +29,14 @@ data class AudioModel(override val id: Long,
                       val alarm: Boolean,
                       val ringtone: Boolean,
                       val track: Int?,
-                      val year: Int?,
-                      var thumbnail: Bitmap? = null //this variable will always be null and/or freed unless after you pick the model and you assign it yourself
-//do remember to free the bitmap to not hog the memory
+                      val year: Int?
 ) :
-        BaseCursorModel(id, displayName, dateAdded, contentUri, dateModified, description, size, width, height), Parcelable
+        BaseCursorModel(id, displayName, dateAdded, contentUri, dateModified, description, size, width, height), Parcelable {
+
+    /**
+     * this variable will always be null and/or freed unless after you pick the model and you assign it yourself
+     * do remember to free the bitmap to not hog the memory
+     */
+    @IgnoredOnParcel
+    var thumbnail: Bitmap? = null
+}
