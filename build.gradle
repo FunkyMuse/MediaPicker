@@ -125,8 +125,18 @@ subprojects {
             dependencies {
                 implementation project(path: ':core')
             }
+            it.afterEvaluate {
+                publishing {
+                    publications {
+                        release(MavenPublication) {
+                            from components.release
+                        }
+                    }
+                }
+            }
 
             break
+
             default:
 
             apply plugin: 'com.android.library'
