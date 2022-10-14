@@ -21,6 +21,19 @@ allprojects {
 }
 ```
 
+#### or
+
+If your Android studio version is Arctic Fox and above then add it in your settings.gradle:
+
+```gradle
+dependencyResolutionManagement {
+repositories {
+...
+maven { url 'https://jitpack.io' }
+}
+}
+```
+
 2. Add the dependency in the application build.gradle
 
 ```gradle
