@@ -1,6 +1,7 @@
 package com.crazylegend.videopicker.dialogs.single
 
 import android.Manifest
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -55,7 +56,11 @@ internal class SingleVideoPickerBottomSheetDialog : AbstractBottomSheetDialogFra
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        askForStoragePermission.launch(Manifest.permission.READ_EXTERNAL_STORAGE)
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU){
+            askForStoragePermission.launch(Manifest.permission.READ_EXTERNAL_STORAGE)
+        } else {
+            askForStoragePermission.launch(Manifest.permission.READ_MEDIA_VIDEO)
+        }
         setupUIForSinglePicker(binding.gallery, singleAdapter, binding.title, binding.loadingIndicator, modifier?.loadingIndicatorTint, ::applyTitleModifications)
         videosVM.videos.observe(viewLifecycleOwner) {
             setupList(singleAdapter, it, binding.noContentText, modifier?.noContentTextModifier)

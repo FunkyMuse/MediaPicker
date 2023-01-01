@@ -1,8 +1,10 @@
 package com.crazylegend.mediapicker
 
+import android.Manifest
 import android.Manifest.permission.READ_EXTERNAL_STORAGE
 import android.annotation.SuppressLint
 import android.graphics.Color
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -332,7 +334,11 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
     override fun onClick(clickedview: View?) {
         clickedview ?: return
         clickedID = clickedview.id
-        askForStoragePermission.launch(READ_EXTERNAL_STORAGE)
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU){
+            askForStoragePermission.launch(Manifest.permission.READ_EXTERNAL_STORAGE)
+        } else {
+            askForStoragePermission.launch(Manifest.permission.READ_MEDIA_IMAGES)
+        }
     }
 
 }

@@ -1,6 +1,7 @@
 package com.crazylegend.audiopicker.dialogs.multi
 
 import android.Manifest
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -54,8 +55,11 @@ internal class MultiAudioPickerBottomSheetDialog : AbstractBottomSheetDialogFrag
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        askForStoragePermission.launch(Manifest.permission.READ_EXTERNAL_STORAGE)
-
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU){
+            askForStoragePermission.launch(Manifest.permission.READ_EXTERNAL_STORAGE)
+        } else {
+            askForStoragePermission.launch(Manifest.permission.READ_MEDIA_AUDIO)
+        }
         setupUIForMultiPicker(
                 binding.gallery, audioMultiSelectAdapter, binding.doneButton, binding.title, binding.loadingIndicator, modifier?.loadingIndicatorTint,
                 ::applyDoneButtonModifications, ::applyTitleModifications)

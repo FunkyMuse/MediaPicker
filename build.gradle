@@ -10,7 +10,7 @@ ext {
     coreKTX = "1.5.0"
 
     //compilation
-    compileVersion = 32
+    compileVersion = 33
     minVersion = 21
     verCode = 1
     verName = "1.0.0"
@@ -20,7 +20,7 @@ ext {
 buildscript {
     ext.kotlin_version = '1.7.10'
 
-    ext.compiledAppVersion = 32
+    ext.compiledAppVersion = 33
 
     repositories {
         google()
