@@ -37,7 +37,7 @@ object MultiImagePicker {
         }
     }
 
-    @RequiresPermission(READ_EXTERNAL_STORAGE)
+
     fun showPicker(
             context: Context, multiImagePickerModifier: BaseMultiPickerModifier.() -> Unit = {},
             imagesList: (list: List<ImageModel>) -> Unit = {}
@@ -51,7 +51,6 @@ object MultiImagePicker {
         }
     }
 
-    @RequiresPermission(READ_EXTERNAL_STORAGE)
     fun showPicker(
             fragmentManager: FragmentManager, multiImagePickerModifier: BaseMultiPickerModifier.() -> Unit = {},
             imagesList: (list: List<ImageModel>) -> Unit = {}

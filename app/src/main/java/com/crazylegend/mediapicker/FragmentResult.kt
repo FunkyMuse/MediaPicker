@@ -3,6 +3,7 @@ package com.crazylegend.mediapicker
 import android.Manifest
 import android.annotation.SuppressLint
 import android.graphics.Color
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -350,6 +351,11 @@ class FragmentResult : DialogFragment(R.layout.activity_main), View.OnClickListe
     override fun onClick(clickedview: View?) {
         clickedview ?: return
         clickedID = clickedview.id
-        askForStoragePermission.launch(Manifest.permission.READ_EXTERNAL_STORAGE)
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU){
+            askForStoragePermission.launch(Manifest.permission.READ_EXTERNAL_STORAGE)
+        } else {
+            askForStoragePermission.launch(Manifest.permission.READ_MEDIA_IMAGES)
+        }
+
     }
 }

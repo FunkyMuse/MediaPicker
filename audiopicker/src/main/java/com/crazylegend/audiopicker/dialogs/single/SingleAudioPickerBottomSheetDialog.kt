@@ -2,6 +2,7 @@ package com.crazylegend.audiopicker.dialogs.single
 
 import android.Manifest
 import android.graphics.Bitmap
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -57,8 +58,11 @@ internal class SingleAudioPickerBottomSheetDialog : AbstractBottomSheetDialogFra
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        askForStoragePermission.launch(Manifest.permission.READ_EXTERNAL_STORAGE)
-
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU){
+            askForStoragePermission.launch(Manifest.permission.READ_EXTERNAL_STORAGE)
+        } else {
+            askForStoragePermission.launch(Manifest.permission.READ_MEDIA_AUDIO)
+        }
         setupUIForSinglePicker(binding.gallery, singleAudioAdapter, binding.title, binding.loadingIndicator, modifier?.loadingIndicatorTint, ::applyTitleModifications)
         audiosVM.audio.observe(viewLifecycleOwner) {
             setupList(singleAudioAdapter, it, binding.noContentText, modifier?.noContentTextModifier)

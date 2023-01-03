@@ -36,7 +36,6 @@ object SingleImagePicker {
         }
     }
 
-    @RequiresPermission(READ_EXTERNAL_STORAGE)
     fun showPicker(
             context: Context,
             pickerModifier: BaseSinglePickerModifier.() -> Unit = {},
@@ -51,8 +50,6 @@ object SingleImagePicker {
         }
     }
 
-
-    @RequiresPermission(READ_EXTERNAL_STORAGE)
     fun showPicker(
             fragmentManager: FragmentManager,
             pickerModifier: BaseSinglePickerModifier.() -> Unit = {},

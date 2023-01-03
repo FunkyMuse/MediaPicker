@@ -1,6 +1,7 @@
 package com.crazylegend.imagepicker.dialogs.single
 
 import android.Manifest
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -57,7 +58,11 @@ internal class SingleImagePickerBottomSheetDialog : AbstractBottomSheetDialogFra
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        askForStoragePermission.launch(Manifest.permission.READ_EXTERNAL_STORAGE)
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU){
+            askForStoragePermission.launch(Manifest.permission.READ_EXTERNAL_STORAGE)
+        } else {
+            askForStoragePermission.launch(Manifest.permission.READ_MEDIA_IMAGES)
+        }
         setupUIForSinglePicker(binding.gallery, singleAdapter, binding.title, binding.loadingIndicator, modifier?.loadingIndicatorTint, ::applyTitleModifications)
         imagesVM.images.observe(viewLifecycleOwner) {
             setupList(singleAdapter, it, binding.noContentText, modifier?.noContentTextModifier)
