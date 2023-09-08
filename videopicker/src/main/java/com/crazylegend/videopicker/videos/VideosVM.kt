@@ -3,6 +3,7 @@ package com.crazylegend.videopicker.videos
 import android.app.Application
 import android.content.ContentUris
 import android.provider.MediaStore
+import android.util.Log
 import androidx.core.database.getIntOrNull
 import androidx.core.database.getLongOrNull
 import androidx.core.database.getStringOrNull
@@ -22,31 +23,39 @@ import kotlinx.coroutines.withContext
 /**
  * Created by crazy on 5/8/20 to long live and prosper !
  */
-internal class VideosVM(application: Application, stateHandle: SavedStateHandle) : AbstractAVM(application, stateHandle) {
+internal class VideosVM(application: Application, stateHandle: SavedStateHandle) :
+    AbstractAVM(application, stateHandle) {
 
     private val videoData = MutableLiveData<List<VideoModel>>()
     val videos: LiveData<List<VideoModel>> = videoData
 
 
-    fun loadVideos(sortOrder: SortOrder = SortOrder.DATE_ADDED_DESC) {
+    fun loadVideos(
+        sortOrder: SortOrder = SortOrder.DATE_ADDED_DESC, extensions: Array<String>? = arrayOf()
+    ) {
         if (canLoad) {
             viewModelScope.launch {
-                videoData.postValue(queryVideos(sortOrder))
+                videoData.postValue(queryVideos(sortOrder, extensions))
                 initializeContentObserver(sortOrder)
             }
         }
     }
 
-    private fun initializeContentObserver(sortOrder: SortOrder) {
+    private fun initializeContentObserver(
+        sortOrder: SortOrder, extensions: Array<String>? = arrayOf()
+    ) {
         if (contentObserver == null) {
-            contentObserver = contentResolver.registerObserver(MediaStore.Video.Media.EXTERNAL_CONTENT_URI) {
-                setCanLoad()
-                loadVideos(sortOrder)
-            }
+            contentObserver =
+                contentResolver.registerObserver(MediaStore.Video.Media.EXTERNAL_CONTENT_URI) {
+                    setCanLoad()
+                    loadVideos(sortOrder, extensions)
+                }
         }
     }
 
-    private suspend fun queryVideos(order: SortOrder): List<VideoModel> {
+    private suspend fun queryVideos(
+        order: SortOrder, extensions: Array<String>? = arrayOf()
+    ): List<VideoModel> {
         loadingIndicatorData.value = true
 
         val video = mutableListOf<VideoModel>()
@@ -64,25 +73,48 @@ internal class VideosVM(application: Application, stateHandle: SavedStateHandle)
             SortOrder.SIZE_DESC -> "${MediaStore.Video.Media.SIZE} DESC"
             SortOrder.SIZE_ASC -> "${MediaStore.Video.Media.SIZE} ASC"
         }
-        withContext(Dispatchers.IO) {
-            val projection =
-                    arrayOf(
-                            MediaStore.Video.Media._ID,
-                            MediaStore.Video.Media.DISPLAY_NAME,
-                            MediaStore.Video.Media.RESOLUTION,
-                            MediaStore.Video.Media.IS_PRIVATE,
-                            MediaStore.Video.Media.DATE_ADDED,
-                            MediaStore.Video.Media.DATE_MODIFIED,
-                            MediaStore.Video.Media.DESCRIPTION,
-                            MediaStore.Video.Media.SIZE,
-                            MediaStore.Video.Media.WIDTH,
-                            MediaStore.Video.Media.HEIGHT
-                    )
 
-            contentResolver.query(MediaStore.Video.Media.EXTERNAL_CONTENT_URI, projection, null, null, sortOrder)?.use { cursor ->
+        val selection = if (!extensions.isNullOrEmpty()) {
+            val extensionSelection = extensions.joinToString(separator = " OR ") {
+                "${MediaStore.Video.Media.DATA} LIKE ?"
+            }
+            "($extensionSelection)"
+        } else {
+            null
+        }
+
+
+        val selectionArgs = extensions?.map { "%.$it" }?.toTypedArray()
+
+        selectionArgs?.forEach {
+            Log.e("TAG", "selectionArgs ${it}" )
+        }
+
+        withContext(Dispatchers.IO) {
+            val projection = arrayOf(
+                MediaStore.Video.Media._ID,
+                MediaStore.Video.Media.DISPLAY_NAME,
+                MediaStore.Video.Media.RESOLUTION,
+                MediaStore.Video.Media.IS_PRIVATE,
+                MediaStore.Video.Media.DATE_ADDED,
+                MediaStore.Video.Media.DATE_MODIFIED,
+                MediaStore.Video.Media.DESCRIPTION,
+                MediaStore.Video.Media.SIZE,
+                MediaStore.Video.Media.WIDTH,
+                MediaStore.Video.Media.HEIGHT
+            )
+
+            contentResolver.query(
+                MediaStore.Video.Media.EXTERNAL_CONTENT_URI,
+                projection,
+                selection,
+                selectionArgs,
+                sortOrder
+            )?.use { cursor ->
 
                 val idColumn = cursor.getColumnIndexOrThrow(MediaStore.Video.Media._ID)
-                val displayNameColumn = cursor.getColumnIndexOrThrow(MediaStore.Video.Media.DISPLAY_NAME)
+                val displayNameColumn =
+                    cursor.getColumnIndexOrThrow(MediaStore.Video.Media.DISPLAY_NAME)
                 val resolutionColumn = cursor.getSafeColumn(MediaStore.Video.Media.RESOLUTION)
                 val isPrivateColumn = cursor.getSafeColumn(MediaStore.Video.Media.IS_PRIVATE)
                 val tagsColumn = cursor.getSafeColumn(MediaStore.Video.Media.TAGS)
@@ -107,11 +139,24 @@ internal class VideosVM(application: Application, stateHandle: SavedStateHandle)
                     val width = widthColumn?.let { cursor.getIntOrNull(it) }
                     val height = heightColumn?.let { cursor.getIntOrNull(it) }
 
-                    val contentUri = ContentUris.withAppendedId(MediaStore.Video.Media.EXTERNAL_CONTENT_URI, id)
-                    val videoModel = VideoModel(id, displayName, dateAdded, contentUri, dateModified, description, size, width, height,
-                            resolution, isPrivate, tags)
-                    videoModel.isSelected = videoData.value?.find { it.id == videoModel.id }?.isSelected
-                            ?: false
+                    val contentUri =
+                        ContentUris.withAppendedId(MediaStore.Video.Media.EXTERNAL_CONTENT_URI, id)
+                    val videoModel = VideoModel(
+                        id,
+                        displayName,
+                        dateAdded,
+                        contentUri,
+                        dateModified,
+                        description,
+                        size,
+                        width,
+                        height,
+                        resolution,
+                        isPrivate,
+                        tags
+                    )
+                    videoModel.isSelected =
+                        videoData.value?.find { it.id == videoModel.id }?.isSelected ?: false
                     video += videoModel
                 }
             }

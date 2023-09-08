@@ -27,41 +27,55 @@ import com.crazylegend.videopicker.videos.VideosVM
 /**
  * Created by crazy on 5/8/20 to long live and prosper !
  */
-internal class SingleVideoPickerBottomSheetDialog : AbstractBottomSheetDialogFragment(), SinglePickerContracts {
+internal class SingleVideoPickerBottomSheetDialog : AbstractBottomSheetDialogFragment(),
+    SinglePickerContracts {
 
     override val layout: Int
         get() = super.layout
     override var onVideoPicked: onVideoPicked? = null
     override val binding by viewBinding(FragmentImagesGalleryLayoutBinding::bind)
     override val videosVM by viewModels<VideosVM>()
+    var extensions: Array<String>? = arrayOf()
+
     override val modifier: BaseSinglePickerModifier? get() = arguments?.getParcelable(modifierTag)
 
     override val singleAdapter by lazy {
         SingleAdapter(modifier?.viewHolderPlaceholderModifier) {
-            setFragmentResult(SingleVideoPicker.SINGLE_VIDEO_REQUEST_KEY, bundleOf(SingleVideoPicker.ON_SINGLE_VIDEO_PICK_KEY to it as VideoModel))
+            setFragmentResult(
+                SingleVideoPicker.SINGLE_VIDEO_REQUEST_KEY,
+                bundleOf(SingleVideoPicker.ON_SINGLE_VIDEO_PICK_KEY to it as VideoModel)
+            )
             onVideoPicked?.forVideo(it)
             dismissAllowingStateLoss()
         }
     }
 
-    override val askForStoragePermission = registerForActivityResult(ActivityResultContracts.RequestPermission()) {
-        if (it) {
-            videosVM.loadVideos()
-        } else {
-            Log.e(errorTag, "PERMISSION DENIED")
-            dismissAllowingStateLoss()
+    override val askForStoragePermission =
+        registerForActivityResult(ActivityResultContracts.RequestPermission()) {
+            if (it) {
+                videosVM.loadVideos(extensions = extensions)
+            } else {
+                Log.e(errorTag, "PERMISSION DENIED")
+                dismissAllowingStateLoss()
+            }
         }
-    }
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU){
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU) {
             askForStoragePermission.launch(Manifest.permission.READ_EXTERNAL_STORAGE)
         } else {
             askForStoragePermission.launch(Manifest.permission.READ_MEDIA_VIDEO)
         }
-        setupUIForSinglePicker(binding.gallery, singleAdapter, binding.title, binding.loadingIndicator, modifier?.loadingIndicatorTint, ::applyTitleModifications)
+        setupUIForSinglePicker(
+            binding.gallery,
+            singleAdapter,
+            binding.title,
+            binding.loadingIndicator,
+            modifier?.loadingIndicatorTint,
+            ::applyTitleModifications
+        )
         videosVM.videos.observe(viewLifecycleOwner) {
             setupList(singleAdapter, it, binding.noContentText, modifier?.noContentTextModifier)
         }
