@@ -64,13 +64,7 @@ dependencies {
     }
 ```
 
-4. Inside gradle.properties (optional)
-
-```gradle
-org.gradle.parallel=true
-```
-
-5. How to use and screens
+4. How to use and screens
 
 [Image picker](https://github.com/FunkyMuse/MediaPicker/tree/master/imagepicker)
 
