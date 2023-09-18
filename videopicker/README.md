@@ -23,7 +23,7 @@ dependencies {
     SingleVideoPicker.showPicker(context = this, onPickedVideo = ::loadVideo)
     
     //customized
-    SingleVideoPicker.showPicker(this, {
+    SingleVideoPicker.showPicker(this, extensions = arrayOf(),{
             setupBaseModifier(
                     loadingIndicatorColor = R.color.minusColor,
                     titleTextModifications = {
@@ -40,6 +40,8 @@ dependencies {
                     }
             )
         }, ::loadVideo)
+
+    // You can filter files by passing extensions like extensions = arrayOf("mp4","avi")
     
 ```
 
@@ -49,7 +51,7 @@ dependencies {
     MultiVideoPicker.showPicker(this) { loadVideos(it) }
     
     //customized
-     MultiVideoPicker.showPicker(this, {
+     MultiVideoPicker.showPicker(this, extensions = arrayOf(),{
             setupBaseMultiPicker(
                     tintForLoadingProgressBar = ContextCompat.getColor(this@MainActivity, R.color.colorPrimaryDark),
                     gravityForSelectAndUnSelectIndicators = BaseMultiPickerModifier.Gravity.TOP_RIGHT,

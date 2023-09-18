@@ -29,7 +29,7 @@ import com.google.android.material.button.MaterialButton
  * Created by crazy on 5/8/20 to long live and prosper !
  */
 internal class MultiVideoPickerBottomSheetDialog : AbstractBottomSheetDialogFragment(),
-        MultiPickerContracts {
+    MultiPickerContracts {
 
 
     override val layout: Int
@@ -42,38 +42,56 @@ internal class MultiVideoPickerBottomSheetDialog : AbstractBottomSheetDialogFrag
     override val multiSelectAdapter by lazy {
         MultiSelectAdapter(modifier)
     }
+    var extensions: Array<String>? = arrayOf()
+
     override val askForStoragePermission =
-            registerForActivityResult(ActivityResultContracts.RequestPermission()) {
-                if (it) {
-                    videosVM.loadVideos()
-                } else {
-                    Log.e(errorTag, "PERMISSION DENIED")
-                    dismissAllowingStateLoss()
-                }
+        registerForActivityResult(ActivityResultContracts.RequestPermission()) {
+            if (it) {
+                videosVM.loadVideos(extensions = extensions)
+            } else {
+                Log.e(errorTag, "PERMISSION DENIED")
+                dismissAllowingStateLoss()
             }
+        }
 
     @Suppress("UNCHECKED_CAST")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU){
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU) {
             askForStoragePermission.launch(Manifest.permission.READ_EXTERNAL_STORAGE)
         } else {
             askForStoragePermission.launch(Manifest.permission.READ_MEDIA_VIDEO)
         }
         setupUIForMultiPicker(
-                binding.gallery, multiSelectAdapter, binding.doneButton, binding.title, binding.loadingIndicator, modifier?.loadingIndicatorTint,
-                ::applyDoneButtonModifications, ::applyTitleModifications)
+            binding.gallery,
+            multiSelectAdapter,
+            binding.doneButton,
+            binding.title,
+            binding.loadingIndicator,
+            modifier?.loadingIndicatorTint,
+            ::applyDoneButtonModifications,
+            ::applyTitleModifications
+        )
 
         videosVM.videos.observe(viewLifecycleOwner) {
-            setupList(multiSelectAdapter, it, binding.noContentText, modifier?.noContentTextModifier)
+            setupList(
+                multiSelectAdapter,
+                it,
+                binding.noContentText,
+                modifier?.noContentTextModifier
+            )
         }
         handleUIIndicator(videosVM.loadingIndicator, binding.loadingIndicator)
 
 
         binding.doneButton.setOnClickListener {
-            val videoList = multiSelectAdapter.currentList.filter { it.isSelected } as? List<VideoModel>
+            val videoList =
+                multiSelectAdapter.currentList.filter { it.isSelected } as? List<VideoModel>
                     ?: emptyList()
-            setFragmentResult(MultiVideoPicker.MULTI_VIDEO_REQUEST_KEY, bundleOf(MultiVideoPicker.ON_MULTI_VIDEO_PICK_KEY to videoList))
+            setFragmentResult(
+                MultiVideoPicker.MULTI_VIDEO_REQUEST_KEY,
+                bundleOf(MultiVideoPicker.ON_MULTI_VIDEO_PICK_KEY to videoList)
+            )
             onVideosPicked?.onVideosPicked(videoList)
             dismissAllowingStateLoss()
         }

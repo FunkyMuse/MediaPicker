@@ -1,9 +1,7 @@
 package com.crazylegend.imagepicker.pickers
 
-import android.Manifest.permission.READ_EXTERNAL_STORAGE
 import android.content.Context
 import android.util.Log
-import androidx.annotation.RequiresPermission
 import androidx.fragment.app.FragmentManager
 import com.crazylegend.core.modifiers.base.BaseMultiPickerModifier
 import com.crazylegend.core.setupModifier
@@ -27,10 +25,11 @@ object MultiImagePicker {
     fun restoreListener(context: Context, imagesList: (list: List<ImageModel>) -> Unit = {}) {
         val manager = context.setupManager()
         when (val fragment = manager.findFragmentByTag(MULTI_PICKER_BOTTOM_SHEET)
-                ?: manager.findFragmentByTag(MULTI_PICKER_DIALOG)) {
+            ?: manager.findFragmentByTag(MULTI_PICKER_DIALOG)) {
             is MultiImagePickerBottomSheetDialog -> {
                 fragment.onImagesPicked = onImagesDSL(imagesList)
             }
+
             null -> {
                 Log.e(MultiImagePicker::class.java.name, "FRAGMENT NOT FOUND")
             }
@@ -39,12 +38,14 @@ object MultiImagePicker {
 
 
     fun showPicker(
-            context: Context, multiImagePickerModifier: BaseMultiPickerModifier.() -> Unit = {},
-            imagesList: (list: List<ImageModel>) -> Unit = {}
+        context: Context, extensions: Array<String>? = arrayOf(),
+        multiImagePickerModifier: BaseMultiPickerModifier.() -> Unit = {},
+        imagesList: (list: List<ImageModel>) -> Unit = {}
     ) {
         val manager = context.setupManager()
         val modifier = setupModifier(multiImagePickerModifier)
         with(MultiImagePickerBottomSheetDialog()) {
+            this.extensions = extensions
             addModifier(modifier)
             onImagesPicked = onImagesDSL(imagesList)
             show(manager, MULTI_PICKER_BOTTOM_SHEET)
@@ -52,11 +53,14 @@ object MultiImagePicker {
     }
 
     fun showPicker(
-            fragmentManager: FragmentManager, multiImagePickerModifier: BaseMultiPickerModifier.() -> Unit = {},
-            imagesList: (list: List<ImageModel>) -> Unit = {}
+        fragmentManager: FragmentManager,
+        extensions: Array<String>? = arrayOf(),
+        multiImagePickerModifier: BaseMultiPickerModifier.() -> Unit = {},
+        imagesList: (list: List<ImageModel>) -> Unit = {}
     ) {
         val modifier = setupModifier(multiImagePickerModifier)
         with(MultiImagePickerBottomSheetDialog()) {
+            this.extensions = extensions
             addModifier(modifier)
             onImagesPicked = onImagesDSL(imagesList)
             show(fragmentManager, MULTI_PICKER_BOTTOM_SHEET)

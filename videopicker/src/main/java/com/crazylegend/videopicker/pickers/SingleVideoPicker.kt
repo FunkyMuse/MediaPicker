@@ -1,9 +1,7 @@
 package com.crazylegend.videopicker.pickers
 
-import android.Manifest
 import android.content.Context
 import android.util.Log
-import androidx.annotation.RequiresPermission
 import androidx.fragment.app.FragmentManager
 import com.crazylegend.core.modifiers.base.BaseSinglePickerModifier
 import com.crazylegend.core.setupModifier
@@ -26,29 +24,42 @@ object SingleVideoPicker {
     fun restoreListener(context: Context, onPickedVideo: (video: VideoModel) -> Unit = {}) {
         val manager = context.setupManager()
         when (val fragment = manager.findFragmentByTag(SINGLE_PICKER_BOTTOM_SHEET)
-                ?: manager.findFragmentByTag(SINGLE_PICKER_DIALOG)) {
+            ?: manager.findFragmentByTag(SINGLE_PICKER_DIALOG)) {
             is SingleVideoPickerBottomSheetDialog -> {
                 fragment.onVideoPicked = onVideoDSL(onPickedVideo)
             }
+
             null -> {
                 Log.e(SingleVideoPicker::class.java.name, "FRAGMENT NOT FOUND")
             }
         }
     }
 
-    fun showPicker(context: Context, pickerModifier: BaseSinglePickerModifier.() -> Unit = {}, onPickedVideo: (video: VideoModel) -> Unit = {}) {
+    fun showPicker(
+        context: Context,
+        extensions: Array<String>? = arrayOf(),
+        pickerModifier: BaseSinglePickerModifier.() -> Unit = {},
+        onPickedVideo: (video: VideoModel) -> Unit = {}
+    ) {
         val modifier = setupModifier(pickerModifier)
         val manager = context.setupManager()
         with(SingleVideoPickerBottomSheetDialog()) {
+            this.extensions = extensions
             addModifier(modifier)
             onVideoPicked = onVideoDSL(onPickedVideo)
             show(manager, SINGLE_PICKER_BOTTOM_SHEET)
         }
     }
 
-    fun showPicker(fragmentManager: FragmentManager, pickerModifier: BaseSinglePickerModifier.() -> Unit = {}, onPickedVideo: (video: VideoModel) -> Unit = {}) {
+    fun showPicker(
+        fragmentManager: FragmentManager,
+        extensions: Array<String>? = arrayOf(),
+        pickerModifier: BaseSinglePickerModifier.() -> Unit = {},
+        onPickedVideo: (video: VideoModel) -> Unit = {}
+    ) {
         val modifier = setupModifier(pickerModifier)
         with(SingleVideoPickerBottomSheetDialog()) {
+            this.extensions = extensions
             addModifier(modifier)
             onVideoPicked = onVideoDSL(onPickedVideo)
             show(fragmentManager, SINGLE_PICKER_BOTTOM_SHEET)

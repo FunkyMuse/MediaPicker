@@ -30,8 +30,9 @@ import com.google.android.material.button.MaterialButton
  * Created by crazy on 5/8/20 to long live and prosper !
  */
 internal class MultiImagePickerBottomSheetDialog : AbstractBottomSheetDialogFragment(),
-        MultiPickerContracts {
+    MultiPickerContracts {
 
+    var extensions: Array<String>? = arrayOf()
 
     override val layout: Int
         get() = super.layout
@@ -45,38 +46,54 @@ internal class MultiImagePickerBottomSheetDialog : AbstractBottomSheetDialogFrag
         MultiSelectAdapter(modifier)
     }
     override val askForStoragePermission =
-            registerForActivityResult(ActivityResultContracts.RequestPermission()) {
-                if (it) {
-                    imagesVM.loadImages()
-                } else {
-                    Log.e(errorTag, "PERMISSION DENIED")
-                    dismissAllowingStateLoss()
-                }
+        registerForActivityResult(ActivityResultContracts.RequestPermission()) {
+            if (it) {
+                imagesVM.loadImages(extensions = extensions)
+            } else {
+                Log.e(errorTag, "PERMISSION DENIED")
+                dismissAllowingStateLoss()
             }
+        }
 
     @Suppress("UNCHECKED_CAST")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU){
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU) {
             askForStoragePermission.launch(Manifest.permission.READ_EXTERNAL_STORAGE)
         } else {
             askForStoragePermission.launch(Manifest.permission.READ_MEDIA_IMAGES)
         }
 
         setupUIForMultiPicker(
-                binding.gallery, multiSelectAdapter, binding.doneButton, binding.title, binding.loadingIndicator, modifier?.loadingIndicatorTint,
-                ::applyDoneButtonModifications, ::applyTitleModifications)
+            binding.gallery,
+            multiSelectAdapter,
+            binding.doneButton,
+            binding.title,
+            binding.loadingIndicator,
+            modifier?.loadingIndicatorTint,
+            ::applyDoneButtonModifications,
+            ::applyTitleModifications
+        )
 
         imagesVM.images.observe(viewLifecycleOwner) {
-            setupList(multiSelectAdapter, it, binding.noContentText, modifier?.noContentTextModifier)
+            setupList(
+                multiSelectAdapter,
+                it,
+                binding.noContentText,
+                modifier?.noContentTextModifier
+            )
         }
         handleUIIndicator(imagesVM.loadingIndicator, binding.loadingIndicator)
 
 
         binding.doneButton.setOnClickListener {
-            val imagesList = multiSelectAdapter.currentList.filter { it.isSelected } as? List<ImageModel>
+            val imagesList =
+                multiSelectAdapter.currentList.filter { it.isSelected } as? List<ImageModel>
                     ?: emptyList()
-            setFragmentResult(MultiImagePicker.MULTI_IMAGE_REQUEST_KEY, bundleOf(MultiImagePicker.ON_MULTI_IMAGE_PICK_KEY to imagesList))
+            setFragmentResult(
+                MultiImagePicker.MULTI_IMAGE_REQUEST_KEY,
+                bundleOf(MultiImagePicker.ON_MULTI_IMAGE_PICK_KEY to imagesList)
+            )
             onImagesPicked?.onImagesPicked(imagesList)
             dismissAllowingStateLoss()
         }

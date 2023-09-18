@@ -3,6 +3,7 @@ package com.crazylegend.imagepicker.images
 import android.app.Application
 import android.content.ContentUris
 import android.provider.MediaStore
+import android.util.Log
 import androidx.core.database.getIntOrNull
 import androidx.core.database.getLongOrNull
 import androidx.core.database.getStringOrNull
@@ -22,31 +23,36 @@ import kotlinx.coroutines.withContext
 /**
  * Created by crazy on 5/8/20 to long live and prosper !
  */
-internal class ImagesVM(application: Application, stateHandle: SavedStateHandle) : AbstractAVM(application, stateHandle) {
+internal class ImagesVM(application: Application, stateHandle: SavedStateHandle) :
+    AbstractAVM(application, stateHandle) {
 
     private val imagesData = MutableLiveData<List<ImageModel>>()
     val images: LiveData<List<ImageModel>> = imagesData
 
 
-    fun loadImages(sortOrder: SortOrder = SortOrder.DATE_ADDED_DESC) {
+    fun loadImages(sortOrder: SortOrder = SortOrder.DATE_ADDED_DESC, extensions: Array<String>?) {
         if (canLoad) {
             viewModelScope.launch {
-                imagesData.postValue(queryImages(sortOrder))
-                initializeContentObserver(sortOrder)
+                imagesData.postValue(queryImages(sortOrder, extensions))
+                initializeContentObserver(sortOrder, extensions)
             }
         }
     }
 
-    private fun initializeContentObserver(sortOrder: SortOrder) {
+    private fun initializeContentObserver(sortOrder: SortOrder, extensions: Array<String>?) {
         if (contentObserver == null) {
-            contentObserver = contentResolver.registerObserver(MediaStore.Images.Media.EXTERNAL_CONTENT_URI) {
-                setCanLoad()
-                loadImages(sortOrder)
-            }
+            contentObserver =
+                contentResolver.registerObserver(MediaStore.Images.Media.EXTERNAL_CONTENT_URI) {
+                    setCanLoad()
+                    loadImages(sortOrder, extensions)
+                }
         }
     }
 
-    private suspend fun queryImages(order: SortOrder): List<ImageModel> {
+    private suspend fun queryImages(
+        order: SortOrder,
+        extensions: Array<String>?
+    ): List<ImageModel> {
         loadingIndicatorData.value = true
 
         val images = mutableListOf<ImageModel>()
@@ -66,23 +72,41 @@ internal class ImagesVM(application: Application, stateHandle: SavedStateHandle)
         }
         withContext(Dispatchers.IO) {
             val projection =
-                    arrayOf(
-                            MediaStore.Images.Media._ID,
-                            MediaStore.Images.Media.DISPLAY_NAME,
-                            MediaStore.Images.Media.DATE_ADDED,
-                            MediaStore.Images.Media.DATE_MODIFIED,
-                            MediaStore.Images.Media.DESCRIPTION,
-                            MediaStore.Images.Media.SIZE,
-                            MediaStore.Images.Media.WIDTH,
-                            MediaStore.Images.Media.HEIGHT
-                    )
+                arrayOf(
+                    MediaStore.Images.Media._ID,
+                    MediaStore.Images.Media.DISPLAY_NAME,
+                    MediaStore.Images.Media.DATE_ADDED,
+                    MediaStore.Images.Media.DATE_MODIFIED,
+                    MediaStore.Images.Media.DESCRIPTION,
+                    MediaStore.Images.Media.SIZE,
+                    MediaStore.Images.Media.WIDTH,
+                    MediaStore.Images.Media.HEIGHT
+                )
 
+            val selection = if (!extensions.isNullOrEmpty()) {
+                val extensionSelection = extensions.joinToString(separator = " OR ") {
+                    "${MediaStore.Video.Media.DATA} LIKE ?"
+                }
+                "($extensionSelection)"
+            } else {
+                null
+            }
 
+            Log.e("TAG", "queryImages: selection $selection" )
 
-            contentResolver.query(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, projection, null, null, sortOrder)?.use { cursor ->
+            val selectionArgs = extensions?.map { "%.$it" }?.toTypedArray()
+
+            contentResolver.query(
+                MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
+                projection,
+                selection,
+                selectionArgs,
+                sortOrder
+            )?.use { cursor ->
 
                 val idColumn = cursor.getColumnIndexOrThrow(MediaStore.Images.Media._ID)
-                val displayNameColumn = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DISPLAY_NAME)
+                val displayNameColumn =
+                    cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DISPLAY_NAME)
                 val dateAddedColumn = cursor.getSafeColumn(MediaStore.Images.Media.DATE_ADDED)
                 val dateModifiedColumn = cursor.getSafeColumn(MediaStore.Images.Media.DATE_MODIFIED)
                 val descriptionColumn = cursor.getSafeColumn(MediaStore.Images.Media.DESCRIPTION)
@@ -101,10 +125,21 @@ internal class ImagesVM(application: Application, stateHandle: SavedStateHandle)
                     val width = widthColumn?.let { cursor.getIntOrNull(it) }
                     val height = heightColumn?.let { cursor.getIntOrNull(it) }
 
-                    val contentUri = ContentUris.withAppendedId(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, id)
-                    val image = ImageModel(id, displayName, dateAdded, contentUri, dateModified, description, size, width, height)
+                    val contentUri =
+                        ContentUris.withAppendedId(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, id)
+                    val image = ImageModel(
+                        id,
+                        displayName,
+                        dateAdded,
+                        contentUri,
+                        dateModified,
+                        description,
+                        size,
+                        width,
+                        height
+                    )
                     image.isSelected = imagesData.value?.find { it.id == image.id }?.isSelected
-                            ?: false
+                        ?: false
                     images += image
                 }
             }

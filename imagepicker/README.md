@@ -27,7 +27,7 @@ dependencies {
         
    
    //customized
-   SingleImagePicker.showPicker(this, {
+   SingleImagePicker.showPicker(this, extensions = arrayOf(),{
             loadingIndicatorTint = ContextCompat.getColor(this@MainActivity, R.color.colorPrimaryDark)
             titleTextModifier.apply {
                 textAlignment = TextView.TEXT_ALIGNMENT_VIEW_START
@@ -50,6 +50,7 @@ dependencies {
                 resID = R.drawable.ic_image
             }
         }, ::loadImage)
+   // You can filter files by passing extensions like extensions = arrayOf("png","jpeg")
 ```
 
 4. How to use multi picker and check out [how to customize multi image picker](https://github.com/FunkyMuse/MediaPicker/wiki/Multi-image-video-picker-customization)
@@ -58,7 +59,7 @@ dependencies {
     MultiImagePicker.showPicker(this){ doSomethingWithImageList(it) }
     
     //customized
-    MultiImagePicker.showPicker(this, {
+    MultiImagePicker.showPicker(this, extensions = arrayOf(), {
             setupBaseMultiPicker(
                     tintForLoadingProgressBar = ContextCompat.getColor(this@MainActivity, R.color.colorPrimaryDark),
                     gravityForSelectAndUnSelectIndicators = BaseMultiPickerModifier.Gravity.TOP_LEFT,

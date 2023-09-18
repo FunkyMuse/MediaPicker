@@ -27,7 +27,8 @@ import com.crazylegend.imagepicker.pickers.SingleImagePicker
 /**
  * Created by crazy on 5/8/20 to long live and prosper !
  */
-internal class SingleImagePickerBottomSheetDialog : AbstractBottomSheetDialogFragment(), SinglePickerContracts {
+internal class SingleImagePickerBottomSheetDialog : AbstractBottomSheetDialogFragment(),
+    SinglePickerContracts {
 
     override val layout: Int
         get() = super.layout
@@ -36,34 +37,46 @@ internal class SingleImagePickerBottomSheetDialog : AbstractBottomSheetDialogFra
     override val imagesVM by viewModels<ImagesVM>()
     override val modifier: BaseSinglePickerModifier?
         get() = arguments?.getParcelable(modifierTag)
+    var extensions: Array<String>? = arrayOf()
 
     override val singleAdapter by lazy {
         SingleAdapter(modifier?.viewHolderPlaceholderModifier) {
             val image = it as ImageModel
-            setFragmentResult(SingleImagePicker.SINGLE_IMAGE_REQUEST_KEY, bundleOf(SingleImagePicker.ON_SINGLE_IMAGE_PICK_KEY to image))
+            setFragmentResult(
+                SingleImagePicker.SINGLE_IMAGE_REQUEST_KEY,
+                bundleOf(SingleImagePicker.ON_SINGLE_IMAGE_PICK_KEY to image)
+            )
             onImagePicked?.forImage(image)
             dismissAllowingStateLoss()
         }
     }
 
-    override val askForStoragePermission = registerForActivityResult(ActivityResultContracts.RequestPermission()) {
-        if (it) {
-            imagesVM.loadImages()
-        } else {
-            Log.e(errorTag, "PERMISSION DENIED")
-            dismissAllowingStateLoss()
+    override val askForStoragePermission =
+        registerForActivityResult(ActivityResultContracts.RequestPermission()) {
+            if (it) {
+                imagesVM.loadImages(extensions = extensions)
+            } else {
+                Log.e(errorTag, "PERMISSION DENIED")
+                dismissAllowingStateLoss()
+            }
         }
-    }
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU){
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU) {
             askForStoragePermission.launch(Manifest.permission.READ_EXTERNAL_STORAGE)
         } else {
             askForStoragePermission.launch(Manifest.permission.READ_MEDIA_IMAGES)
         }
-        setupUIForSinglePicker(binding.gallery, singleAdapter, binding.title, binding.loadingIndicator, modifier?.loadingIndicatorTint, ::applyTitleModifications)
+        setupUIForSinglePicker(
+            binding.gallery,
+            singleAdapter,
+            binding.title,
+            binding.loadingIndicator,
+            modifier?.loadingIndicatorTint,
+            ::applyTitleModifications
+        )
         imagesVM.images.observe(viewLifecycleOwner) {
             setupList(singleAdapter, it, binding.noContentText, modifier?.noContentTextModifier)
         }

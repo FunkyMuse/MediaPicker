@@ -1,9 +1,7 @@
 package com.crazylegend.imagepicker.pickers
 
-import android.Manifest.permission.READ_EXTERNAL_STORAGE
 import android.content.Context
 import android.util.Log
-import androidx.annotation.RequiresPermission
 import androidx.fragment.app.FragmentManager
 import com.crazylegend.core.modifiers.base.BaseSinglePickerModifier
 import com.crazylegend.core.setupModifier
@@ -26,10 +24,11 @@ object SingleImagePicker {
     fun restoreListener(context: Context, onPickedImage: (image: ImageModel) -> Unit = {}) {
         val manager = context.setupManager()
         when (val fragment = manager.findFragmentByTag(SINGLE_PICKER_BOTTOM_SHEET)
-                ?: manager.findFragmentByTag(SINGLE_PICKER_DIALOG)) {
+            ?: manager.findFragmentByTag(SINGLE_PICKER_DIALOG)) {
             is SingleImagePickerBottomSheetDialog -> {
                 fragment.onImagePicked = onImageDSL(onPickedImage)
             }
+
             null -> {
                 Log.e(SingleImagePicker::class.java.name, "FRAGMENT NOT FOUND")
             }
@@ -37,13 +36,15 @@ object SingleImagePicker {
     }
 
     fun showPicker(
-            context: Context,
-            pickerModifier: BaseSinglePickerModifier.() -> Unit = {},
-            onPickedImage: (image: ImageModel) -> Unit = {}
+        context: Context,
+        extensions: Array<String>? = arrayOf(),
+        pickerModifier: BaseSinglePickerModifier.() -> Unit = {},
+        onPickedImage: (image: ImageModel) -> Unit = {}
     ) {
         val modifier = setupModifier(pickerModifier)
         val manager = context.setupManager()
         with(SingleImagePickerBottomSheetDialog()) {
+            this.extensions = extensions
             addModifier(modifier)
             onImagePicked = onImageDSL(onPickedImage)
             show(manager, SINGLE_PICKER_BOTTOM_SHEET)
@@ -51,12 +52,14 @@ object SingleImagePicker {
     }
 
     fun showPicker(
-            fragmentManager: FragmentManager,
-            pickerModifier: BaseSinglePickerModifier.() -> Unit = {},
-            onPickedImage: (image: ImageModel) -> Unit = {}
+        fragmentManager: FragmentManager,
+        extensions: Array<String>? = arrayOf(),
+        pickerModifier: BaseSinglePickerModifier.() -> Unit = {},
+        onPickedImage: (image: ImageModel) -> Unit = {}
     ) {
         val modifier = setupModifier(pickerModifier)
         with(SingleImagePickerBottomSheetDialog()) {
+            this.extensions = extensions
             addModifier(modifier)
             onImagePicked = onImageDSL(onPickedImage)
             show(fragmentManager, SINGLE_PICKER_BOTTOM_SHEET)
