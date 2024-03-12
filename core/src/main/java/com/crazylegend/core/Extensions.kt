@@ -142,3 +142,8 @@ internal var Float.dp: Float
         return TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, this, metrics)
     }
     set(_) {}
+
+internal fun Int.bytesToMegabytesFormatted(): String {
+    val megabytes = this / (1024.0 * 1024.0)
+    return "%.2f MB".format(megabytes)
+}

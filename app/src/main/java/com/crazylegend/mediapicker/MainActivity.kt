@@ -15,6 +15,7 @@ import com.bumptech.glide.Glide
 import com.crazylegend.audiopicker.audios.AudioModel
 import com.crazylegend.audiopicker.pickers.MultiAudioPicker
 import com.crazylegend.audiopicker.pickers.SingleAudioPicker
+import com.crazylegend.core.dto.Config
 import com.crazylegend.core.modifiers.TitleTextModifier
 import com.crazylegend.core.modifiers.base.BaseMultiPickerModifier
 import com.crazylegend.imagepicker.images.ImageModel
@@ -33,49 +34,49 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
     private var clickedID = R.id.singleImageBottomSheetPick
 
     private val askForStoragePermission =
-        registerForActivityResult(ActivityResultContracts.RequestPermission()) {
-            if (it) {
-                when (clickedID) {
-                    //images
-                    R.id.singleImageBottomSheetPick -> {
-                        showSingleImageBottomSheetPicker()
+            registerForActivityResult(ActivityResultContracts.RequestPermission()) {
+                if (it) {
+                    when (clickedID) {
+                        //images
+                        R.id.singleImageBottomSheetPick -> {
+                            showSingleImageBottomSheetPicker()
+                        }
+
+                        R.id.imageBottomSheetMultiPick -> {
+                            showImageMultiBottomSheetPicker()
+                        }
+
+
+                        //videos
+                        R.id.singleVideoBottomSheetPick -> {
+                            showSingleVideoBottomSheetPicker()
+                        }
+
+                        R.id.videoBottomSheetMultiPick -> {
+                            showVideoMultiBottomSheetPicker()
+                        }
+
+
+                        //audios
+                        R.id.singleAudioBottomSheetPick -> {
+                            showSingleAudioBottomSheetPicker()
+                        }
+
+                        R.id.audioBottomSheetMultiPick -> {
+                            showAudioMultiBottomSheetPicker()
+                        }
+
+
+                        //fragment result
+                        R.id.launchFragmentResult -> {
+                            val dialog = FragmentResult()
+                            dialog.show(supportFragmentManager, FragmentResult::class.java.name)
+                        }
                     }
-
-                    R.id.imageBottomSheetMultiPick -> {
-                        showImageMultiBottomSheetPicker()
-                    }
-
-
-                    //videos
-                    R.id.singleVideoBottomSheetPick -> {
-                        showSingleVideoBottomSheetPicker()
-                    }
-
-                    R.id.videoBottomSheetMultiPick -> {
-                        showVideoMultiBottomSheetPicker()
-                    }
-
-
-                    //audios
-                    R.id.singleAudioBottomSheetPick -> {
-                        showSingleAudioBottomSheetPicker()
-                    }
-
-                    R.id.audioBottomSheetMultiPick -> {
-                        showAudioMultiBottomSheetPicker()
-                    }
-
-
-                    //fragment result
-                    R.id.launchFragmentResult -> {
-                        val dialog = FragmentResult()
-                        dialog.show(supportFragmentManager, FragmentResult::class.java.name)
-                    }
+                } else {
+                    Log.e("PERMISSION", "NOT ALLOWED!")
                 }
-            } else {
-                Log.e("PERMISSION", "NOT ALLOWED!")
             }
-        }
 
     //audios
     private fun showSingleAudioBottomSheetPicker() {
@@ -107,35 +108,35 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
                 textPadding = 10 // use dp or sp this is only for demonstration purposes
             }
             setupBaseMultiPicker(tintForLoadingProgressBar = ContextCompat.getColor(
-                this@MainActivity, R.color.colorPrimaryDark
+                    this@MainActivity, R.color.colorPrimaryDark
             ),
-                gravityForSelectAndUnSelectIndicators = BaseMultiPickerModifier.Gravity.BOTTOM_LEFT,
-                titleModifications = {
-                    textAlignment = TextView.TEXT_ALIGNMENT_VIEW_START
-                    textStyle = TitleTextModifier.TextStyle.ITALIC
-                    textColor = Color.BLACK
-                    marginBottom = 30 // use dp or sp this is only for demonstration purposes
-                    textPadding = 5 // use dp or sp this is only for demonstration purposes
-                    textSize = 30f  // use sp this is only for demonstration purposes
-                    textString = "Pick multiple songs"
-                },
-                selectIconModifications = {
-                    resID = R.drawable.ic_checked
-                    tint = Color.BLACK
-                },
-                unSelectIconModifications = {
-                    resID = R.drawable.ic_unchecked
-                    tint = Color.BLACK
-                },
-                viewHolderPlaceholderModifications = {
-                    resID = R.drawable.ic_album_second
-                })
+                    gravityForSelectAndUnSelectIndicators = BaseMultiPickerModifier.Gravity.BOTTOM_LEFT,
+                    titleModifications = {
+                        textAlignment = TextView.TEXT_ALIGNMENT_VIEW_START
+                        textStyle = TitleTextModifier.TextStyle.ITALIC
+                        textColor = Color.BLACK
+                        marginBottom = 30 // use dp or sp this is only for demonstration purposes
+                        textPadding = 5 // use dp or sp this is only for demonstration purposes
+                        textSize = 30f  // use sp this is only for demonstration purposes
+                        textString = "Pick multiple songs"
+                    },
+                    selectIconModifications = {
+                        resID = R.drawable.ic_checked
+                        tint = Color.BLACK
+                    },
+                    unSelectIconModifications = {
+                        resID = R.drawable.ic_unchecked
+                        tint = Color.BLACK
+                    },
+                    viewHolderPlaceholderModifications = {
+                        resID = R.drawable.ic_album_second
+                    })
         }, ::doSomethingWithAudioList)
     }
 
     private fun loadAudio(audioModel: AudioModel) {
         Glide.with(this).load(audioModel.loadThumbnail(contentResolver)).error(R.drawable.ic_album)
-            .into(binding.audio)
+                .into(binding.audio)
         binding.audioTitle.text = audioModel.displayName
         Log.d("AUDIO_PICKED ${audioModel.thumbnail?.isRecycled}", audioModel.toString())
     }
@@ -149,31 +150,31 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
     //videos
 
     private fun showVideoMultiBottomSheetPicker() {
-        MultiVideoPicker.showPicker(this, extensions = arrayOf(), {
+        MultiVideoPicker.showPicker(this, extensions = arrayOf(), config = Config(showFileSize = true), {
             setupBaseMultiPicker(tintForLoadingProgressBar = ContextCompat.getColor(
-                this@MainActivity, R.color.colorPrimaryDark
+                    this@MainActivity, R.color.colorPrimaryDark
             ),
-                gravityForSelectAndUnSelectIndicators = BaseMultiPickerModifier.Gravity.TOP_RIGHT,
-                titleModifications = {
-                    textAlignment = TextView.TEXT_ALIGNMENT_CENTER
-                    textStyle = TitleTextModifier.TextStyle.ITALIC
-                    textColor = Color.BLACK
-                    marginBottom = 30 // use dp or sp this is only for demonstration purposes
-                    textPadding = 5 // use dp or sp this is only for demonstration purposes
-                    textSize = 30f  // use sp this is only for demonstration purposes
-                    textString = "Pick multiple videos"
-                },
-                selectIconModifications = {
-                    resID = R.drawable.ic_checked
-                    tint = Color.BLACK
-                },
-                unSelectIconModifications = {
-                    resID = R.drawable.ic_unchecked
-                    tint = Color.BLACK
-                },
-                viewHolderPlaceholderModifications = {
-                    resID = R.drawable.ic_close
-                })
+                    gravityForSelectAndUnSelectIndicators = BaseMultiPickerModifier.Gravity.TOP_RIGHT,
+                    titleModifications = {
+                        textAlignment = TextView.TEXT_ALIGNMENT_CENTER
+                        textStyle = TitleTextModifier.TextStyle.ITALIC
+                        textColor = Color.BLACK
+                        marginBottom = 30 // use dp or sp this is only for demonstration purposes
+                        textPadding = 5 // use dp or sp this is only for demonstration purposes
+                        textSize = 30f  // use sp this is only for demonstration purposes
+                        textString = "Pick multiple videos"
+                    },
+                    selectIconModifications = {
+                        resID = R.drawable.ic_checked
+                        tint = Color.BLACK
+                    },
+                    unSelectIconModifications = {
+                        resID = R.drawable.ic_unchecked
+                        tint = Color.BLACK
+                    },
+                    viewHolderPlaceholderModifications = {
+                        resID = R.drawable.ic_close
+                    })
         }, ::doSomethingWithVideoList)
     }
 
@@ -181,7 +182,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
     private fun showSingleVideoBottomSheetPicker() {
         //SingleVideoPicker.showPicker(context = this, onPickedVideo = ::loadVideo)
 
-        SingleVideoPicker.showPicker(this, extensions = arrayOf(), {
+        SingleVideoPicker.showPicker(this, extensions = arrayOf(), config = Config(showFileSize = true), {
             setupBaseModifier(loadingIndicatorColor = R.color.minusColor, titleTextModifications = {
                 textAlignment = TextView.TEXT_ALIGNMENT_VIEW_START
                 textStyle = TitleTextModifier.TextStyle.ITALIC
@@ -211,31 +212,31 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
     //images
 
     private fun showImageMultiBottomSheetPicker() {
-        MultiImagePicker.showPicker(this, extensions = arrayOf(), {
+        MultiImagePicker.showPicker(this, extensions = arrayOf(), config = Config(showFileSize = true), {
             setupBaseMultiPicker(tintForLoadingProgressBar = ContextCompat.getColor(
-                this@MainActivity, R.color.colorPrimaryDark
+                    this@MainActivity, R.color.colorPrimaryDark
             ),
-                gravityForSelectAndUnSelectIndicators = BaseMultiPickerModifier.Gravity.TOP_LEFT,
-                titleModifications = {
-                    textAlignment = TextView.TEXT_ALIGNMENT_VIEW_START
-                    textStyle = TitleTextModifier.TextStyle.BOLD_ITALIC
-                    textColor = Color.BLACK
-                    marginBottom = 30 // use dp or sp this is only for demonstration purposes
-                    textPadding = 5 // use dp or sp this is only for demonstration purposes
-                    textSize = 30f  // use sp this is only for demonstration purposes
-                    textString = "Pick multiple images"
-                },
-                selectIconModifications = {
-                    resID = R.drawable.ic_checked
-                    tint = Color.BLACK
-                },
-                unSelectIconModifications = {
-                    resID = R.drawable.ic_unchecked
-                    tint = Color.BLACK
-                },
-                viewHolderPlaceholderModifications = {
-                    resID = R.drawable.ic_image
-                })
+                    gravityForSelectAndUnSelectIndicators = BaseMultiPickerModifier.Gravity.TOP_LEFT,
+                    titleModifications = {
+                        textAlignment = TextView.TEXT_ALIGNMENT_VIEW_START
+                        textStyle = TitleTextModifier.TextStyle.BOLD_ITALIC
+                        textColor = Color.BLACK
+                        marginBottom = 30 // use dp or sp this is only for demonstration purposes
+                        textPadding = 5 // use dp or sp this is only for demonstration purposes
+                        textSize = 30f  // use sp this is only for demonstration purposes
+                        textString = "Pick multiple images"
+                    },
+                    selectIconModifications = {
+                        resID = R.drawable.ic_checked
+                        tint = Color.BLACK
+                    },
+                    unSelectIconModifications = {
+                        resID = R.drawable.ic_unchecked
+                        tint = Color.BLACK
+                    },
+                    viewHolderPlaceholderModifications = {
+                        resID = R.drawable.ic_image
+                    })
         }) { list ->
             doSomethingWithImageList(list)
         }
@@ -243,9 +244,9 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
 
 
     private fun showSingleImageBottomSheetPicker() {
-        SingleImagePicker.showPicker(this, extensions = arrayOf(), {
+        SingleImagePicker.showPicker(this, extensions = arrayOf(), config = Config(showFileSize = true),{
             loadingIndicatorTint =
-                ContextCompat.getColor(this@MainActivity, R.color.colorPrimaryDark)
+                    ContextCompat.getColor(this@MainActivity, R.color.colorPrimaryDark)
             titleTextModifier.apply {
                 textAlignment = TextView.TEXT_ALIGNMENT_VIEW_START
                 textStyle = TitleTextModifier.TextStyle.BOLD_ITALIC

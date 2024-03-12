@@ -15,6 +15,7 @@ import androidx.lifecycle.observe
 import com.crazylegend.core.abstracts.AbstractBottomSheetDialogFragment
 import com.crazylegend.core.adapters.multi.MultiSelectAdapter
 import com.crazylegend.core.databinding.FragmentImagesGalleryLayoutMultiBinding
+import com.crazylegend.core.dto.Config
 import com.crazylegend.core.modifiers.base.BaseMultiPickerModifier
 import com.crazylegend.extensions.viewBinding
 import com.crazylegend.videopicker.contracts.MultiPickerContracts
@@ -29,7 +30,7 @@ import com.google.android.material.button.MaterialButton
  * Created by crazy on 5/8/20 to long live and prosper !
  */
 internal class MultiVideoPickerBottomSheetDialog : AbstractBottomSheetDialogFragment(),
-    MultiPickerContracts {
+        MultiPickerContracts {
 
 
     override val layout: Int
@@ -43,16 +44,17 @@ internal class MultiVideoPickerBottomSheetDialog : AbstractBottomSheetDialogFrag
         MultiSelectAdapter(modifier)
     }
     var extensions: Array<String>? = arrayOf()
+    var config: Config = Config()
 
     override val askForStoragePermission =
-        registerForActivityResult(ActivityResultContracts.RequestPermission()) {
-            if (it) {
-                videosVM.loadVideos(extensions = extensions)
-            } else {
-                Log.e(errorTag, "PERMISSION DENIED")
-                dismissAllowingStateLoss()
+            registerForActivityResult(ActivityResultContracts.RequestPermission()) {
+                if (it) {
+                    videosVM.loadVideos(extensions = extensions)
+                } else {
+                    Log.e(errorTag, "PERMISSION DENIED")
+                    dismissAllowingStateLoss()
+                }
             }
-        }
 
     @Suppress("UNCHECKED_CAST")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -63,22 +65,22 @@ internal class MultiVideoPickerBottomSheetDialog : AbstractBottomSheetDialogFrag
             askForStoragePermission.launch(Manifest.permission.READ_MEDIA_VIDEO)
         }
         setupUIForMultiPicker(
-            binding.gallery,
-            multiSelectAdapter,
-            binding.doneButton,
-            binding.title,
-            binding.loadingIndicator,
-            modifier?.loadingIndicatorTint,
-            ::applyDoneButtonModifications,
-            ::applyTitleModifications
+                binding.gallery,
+                multiSelectAdapter,
+                binding.doneButton,
+                binding.title,
+                binding.loadingIndicator,
+                modifier?.loadingIndicatorTint,
+                ::applyDoneButtonModifications,
+                ::applyTitleModifications
         )
-
+        multiSelectAdapter.showFileSize = config.showFileSize
         videosVM.videos.observe(viewLifecycleOwner) {
             setupList(
-                multiSelectAdapter,
-                it,
-                binding.noContentText,
-                modifier?.noContentTextModifier
+                    multiSelectAdapter,
+                    it,
+                    binding.noContentText,
+                    modifier?.noContentTextModifier
             )
         }
         handleUIIndicator(videosVM.loadingIndicator, binding.loadingIndicator)
@@ -86,11 +88,11 @@ internal class MultiVideoPickerBottomSheetDialog : AbstractBottomSheetDialogFrag
 
         binding.doneButton.setOnClickListener {
             val videoList =
-                multiSelectAdapter.currentList.filter { it.isSelected } as? List<VideoModel>
-                    ?: emptyList()
+                    multiSelectAdapter.currentList.filter { it.isSelected } as? List<VideoModel>
+                            ?: emptyList()
             setFragmentResult(
-                MultiVideoPicker.MULTI_VIDEO_REQUEST_KEY,
-                bundleOf(MultiVideoPicker.ON_MULTI_VIDEO_PICK_KEY to videoList)
+                    MultiVideoPicker.MULTI_VIDEO_REQUEST_KEY,
+                    bundleOf(MultiVideoPicker.ON_MULTI_VIDEO_PICK_KEY to videoList)
             )
             onVideosPicked?.onVideosPicked(videoList)
             dismissAllowingStateLoss()

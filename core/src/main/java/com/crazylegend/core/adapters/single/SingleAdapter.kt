@@ -14,12 +14,14 @@ import com.crazylegend.core.modifiers.single.ImageModifier
 
 open class SingleAdapter(private val viewHolderPlaceholderModifier: ImageModifier?,
                          private val onClick: (BaseCursorModel) -> Unit) : ListAdapter<BaseCursorModel, SingleViewHolder>(SingleDiffUtil()) {
+    var showFileSize: Boolean = false
+
     override fun onCreateViewHolder(parent: ViewGroup, viewBaseCursorModelype: Int) =
             SingleViewHolder(ItemviewImageBinding.inflate(parent.inflater, parent, false), viewHolderPlaceholderModifier, onClick)
 
     override fun onBindViewHolder(holder: SingleViewHolder, position: Int) {
         val item = getItem(position)
-        holder.bind(item)
+        holder.bind(item, showFileSize)
         holder.itemView.tag = item
     }
 

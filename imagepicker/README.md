@@ -27,7 +27,7 @@ dependencies {
         
    
    //customized
-   SingleImagePicker.showPicker(this, extensions = arrayOf(),{
+   SingleImagePicker.showPicker(this, extensions = arrayOf(),config = Config(showFileSize = true),{
             loadingIndicatorTint = ContextCompat.getColor(this@MainActivity, R.color.colorPrimaryDark)
             titleTextModifier.apply {
                 textAlignment = TextView.TEXT_ALIGNMENT_VIEW_START
@@ -59,7 +59,7 @@ dependencies {
     MultiImagePicker.showPicker(this){ doSomethingWithImageList(it) }
     
     //customized
-    MultiImagePicker.showPicker(this, extensions = arrayOf(), {
+    MultiImagePicker.showPicker(this, extensions = arrayOf(), config = Config(showFileSize = true),{
             setupBaseMultiPicker(
                     tintForLoadingProgressBar = ContextCompat.getColor(this@MainActivity, R.color.colorPrimaryDark),
                     gravityForSelectAndUnSelectIndicators = BaseMultiPickerModifier.Gravity.TOP_LEFT,

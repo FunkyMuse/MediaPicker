@@ -63,3 +63,7 @@ inline fun ContentResolver.registerObserver(
     registerContentObserver(uri, true, contentObserver)
     return contentObserver
 }
+
+fun Int.bytesToMegabytes(): Double {
+    return this / (1024.0 * 1024.0)
+}

@@ -19,11 +19,13 @@ dependencies {
 ```
 3. How to use single picker and check out [how to customize single video picker](https://github.com/FunkyMuse/MediaPicker/wiki/Single--image-video-picker-customization)
 ```kotlin
+import java.awt.Color
+
     //simple usage without customization
     SingleVideoPicker.showPicker(context = this, onPickedVideo = ::loadVideo)
     
     //customized
-    SingleVideoPicker.showPicker(this, extensions = arrayOf(),{
+    SingleVideoPicker.showPicker(this, extensions = arrayOf(),config = Config(showFileSize = true),{
             setupBaseModifier(
                     loadingIndicatorColor = R.color.minusColor,
                     titleTextModifications = {
@@ -51,7 +53,7 @@ dependencies {
     MultiVideoPicker.showPicker(this) { loadVideos(it) }
     
     //customized
-     MultiVideoPicker.showPicker(this, extensions = arrayOf(),{
+     MultiVideoPicker.showPicker(this, extensions = arrayOf(),config = Config(showFileSize = false),{
             setupBaseMultiPicker(
                     tintForLoadingProgressBar = ContextCompat.getColor(this@MainActivity, R.color.colorPrimaryDark),
                     gravityForSelectAndUnSelectIndicators = BaseMultiPickerModifier.Gravity.TOP_RIGHT,

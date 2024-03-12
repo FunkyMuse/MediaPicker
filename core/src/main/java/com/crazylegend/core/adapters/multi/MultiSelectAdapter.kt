@@ -15,6 +15,7 @@ import com.crazylegend.core.modifiers.base.BaseMultiPickerModifier
 class MultiSelectAdapter(private val modifier: BaseMultiPickerModifier?) :
         ListAdapter<BaseCursorModel, MultiSelectViewHolder>(SingleDiffUtil()) {
 
+    var showFileSize: Boolean = false
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MultiSelectViewHolder {
         val holder = MultiSelectViewHolder(ItemviewImageBinding.inflate(parent.inflater, parent, false), modifier)
@@ -29,7 +30,7 @@ class MultiSelectAdapter(private val modifier: BaseMultiPickerModifier?) :
 
     override fun onBindViewHolder(holder: MultiSelectViewHolder, position: Int) {
         val item = getItem(position)
-        holder.bind(item)
+        holder.bind(item, showFileSize)
         holder.itemView.tag = item
     }
 

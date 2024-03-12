@@ -15,6 +15,7 @@ import androidx.lifecycle.observe
 import com.crazylegend.core.abstracts.AbstractBottomSheetDialogFragment
 import com.crazylegend.core.adapters.single.SingleAdapter
 import com.crazylegend.core.databinding.FragmentImagesGalleryLayoutBinding
+import com.crazylegend.core.dto.Config
 import com.crazylegend.core.modifiers.base.BaseSinglePickerModifier
 import com.crazylegend.extensions.viewBinding
 import com.crazylegend.imagepicker.contracts.SinglePickerContracts
@@ -38,6 +39,7 @@ internal class SingleImagePickerBottomSheetDialog : AbstractBottomSheetDialogFra
     override val modifier: BaseSinglePickerModifier?
         get() = arguments?.getParcelable(modifierTag)
     var extensions: Array<String>? = arrayOf()
+    var config: Config = Config()
 
     override val singleAdapter by lazy {
         SingleAdapter(modifier?.viewHolderPlaceholderModifier) {
@@ -77,6 +79,7 @@ internal class SingleImagePickerBottomSheetDialog : AbstractBottomSheetDialogFra
             modifier?.loadingIndicatorTint,
             ::applyTitleModifications
         )
+        singleAdapter.showFileSize = config.showFileSize
         imagesVM.images.observe(viewLifecycleOwner) {
             setupList(singleAdapter, it, binding.noContentText, modifier?.noContentTextModifier)
         }

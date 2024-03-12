@@ -15,6 +15,7 @@ import androidx.lifecycle.observe
 import com.crazylegend.core.abstracts.AbstractBottomSheetDialogFragment
 import com.crazylegend.core.adapters.multi.MultiSelectAdapter
 import com.crazylegend.core.databinding.FragmentImagesGalleryLayoutMultiBinding
+import com.crazylegend.core.dto.Config
 import com.crazylegend.core.modifiers.base.BaseMultiPickerModifier
 
 import com.crazylegend.extensions.viewBinding
@@ -30,9 +31,10 @@ import com.google.android.material.button.MaterialButton
  * Created by crazy on 5/8/20 to long live and prosper !
  */
 internal class MultiImagePickerBottomSheetDialog : AbstractBottomSheetDialogFragment(),
-    MultiPickerContracts {
+        MultiPickerContracts {
 
     var extensions: Array<String>? = arrayOf()
+    var config: Config = Config()
 
     override val layout: Int
         get() = super.layout
@@ -46,14 +48,14 @@ internal class MultiImagePickerBottomSheetDialog : AbstractBottomSheetDialogFrag
         MultiSelectAdapter(modifier)
     }
     override val askForStoragePermission =
-        registerForActivityResult(ActivityResultContracts.RequestPermission()) {
-            if (it) {
-                imagesVM.loadImages(extensions = extensions)
-            } else {
-                Log.e(errorTag, "PERMISSION DENIED")
-                dismissAllowingStateLoss()
+            registerForActivityResult(ActivityResultContracts.RequestPermission()) {
+                if (it) {
+                    imagesVM.loadImages(extensions = extensions)
+                } else {
+                    Log.e(errorTag, "PERMISSION DENIED")
+                    dismissAllowingStateLoss()
+                }
             }
-        }
 
     @Suppress("UNCHECKED_CAST")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -63,24 +65,24 @@ internal class MultiImagePickerBottomSheetDialog : AbstractBottomSheetDialogFrag
         } else {
             askForStoragePermission.launch(Manifest.permission.READ_MEDIA_IMAGES)
         }
-
         setupUIForMultiPicker(
-            binding.gallery,
-            multiSelectAdapter,
-            binding.doneButton,
-            binding.title,
-            binding.loadingIndicator,
-            modifier?.loadingIndicatorTint,
-            ::applyDoneButtonModifications,
-            ::applyTitleModifications
+                binding.gallery,
+                multiSelectAdapter,
+                binding.doneButton,
+                binding.title,
+                binding.loadingIndicator,
+                modifier?.loadingIndicatorTint,
+                ::applyDoneButtonModifications,
+                ::applyTitleModifications
         )
+        multiSelectAdapter.showFileSize = config.showFileSize
 
         imagesVM.images.observe(viewLifecycleOwner) {
             setupList(
-                multiSelectAdapter,
-                it,
-                binding.noContentText,
-                modifier?.noContentTextModifier
+                    multiSelectAdapter,
+                    it,
+                    binding.noContentText,
+                    modifier?.noContentTextModifier
             )
         }
         handleUIIndicator(imagesVM.loadingIndicator, binding.loadingIndicator)
@@ -88,11 +90,11 @@ internal class MultiImagePickerBottomSheetDialog : AbstractBottomSheetDialogFrag
 
         binding.doneButton.setOnClickListener {
             val imagesList =
-                multiSelectAdapter.currentList.filter { it.isSelected } as? List<ImageModel>
-                    ?: emptyList()
+                    multiSelectAdapter.currentList.filter { it.isSelected } as? List<ImageModel>
+                            ?: emptyList()
             setFragmentResult(
-                MultiImagePicker.MULTI_IMAGE_REQUEST_KEY,
-                bundleOf(MultiImagePicker.ON_MULTI_IMAGE_PICK_KEY to imagesList)
+                    MultiImagePicker.MULTI_IMAGE_REQUEST_KEY,
+                    bundleOf(MultiImagePicker.ON_MULTI_IMAGE_PICK_KEY to imagesList)
             )
             onImagesPicked?.onImagesPicked(imagesList)
             dismissAllowingStateLoss()
