@@ -41,7 +41,7 @@ internal class MultiVideoPickerBottomSheetDialog : AbstractBottomSheetDialogFrag
     override val modifier: BaseMultiPickerModifier?
         get() = arguments?.getParcelable(modifierTag)
     override val multiSelectAdapter by lazy {
-        MultiSelectAdapter(modifier)
+        MultiSelectAdapter(modifier, pickerConfig.showFileSize)
     }
     var extensions: Array<String>? = arrayOf()
     var pickerConfig: PickerConfig = PickerConfig()
@@ -74,7 +74,7 @@ internal class MultiVideoPickerBottomSheetDialog : AbstractBottomSheetDialogFrag
                 ::applyDoneButtonModifications,
                 ::applyTitleModifications
         )
-        multiSelectAdapter.showFileSize = pickerConfig.showFileSize
+
         videosVM.videos.observe(viewLifecycleOwner) {
             setupList(
                     multiSelectAdapter,

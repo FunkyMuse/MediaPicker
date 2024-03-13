@@ -45,7 +45,7 @@ internal class MultiImagePickerBottomSheetDialog : AbstractBottomSheetDialogFrag
         get() = arguments?.getParcelable(modifierTag)
 
     override val multiSelectAdapter by lazy {
-        MultiSelectAdapter(modifier)
+        MultiSelectAdapter(modifier, pickerConfig.showFileSize)
     }
     override val askForStoragePermission =
             registerForActivityResult(ActivityResultContracts.RequestPermission()) {
@@ -75,7 +75,6 @@ internal class MultiImagePickerBottomSheetDialog : AbstractBottomSheetDialogFrag
                 ::applyDoneButtonModifications,
                 ::applyTitleModifications
         )
-        multiSelectAdapter.showFileSize = pickerConfig.showFileSize
 
         imagesVM.images.observe(viewLifecycleOwner) {
             setupList(
