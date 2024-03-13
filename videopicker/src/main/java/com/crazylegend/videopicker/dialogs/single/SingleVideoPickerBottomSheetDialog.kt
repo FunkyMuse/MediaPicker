@@ -15,7 +15,7 @@ import androidx.lifecycle.observe
 import com.crazylegend.core.abstracts.AbstractBottomSheetDialogFragment
 import com.crazylegend.core.adapters.single.SingleAdapter
 import com.crazylegend.core.databinding.FragmentImagesGalleryLayoutBinding
-import com.crazylegend.core.dto.Config
+import com.crazylegend.core.dto.PickerConfig
 import com.crazylegend.core.modifiers.base.BaseSinglePickerModifier
 import com.crazylegend.extensions.viewBinding
 import com.crazylegend.videopicker.contracts.SinglePickerContracts
@@ -37,12 +37,12 @@ internal class SingleVideoPickerBottomSheetDialog : AbstractBottomSheetDialogFra
     override val binding by viewBinding(FragmentImagesGalleryLayoutBinding::bind)
     override val videosVM by viewModels<VideosVM>()
     var extensions: Array<String>? = arrayOf()
-    var config: Config = Config()
+    var pickerConfig: PickerConfig = PickerConfig()
 
     override val modifier: BaseSinglePickerModifier? get() = arguments?.getParcelable(modifierTag)
 
     override val singleAdapter by lazy {
-        SingleAdapter(modifier?.viewHolderPlaceholderModifier) {
+        SingleAdapter(pickerConfig.showFileSize, modifier?.viewHolderPlaceholderModifier, modifier?.sizeTextModifier) {
             setFragmentResult(
                     SingleVideoPicker.SINGLE_VIDEO_REQUEST_KEY,
                     bundleOf(SingleVideoPicker.ON_SINGLE_VIDEO_PICK_KEY to it as VideoModel)
@@ -70,7 +70,6 @@ internal class SingleVideoPickerBottomSheetDialog : AbstractBottomSheetDialogFra
         } else {
             askForStoragePermission.launch(Manifest.permission.READ_MEDIA_VIDEO)
         }
-        singleAdapter.showFileSize = config.showFileSize
         setupUIForSinglePicker(
                 binding.gallery,
                 singleAdapter,

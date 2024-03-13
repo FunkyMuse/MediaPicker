@@ -15,7 +15,8 @@ import com.bumptech.glide.Glide
 import com.crazylegend.audiopicker.audios.AudioModel
 import com.crazylegend.audiopicker.pickers.MultiAudioPicker
 import com.crazylegend.audiopicker.pickers.SingleAudioPicker
-import com.crazylegend.core.dto.Config
+import com.crazylegend.core.dto.PickerConfig
+import com.crazylegend.core.modifiers.SizeTextModifier
 import com.crazylegend.core.modifiers.TitleTextModifier
 import com.crazylegend.core.modifiers.base.BaseMultiPickerModifier
 import com.crazylegend.imagepicker.images.ImageModel
@@ -150,7 +151,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
     //videos
 
     private fun showVideoMultiBottomSheetPicker() {
-        MultiVideoPicker.showPicker(this, extensions = arrayOf(), config = Config(showFileSize = true), {
+        MultiVideoPicker.showPicker(this, extensions = arrayOf(), pickerConfig = PickerConfig(showFileSize = true), {
             setupBaseMultiPicker(tintForLoadingProgressBar = ContextCompat.getColor(
                     this@MainActivity, R.color.colorPrimaryDark
             ),
@@ -174,7 +175,15 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
                     },
                     viewHolderPlaceholderModifications = {
                         resID = R.drawable.ic_close
-                    })
+                    },
+                    sizeTextModifications = {
+                        textAlignment = TextView.TEXT_ALIGNMENT_CENTER
+                        textStyle = SizeTextModifier.TextStyle.BOLD
+                        margin = 22 // use dp or sp this is only for demonstration purposes
+                        textPadding = 8 // use dp or sp this is only for demonstration purposes
+                        textSize = 10f  // use sp this is only for demonstration purposes
+                    }
+                    )
         }, ::doSomethingWithVideoList)
     }
 
@@ -182,7 +191,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
     private fun showSingleVideoBottomSheetPicker() {
         //SingleVideoPicker.showPicker(context = this, onPickedVideo = ::loadVideo)
 
-        SingleVideoPicker.showPicker(this, extensions = arrayOf(), config = Config(showFileSize = true), {
+        SingleVideoPicker.showPicker(this, extensions = arrayOf(), pickerConfig = PickerConfig(showFileSize = true), {
             setupBaseModifier(loadingIndicatorColor = R.color.minusColor, titleTextModifications = {
                 textAlignment = TextView.TEXT_ALIGNMENT_VIEW_START
                 textStyle = TitleTextModifier.TextStyle.ITALIC
@@ -193,7 +202,16 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
                 textString = "Pick a video"
             }, placeHolderModifications = {
                 resID = R.drawable.ic_image
-            })
+            }, sizeTextModifications = {
+                textAlignment = TextView.TEXT_ALIGNMENT_VIEW_START
+                textStyle = SizeTextModifier.TextStyle.NORMAL
+                margin = 22 // use dp or sp this is only for demonstration purposes
+                textColor = Color.BLACK
+                textPadding = 5 // use dp or sp this is only for demonstration purposes
+                textSize = 12f  // use sp this is only for demonstration purposes
+                backgroundDrawable = R.drawable.rounded_bg_abstract_dialog
+            }
+            )
         }, ::loadVideo)
 
     }
@@ -212,7 +230,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
     //images
 
     private fun showImageMultiBottomSheetPicker() {
-        MultiImagePicker.showPicker(this, extensions = arrayOf(), config = Config(showFileSize = true), {
+        MultiImagePicker.showPicker(this, extensions = arrayOf(), pickerConfig = PickerConfig(showFileSize = true), {
             setupBaseMultiPicker(tintForLoadingProgressBar = ContextCompat.getColor(
                     this@MainActivity, R.color.colorPrimaryDark
             ),
@@ -236,7 +254,16 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
                     },
                     viewHolderPlaceholderModifications = {
                         resID = R.drawable.ic_image
-                    })
+                    },
+                    sizeTextModifications = {
+                        textAlignment = TextView.TEXT_ALIGNMENT_VIEW_START
+                        textStyle = SizeTextModifier.TextStyle.NORMAL
+                        margin = 22 // use dp or sp this is only for demonstration purposes
+                        textColor = Color.GREEN
+                        textPadding = 6 // use dp or sp this is only for demonstration purposes
+                        textSize = 12f  // use sp this is only for demonstration purposes
+                    }
+            )
         }) { list ->
             doSomethingWithImageList(list)
         }
@@ -244,7 +271,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
 
 
     private fun showSingleImageBottomSheetPicker() {
-        SingleImagePicker.showPicker(this, extensions = arrayOf(), config = Config(showFileSize = true),{
+        SingleImagePicker.showPicker(this, extensions = arrayOf(), pickerConfig = PickerConfig(showFileSize = true), {
             loadingIndicatorTint =
                     ContextCompat.getColor(this@MainActivity, R.color.colorPrimaryDark)
             titleTextModifier.apply {
@@ -266,6 +293,15 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
             }
             viewHolderPlaceholderModifier.apply {
                 resID = R.drawable.ic_image
+            }
+            sizeTextModifier.apply {
+                textAlignment = TextView.TEXT_ALIGNMENT_VIEW_START
+                textStyle = SizeTextModifier.TextStyle.NORMAL
+                margin = 22 // use dp or sp this is only for demonstration purposes
+                textColor = Color.BLACK
+                textPadding = 5 // use dp or sp this is only for demonstration purposes
+                textSize = 12f  // use sp this is only for demonstration purposes
+                backgroundDrawable = R.drawable.rounded_bg_abstract_dialog
             }
         }, ::loadImage)
     }

@@ -3,7 +3,7 @@ package com.crazylegend.videopicker.pickers
 import android.content.Context
 import android.util.Log
 import androidx.fragment.app.FragmentManager
-import com.crazylegend.core.dto.Config
+import com.crazylegend.core.dto.PickerConfig
 import com.crazylegend.core.modifiers.base.BaseSinglePickerModifier
 import com.crazylegend.core.setupModifier
 import com.crazylegend.extensions.setupManager
@@ -37,17 +37,17 @@ object SingleVideoPicker {
     }
 
     fun showPicker(
-        context: Context,
-        extensions: Array<String>? = arrayOf(),
-        config: Config = Config(),
-        pickerModifier: BaseSinglePickerModifier.() -> Unit = {},
-        onPickedVideo: (video: VideoModel) -> Unit = {}
+            context: Context,
+            extensions: Array<String>? = arrayOf(),
+            pickerConfig: PickerConfig = PickerConfig(),
+            pickerModifier: BaseSinglePickerModifier.() -> Unit = {},
+            onPickedVideo: (video: VideoModel) -> Unit = {}
     ) {
         val modifier = setupModifier(pickerModifier)
         val manager = context.setupManager()
         with(SingleVideoPickerBottomSheetDialog()) {
             this.extensions = extensions
-            this.config = config
+            this.pickerConfig = pickerConfig
             addModifier(modifier)
             onVideoPicked = onVideoDSL(onPickedVideo)
             show(manager, SINGLE_PICKER_BOTTOM_SHEET)
@@ -57,14 +57,14 @@ object SingleVideoPicker {
     fun showPicker(
             fragmentManager: FragmentManager,
             extensions: Array<String>? = arrayOf(),
-            config: Config = Config(),
+            pickerConfig: PickerConfig = PickerConfig(),
             pickerModifier: BaseSinglePickerModifier.() -> Unit = {},
             onPickedVideo: (video: VideoModel) -> Unit = {}
     ) {
         val modifier = setupModifier(pickerModifier)
         with(SingleVideoPickerBottomSheetDialog()) {
             this.extensions = extensions
-            this.config = config
+            this.pickerConfig = pickerConfig
             addModifier(modifier)
             onVideoPicked = onVideoDSL(onPickedVideo)
             show(fragmentManager, SINGLE_PICKER_BOTTOM_SHEET)

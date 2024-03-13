@@ -3,7 +3,7 @@ package com.crazylegend.videopicker.pickers
 import android.content.Context
 import android.util.Log
 import androidx.fragment.app.FragmentManager
-import com.crazylegend.core.dto.Config
+import com.crazylegend.core.dto.PickerConfig
 import com.crazylegend.core.modifiers.base.BaseMultiPickerModifier
 import com.crazylegend.core.setupModifier
 import com.crazylegend.extensions.setupManager
@@ -40,7 +40,7 @@ object MultiVideoPicker {
     fun showPicker(
             context: Context,
             extensions: Array<String>? = arrayOf(),
-            config: Config = Config(),
+            pickerConfig: PickerConfig = PickerConfig(),
             modifier: BaseMultiPickerModifier.() -> Unit = {},
             videoList: (list: List<VideoModel>) -> Unit = {},
     ) {
@@ -48,7 +48,7 @@ object MultiVideoPicker {
         val setupModifier = setupModifier(modifier)
         with(MultiVideoPickerBottomSheetDialog()) {
             this.extensions = extensions
-            this.config = config
+            this.pickerConfig = pickerConfig
             addModifier(setupModifier)
             onVideosPicked = onVideosDSL(videoList)
             show(manager, MULTI_PICKER_BOTTOM_SHEET)
@@ -58,14 +58,14 @@ object MultiVideoPicker {
     fun showPicker(
             fragmentManager: FragmentManager,
             extensions: Array<String>? = arrayOf(),
-            config: Config = Config(),
+            pickerConfig: PickerConfig = PickerConfig(),
             modifier: BaseMultiPickerModifier.() -> Unit = {},
             videoList: (list: List<VideoModel>) -> Unit = {}
     ) {
         val setupModifier = setupModifier(modifier)
         with(MultiVideoPickerBottomSheetDialog()) {
             this.extensions = extensions
-            this.config = config
+            this.pickerConfig = pickerConfig
             addModifier(setupModifier)
             onVideosPicked = onVideosDSL(videoList)
             show(fragmentManager, MULTI_PICKER_BOTTOM_SHEET)

@@ -17,7 +17,7 @@ import com.bumptech.glide.Glide
 import com.crazylegend.audiopicker.audios.AudioModel
 import com.crazylegend.audiopicker.pickers.MultiAudioPicker
 import com.crazylegend.audiopicker.pickers.SingleAudioPicker
-import com.crazylegend.core.dto.Config
+import com.crazylegend.core.dto.PickerConfig
 import com.crazylegend.core.modifiers.TitleTextModifier
 import com.crazylegend.core.modifiers.base.BaseMultiPickerModifier
 import com.crazylegend.imagepicker.images.ImageModel
@@ -147,7 +147,7 @@ class FragmentResult : DialogFragment(R.layout.activity_main), View.OnClickListe
 
     @SuppressLint("MissingPermission")
     private fun showVideoMultiBottomSheetPicker() {
-        MultiVideoPicker.showPicker(requireContext(), arrayOf(), config = Config(showFileSize = true), {
+        MultiVideoPicker.showPicker(requireContext(), arrayOf(), pickerConfig = PickerConfig(showFileSize = true), {
             setupBaseMultiPicker(tintForLoadingProgressBar = ContextCompat.getColor(requireContext(), R.color.colorPrimaryDark), gravityForSelectAndUnSelectIndicators = BaseMultiPickerModifier.Gravity.TOP_RIGHT, titleModifications = {
                 textAlignment = TextView.TEXT_ALIGNMENT_CENTER
                 textStyle = TitleTextModifier.TextStyle.ITALIC
@@ -173,7 +173,7 @@ class FragmentResult : DialogFragment(R.layout.activity_main), View.OnClickListe
     private fun showSingleVideoBottomSheetPicker() {
         //SingleVideoPicker.showPicker(context = this, onPickedVideo = ::loadVideo)
 
-        SingleVideoPicker.showPicker(requireContext(), extensions = arrayOf(), config = Config(showFileSize = false), {
+        SingleVideoPicker.showPicker(requireContext(), extensions = arrayOf(), pickerConfig = PickerConfig(showFileSize = false), {
             setupBaseModifier(loadingIndicatorColor = R.color.minusColor, titleTextModifications = {
                 textAlignment = TextView.TEXT_ALIGNMENT_VIEW_START
                 textStyle = TitleTextModifier.TextStyle.ITALIC
@@ -203,7 +203,7 @@ class FragmentResult : DialogFragment(R.layout.activity_main), View.OnClickListe
     //images
     @SuppressLint("MissingPermission")
     private fun showImageMultiBottomSheetPicker() {
-        MultiImagePicker.showPicker(requireContext(), extensions = arrayOf(), config = Config(showFileSize = false), {
+        MultiImagePicker.showPicker(requireContext(), extensions = arrayOf(), pickerConfig = PickerConfig(showFileSize = false), {
             setupBaseMultiPicker(tintForLoadingProgressBar = ContextCompat.getColor(requireContext(), R.color.colorPrimaryDark), gravityForSelectAndUnSelectIndicators = BaseMultiPickerModifier.Gravity.TOP_LEFT, titleModifications = {
                 textAlignment = TextView.TEXT_ALIGNMENT_VIEW_START
                 textStyle = TitleTextModifier.TextStyle.BOLD_ITALIC
@@ -226,7 +226,7 @@ class FragmentResult : DialogFragment(R.layout.activity_main), View.OnClickListe
 
     @SuppressLint("MissingPermission")
     private fun showSingleImageBottomSheetPicker() {
-        SingleImagePicker.showPicker(requireContext(), extensions = arrayOf(), config = Config(showFileSize = true), {
+        SingleImagePicker.showPicker(requireContext(), extensions = arrayOf(), pickerConfig = PickerConfig(showFileSize = true), {
             loadingIndicatorTint = ContextCompat.getColor(requireContext(), R.color.colorPrimaryDark)
             titleTextModifier.apply {
                 textAlignment = TextView.TEXT_ALIGNMENT_VIEW_START

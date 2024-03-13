@@ -3,7 +3,7 @@ package com.crazylegend.imagepicker.pickers
 import android.content.Context
 import android.util.Log
 import androidx.fragment.app.FragmentManager
-import com.crazylegend.core.dto.Config
+import com.crazylegend.core.dto.PickerConfig
 import com.crazylegend.core.modifiers.base.BaseSinglePickerModifier
 import com.crazylegend.core.setupModifier
 import com.crazylegend.extensions.setupManager
@@ -39,7 +39,7 @@ object SingleImagePicker {
     fun showPicker(
             context: Context,
             extensions: Array<String>? = arrayOf(),
-            config: Config = Config(),
+            pickerConfig: PickerConfig = PickerConfig(),
             pickerModifier: BaseSinglePickerModifier.() -> Unit = {},
             onPickedImage: (image: ImageModel) -> Unit = {}
     ) {
@@ -47,7 +47,7 @@ object SingleImagePicker {
         val manager = context.setupManager()
         with(SingleImagePickerBottomSheetDialog()) {
             this.extensions = extensions
-            this.config = config
+            this.pickerConfig = pickerConfig
             addModifier(modifier)
             onImagePicked = onImageDSL(onPickedImage)
             show(manager, SINGLE_PICKER_BOTTOM_SHEET)
@@ -55,16 +55,16 @@ object SingleImagePicker {
     }
 
     fun showPicker(
-        fragmentManager: FragmentManager,
-        extensions: Array<String>? = arrayOf(),
-        config: Config = Config(),
-        pickerModifier: BaseSinglePickerModifier.() -> Unit = {},
-        onPickedImage: (image: ImageModel) -> Unit = {}
+            fragmentManager: FragmentManager,
+            extensions: Array<String>? = arrayOf(),
+            pickerConfig: PickerConfig = PickerConfig(),
+            pickerModifier: BaseSinglePickerModifier.() -> Unit = {},
+            onPickedImage: (image: ImageModel) -> Unit = {}
     ) {
         val modifier = setupModifier(pickerModifier)
         with(SingleImagePickerBottomSheetDialog()) {
             this.extensions = extensions
-            this.config = config
+            this.pickerConfig = pickerConfig
             addModifier(modifier)
             onImagePicked = onImageDSL(onPickedImage)
             show(fragmentManager, SINGLE_PICKER_BOTTOM_SHEET)

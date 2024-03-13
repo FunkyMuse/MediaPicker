@@ -15,7 +15,7 @@ import androidx.lifecycle.observe
 import com.crazylegend.core.abstracts.AbstractBottomSheetDialogFragment
 import com.crazylegend.core.adapters.multi.MultiSelectAdapter
 import com.crazylegend.core.databinding.FragmentImagesGalleryLayoutMultiBinding
-import com.crazylegend.core.dto.Config
+import com.crazylegend.core.dto.PickerConfig
 import com.crazylegend.core.modifiers.base.BaseMultiPickerModifier
 import com.crazylegend.extensions.viewBinding
 import com.crazylegend.videopicker.contracts.MultiPickerContracts
@@ -44,7 +44,7 @@ internal class MultiVideoPickerBottomSheetDialog : AbstractBottomSheetDialogFrag
         MultiSelectAdapter(modifier)
     }
     var extensions: Array<String>? = arrayOf()
-    var config: Config = Config()
+    var pickerConfig: PickerConfig = PickerConfig()
 
     override val askForStoragePermission =
             registerForActivityResult(ActivityResultContracts.RequestPermission()) {
@@ -74,7 +74,7 @@ internal class MultiVideoPickerBottomSheetDialog : AbstractBottomSheetDialogFrag
                 ::applyDoneButtonModifications,
                 ::applyTitleModifications
         )
-        multiSelectAdapter.showFileSize = config.showFileSize
+        multiSelectAdapter.showFileSize = pickerConfig.showFileSize
         videosVM.videos.observe(viewLifecycleOwner) {
             setupList(
                     multiSelectAdapter,

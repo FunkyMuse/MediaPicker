@@ -3,7 +3,7 @@ package com.crazylegend.imagepicker.pickers
 import android.content.Context
 import android.util.Log
 import androidx.fragment.app.FragmentManager
-import com.crazylegend.core.dto.Config
+import com.crazylegend.core.dto.PickerConfig
 import com.crazylegend.core.modifiers.base.BaseMultiPickerModifier
 import com.crazylegend.core.setupModifier
 import com.crazylegend.extensions.setupManager
@@ -39,16 +39,16 @@ object MultiImagePicker {
 
 
     fun showPicker(
-        context: Context, extensions: Array<String>? = arrayOf(),
-        config: Config = Config(),
-        multiImagePickerModifier: BaseMultiPickerModifier.() -> Unit = {},
-        imagesList: (list: List<ImageModel>) -> Unit = {}
+            context: Context, extensions: Array<String>? = arrayOf(),
+            pickerConfig: PickerConfig = PickerConfig(),
+            multiImagePickerModifier: BaseMultiPickerModifier.() -> Unit = {},
+            imagesList: (list: List<ImageModel>) -> Unit = {}
     ) {
         val manager = context.setupManager()
         val modifier = setupModifier(multiImagePickerModifier)
         with(MultiImagePickerBottomSheetDialog()) {
             this.extensions = extensions
-            this.config = config
+            this.pickerConfig = pickerConfig
             addModifier(modifier)
             onImagesPicked = onImagesDSL(imagesList)
             show(manager, MULTI_PICKER_BOTTOM_SHEET)
@@ -58,14 +58,14 @@ object MultiImagePicker {
     fun showPicker(
             fragmentManager: FragmentManager,
             extensions: Array<String>? = arrayOf(),
-            config: Config = Config(),
+            pickerConfig: PickerConfig = PickerConfig(),
             multiImagePickerModifier: BaseMultiPickerModifier.() -> Unit = {},
             imagesList: (list: List<ImageModel>) -> Unit = {}
     ) {
         val modifier = setupModifier(multiImagePickerModifier)
         with(MultiImagePickerBottomSheetDialog()) {
             this.extensions = extensions
-            this.config = config
+            this.pickerConfig = pickerConfig
             addModifier(modifier)
             onImagesPicked = onImagesDSL(imagesList)
             show(fragmentManager, MULTI_PICKER_BOTTOM_SHEET)

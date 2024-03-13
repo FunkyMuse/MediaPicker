@@ -15,7 +15,7 @@ import androidx.lifecycle.observe
 import com.crazylegend.core.abstracts.AbstractBottomSheetDialogFragment
 import com.crazylegend.core.adapters.multi.MultiSelectAdapter
 import com.crazylegend.core.databinding.FragmentImagesGalleryLayoutMultiBinding
-import com.crazylegend.core.dto.Config
+import com.crazylegend.core.dto.PickerConfig
 import com.crazylegend.core.modifiers.base.BaseMultiPickerModifier
 
 import com.crazylegend.extensions.viewBinding
@@ -34,7 +34,7 @@ internal class MultiImagePickerBottomSheetDialog : AbstractBottomSheetDialogFrag
         MultiPickerContracts {
 
     var extensions: Array<String>? = arrayOf()
-    var config: Config = Config()
+    var pickerConfig: PickerConfig = PickerConfig()
 
     override val layout: Int
         get() = super.layout
@@ -75,7 +75,7 @@ internal class MultiImagePickerBottomSheetDialog : AbstractBottomSheetDialogFrag
                 ::applyDoneButtonModifications,
                 ::applyTitleModifications
         )
-        multiSelectAdapter.showFileSize = config.showFileSize
+        multiSelectAdapter.showFileSize = pickerConfig.showFileSize
 
         imagesVM.images.observe(viewLifecycleOwner) {
             setupList(

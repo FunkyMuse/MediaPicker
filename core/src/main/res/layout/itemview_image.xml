@@ -23,14 +23,13 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
+    <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/size"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_marginEnd="6dp"
         android:layout_marginBottom="10dp"
         android:background="@drawable/rounded_bg_abstract_dialog"
-        android:backgroundTint="@color/black"
         android:paddingStart="4dp"
         android:paddingEnd="4dp"
         android:text=""
