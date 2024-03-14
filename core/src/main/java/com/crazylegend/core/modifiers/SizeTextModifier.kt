@@ -104,9 +104,6 @@ data class SizeTextModifier(
         }
     }
 
-    fun applyBackGroundDrawable(text: AppCompatTextView) {
-    }
-
     private fun applyTextStyle(text: AppCompatTextView) {
         when (textStyle) {
             TextStyle.BOLD -> {
