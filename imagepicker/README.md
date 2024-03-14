@@ -27,7 +27,7 @@ dependencies {
         
    
    //customized
-   SingleImagePicker.showPicker(this, extensions = arrayOf(),{
+   SingleImagePicker.showPicker(this, extensions = arrayOf(),config = Config(showFileSize = true),{
             loadingIndicatorTint = ContextCompat.getColor(this@MainActivity, R.color.colorPrimaryDark)
             titleTextModifier.apply {
                 textAlignment = TextView.TEXT_ALIGNMENT_VIEW_START
@@ -49,6 +49,15 @@ dependencies {
             viewHolderPlaceholderModifier.apply {
                 resID = R.drawable.ic_image
             }
+            sizeTextModifier.apply {
+                textAlignment = TextView.TEXT_ALIGNMENT_VIEW_START
+                textStyle = SizeTextModifier.TextStyle.NORMAL
+                margin = 22 // use dp or sp this is only for demonstration purposes
+                textColor = Color.BLACK
+                textPadding = 5 // use dp or sp this is only for demonstration purposes
+                textSize = 12f  // use sp this is only for demonstration purposes
+                backgroundDrawable = R.drawable.rounded_bg_abstract_dialog
+               }
         }, ::loadImage)
    // You can filter files by passing extensions like extensions = arrayOf("png","jpeg")
 ```
@@ -59,7 +68,7 @@ dependencies {
     MultiImagePicker.showPicker(this){ doSomethingWithImageList(it) }
     
     //customized
-    MultiImagePicker.showPicker(this, extensions = arrayOf(), {
+    MultiImagePicker.showPicker(this, extensions = arrayOf(), config = Config(showFileSize = true),{
             setupBaseMultiPicker(
                     tintForLoadingProgressBar = ContextCompat.getColor(this@MainActivity, R.color.colorPrimaryDark),
                     gravityForSelectAndUnSelectIndicators = BaseMultiPickerModifier.Gravity.TOP_LEFT,

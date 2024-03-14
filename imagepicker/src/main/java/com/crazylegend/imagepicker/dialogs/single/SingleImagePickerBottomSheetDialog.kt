@@ -15,6 +15,7 @@ import androidx.lifecycle.observe
 import com.crazylegend.core.abstracts.AbstractBottomSheetDialogFragment
 import com.crazylegend.core.adapters.single.SingleAdapter
 import com.crazylegend.core.databinding.FragmentImagesGalleryLayoutBinding
+import com.crazylegend.core.dto.PickerConfig
 import com.crazylegend.core.modifiers.base.BaseSinglePickerModifier
 import com.crazylegend.extensions.viewBinding
 import com.crazylegend.imagepicker.contracts.SinglePickerContracts
@@ -28,7 +29,7 @@ import com.crazylegend.imagepicker.pickers.SingleImagePicker
  * Created by crazy on 5/8/20 to long live and prosper !
  */
 internal class SingleImagePickerBottomSheetDialog : AbstractBottomSheetDialogFragment(),
-    SinglePickerContracts {
+        SinglePickerContracts {
 
     override val layout: Int
         get() = super.layout
@@ -38,13 +39,14 @@ internal class SingleImagePickerBottomSheetDialog : AbstractBottomSheetDialogFra
     override val modifier: BaseSinglePickerModifier?
         get() = arguments?.getParcelable(modifierTag)
     var extensions: Array<String>? = arrayOf()
+    var pickerConfig: PickerConfig = PickerConfig()
 
     override val singleAdapter by lazy {
-        SingleAdapter(modifier?.viewHolderPlaceholderModifier) {
+        SingleAdapter(pickerConfig.showFileSize, modifier?.viewHolderPlaceholderModifier, modifier?.sizeTextModifier) {
             val image = it as ImageModel
             setFragmentResult(
-                SingleImagePicker.SINGLE_IMAGE_REQUEST_KEY,
-                bundleOf(SingleImagePicker.ON_SINGLE_IMAGE_PICK_KEY to image)
+                    SingleImagePicker.SINGLE_IMAGE_REQUEST_KEY,
+                    bundleOf(SingleImagePicker.ON_SINGLE_IMAGE_PICK_KEY to image)
             )
             onImagePicked?.forImage(image)
             dismissAllowingStateLoss()
@@ -52,14 +54,14 @@ internal class SingleImagePickerBottomSheetDialog : AbstractBottomSheetDialogFra
     }
 
     override val askForStoragePermission =
-        registerForActivityResult(ActivityResultContracts.RequestPermission()) {
-            if (it) {
-                imagesVM.loadImages(extensions = extensions)
-            } else {
-                Log.e(errorTag, "PERMISSION DENIED")
-                dismissAllowingStateLoss()
+            registerForActivityResult(ActivityResultContracts.RequestPermission()) {
+                if (it) {
+                    imagesVM.loadImages(extensions = extensions)
+                } else {
+                    Log.e(errorTag, "PERMISSION DENIED")
+                    dismissAllowingStateLoss()
+                }
             }
-        }
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -70,12 +72,12 @@ internal class SingleImagePickerBottomSheetDialog : AbstractBottomSheetDialogFra
             askForStoragePermission.launch(Manifest.permission.READ_MEDIA_IMAGES)
         }
         setupUIForSinglePicker(
-            binding.gallery,
-            singleAdapter,
-            binding.title,
-            binding.loadingIndicator,
-            modifier?.loadingIndicatorTint,
-            ::applyTitleModifications
+                binding.gallery,
+                singleAdapter,
+                binding.title,
+                binding.loadingIndicator,
+                modifier?.loadingIndicatorTint,
+                ::applyTitleModifications
         )
         imagesVM.images.observe(viewLifecycleOwner) {
             setupList(singleAdapter, it, binding.noContentText, modifier?.noContentTextModifier)

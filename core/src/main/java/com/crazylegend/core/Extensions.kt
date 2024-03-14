@@ -19,6 +19,7 @@ import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.target.Target
 import com.crazylegend.core.modifiers.base.BaseMultiPickerModifier
 import com.crazylegend.core.modifiers.base.BaseSinglePickerModifier
+import kotlin.math.pow
 
 /**
  * Created by crazy on 5/8/20 to long live and prosper !
@@ -142,3 +143,16 @@ internal var Float.dp: Float
         return TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, this, metrics)
     }
     set(_) {}
+
+internal fun Int.bytesToFormattedString(): String {
+    return when {
+        this >= 1024.0.pow(3.0) -> {
+            val gigabytes = this / 1024.0.pow(3.0)
+            "%.2f GB".format(gigabytes)
+        }
+        else -> {
+            val megabytes = this / 1024.0.pow(2.0)
+            "%.2f MB".format(megabytes)
+        }
+    }
+}

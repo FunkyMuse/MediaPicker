@@ -19,11 +19,13 @@ dependencies {
 ```
 3. How to use single picker and check out [how to customize single video picker](https://github.com/FunkyMuse/MediaPicker/wiki/Single--image-video-picker-customization)
 ```kotlin
+import java.awt.Color
+
     //simple usage without customization
     SingleVideoPicker.showPicker(context = this, onPickedVideo = ::loadVideo)
     
     //customized
-    SingleVideoPicker.showPicker(this, extensions = arrayOf(),{
+    SingleVideoPicker.showPicker(this, extensions = arrayOf(),config = Config(showFileSize = true),{
             setupBaseModifier(
                     loadingIndicatorColor = R.color.minusColor,
                     titleTextModifications = {
@@ -51,7 +53,7 @@ dependencies {
     MultiVideoPicker.showPicker(this) { loadVideos(it) }
     
     //customized
-     MultiVideoPicker.showPicker(this, extensions = arrayOf(),{
+     MultiVideoPicker.showPicker(this, extensions = arrayOf(),config = Config(showFileSize = false),{
             setupBaseMultiPicker(
                     tintForLoadingProgressBar = ContextCompat.getColor(this@MainActivity, R.color.colorPrimaryDark),
                     gravityForSelectAndUnSelectIndicators = BaseMultiPickerModifier.Gravity.TOP_RIGHT,
@@ -74,6 +76,15 @@ dependencies {
                     },
                     viewHolderPlaceholderModifications = {
                         resID = R.drawable.ic_close
+                    },
+                    sizeTextModifications = {
+                        textAlignment = TextView.TEXT_ALIGNMENT_VIEW_START
+                        textStyle = SizeTextModifier.TextStyle.NORMAL
+                        margin = 22 // use dp or sp this is only for demonstration purposes
+                        textColor = Color.BLACK
+                        textPadding = 5 // use dp or sp this is only for demonstration purposes
+                        textSize = 12f  // use sp this is only for demonstration purposes
+                        backgroundDrawable = R.drawable.rounded_bg_abstract_dialog
                     }
             )
         }, ::doSomethingWithVideoList)

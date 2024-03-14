@@ -12,9 +12,8 @@ import com.crazylegend.core.modifiers.base.BaseMultiPickerModifier
 /**
  * Created by crazy on 5/8/20 to long live and prosper !
  */
-class MultiSelectAdapter(private val modifier: BaseMultiPickerModifier?) :
+class MultiSelectAdapter(private val modifier: BaseMultiPickerModifier?, private val showFileSize: Boolean) :
         ListAdapter<BaseCursorModel, MultiSelectViewHolder>(SingleDiffUtil()) {
-
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MultiSelectViewHolder {
         val holder = MultiSelectViewHolder(ItemviewImageBinding.inflate(parent.inflater, parent, false), modifier)
@@ -29,7 +28,7 @@ class MultiSelectAdapter(private val modifier: BaseMultiPickerModifier?) :
 
     override fun onBindViewHolder(holder: MultiSelectViewHolder, position: Int) {
         val item = getItem(position)
-        holder.bind(item)
+        holder.bind(item, showFileSize)
         holder.itemView.tag = item
     }
 

@@ -17,6 +17,7 @@ import com.bumptech.glide.Glide
 import com.crazylegend.audiopicker.audios.AudioModel
 import com.crazylegend.audiopicker.pickers.MultiAudioPicker
 import com.crazylegend.audiopicker.pickers.SingleAudioPicker
+import com.crazylegend.core.dto.PickerConfig
 import com.crazylegend.core.modifiers.TitleTextModifier
 import com.crazylegend.core.modifiers.base.BaseMultiPickerModifier
 import com.crazylegend.imagepicker.images.ImageModel
@@ -42,43 +43,42 @@ class FragmentResult : DialogFragment(R.layout.activity_main), View.OnClickListe
 
     private var clickedID = R.id.singleImageBottomSheetPick
 
-    private val askForStoragePermission =
-        registerForActivityResult(ActivityResultContracts.RequestPermission()) {
-            if (it) {
-                when (clickedID) {
-                    //images
-                    R.id.singleImageBottomSheetPick -> {
-                        showSingleImageBottomSheetPicker()
-                    }
-
-                    R.id.imageBottomSheetMultiPick -> {
-                        showImageMultiBottomSheetPicker()
-                    }
-
-
-                    //videos
-                    R.id.singleVideoBottomSheetPick -> {
-                        showSingleVideoBottomSheetPicker()
-                    }
-
-                    R.id.videoBottomSheetMultiPick -> {
-                        showVideoMultiBottomSheetPicker()
-                    }
-
-                    //audios
-                    R.id.singleAudioBottomSheetPick -> {
-                        showSingleAudioBottomSheetPicker()
-                    }
-
-                    R.id.audioBottomSheetMultiPick -> {
-                        showAudioMultiBottomSheetPicker()
-                    }
-
+    private val askForStoragePermission = registerForActivityResult(ActivityResultContracts.RequestPermission()) {
+        if (it) {
+            when (clickedID) {
+                //images
+                R.id.singleImageBottomSheetPick -> {
+                    showSingleImageBottomSheetPicker()
                 }
-            } else {
-                Log.e("PERMISSION", "NOT ALLOWED!")
+
+                R.id.imageBottomSheetMultiPick -> {
+                    showImageMultiBottomSheetPicker()
+                }
+
+
+                //videos
+                R.id.singleVideoBottomSheetPick -> {
+                    showSingleVideoBottomSheetPicker()
+                }
+
+                R.id.videoBottomSheetMultiPick -> {
+                    showVideoMultiBottomSheetPicker()
+                }
+
+                //audios
+                R.id.singleAudioBottomSheetPick -> {
+                    showSingleAudioBottomSheetPicker()
+                }
+
+                R.id.audioBottomSheetMultiPick -> {
+                    showAudioMultiBottomSheetPicker()
+                }
+
             }
+        } else {
+            Log.e("PERMISSION", "NOT ALLOWED!")
         }
+    }
 
     //audios
     @SuppressLint("MissingPermission")
@@ -88,21 +88,17 @@ class FragmentResult : DialogFragment(R.layout.activity_main), View.OnClickListe
                 textColor = Color.BLACK
                 textPadding = 10 // use dp or sp this is only for demonstration purposes
             }
-            setupBaseModifier(
-                loadingIndicatorColor = R.color.minusColor,
-                titleTextModifications = {
-                    textAlignment = TextView.TEXT_ALIGNMENT_VIEW_START
-                    textStyle = TitleTextModifier.TextStyle.ITALIC
-                    textColor = Color.BLACK
-                    marginBottom = 30 // use dp or sp this is only for demonstration purposes
-                    textPadding = 5 // use dp or sp this is only for demonstration purposes
-                    textSize = 30f  // use sp this is only for demonstration purposes
-                    textString = "Pick an audio"
-                },
-                placeHolderModifications = {
-                    resID = R.drawable.ic_image
-                }
-            )
+            setupBaseModifier(loadingIndicatorColor = R.color.minusColor, titleTextModifications = {
+                textAlignment = TextView.TEXT_ALIGNMENT_VIEW_START
+                textStyle = TitleTextModifier.TextStyle.ITALIC
+                textColor = Color.BLACK
+                marginBottom = 30 // use dp or sp this is only for demonstration purposes
+                textPadding = 5 // use dp or sp this is only for demonstration purposes
+                textSize = 30f  // use sp this is only for demonstration purposes
+                textString = "Pick an audio"
+            }, placeHolderModifications = {
+                resID = R.drawable.ic_image
+            })
         })
     }
 
@@ -115,41 +111,28 @@ class FragmentResult : DialogFragment(R.layout.activity_main), View.OnClickListe
                 textStyle = TitleTextModifier.TextStyle.BOLD
                 textPadding = 10 // use dp or sp this is only for demonstration purposes
             }
-            setupBaseMultiPicker(
-                tintForLoadingProgressBar = ContextCompat.getColor(
-                    requireContext(),
-                    R.color.colorPrimaryDark
-                ),
-                gravityForSelectAndUnSelectIndicators = BaseMultiPickerModifier.Gravity.BOTTOM_LEFT,
-                titleModifications = {
-                    textAlignment = TextView.TEXT_ALIGNMENT_VIEW_START
-                    textStyle = TitleTextModifier.TextStyle.ITALIC
-                    textColor = Color.BLACK
-                    marginBottom = 30 // use dp or sp this is only for demonstration purposes
-                    textPadding = 5 // use dp or sp this is only for demonstration purposes
-                    textSize = 30f  // use sp this is only for demonstration purposes
-                    textString = "Pick multiple songs"
-                },
-                selectIconModifications = {
-                    resID = R.drawable.ic_checked
-                    tint = Color.BLACK
-                },
-                unSelectIconModifications = {
-                    resID = R.drawable.ic_unchecked
-                    tint = Color.BLACK
-                },
-                viewHolderPlaceholderModifications = {
-                    resID = R.drawable.ic_album_second
-                }
-            )
+            setupBaseMultiPicker(tintForLoadingProgressBar = ContextCompat.getColor(requireContext(), R.color.colorPrimaryDark), gravityForSelectAndUnSelectIndicators = BaseMultiPickerModifier.Gravity.BOTTOM_LEFT, titleModifications = {
+                textAlignment = TextView.TEXT_ALIGNMENT_VIEW_START
+                textStyle = TitleTextModifier.TextStyle.ITALIC
+                textColor = Color.BLACK
+                marginBottom = 30 // use dp or sp this is only for demonstration purposes
+                textPadding = 5 // use dp or sp this is only for demonstration purposes
+                textSize = 30f  // use sp this is only for demonstration purposes
+                textString = "Pick multiple songs"
+            }, selectIconModifications = {
+                resID = R.drawable.ic_checked
+                tint = Color.BLACK
+            }, unSelectIconModifications = {
+                resID = R.drawable.ic_unchecked
+                tint = Color.BLACK
+            }, viewHolderPlaceholderModifications = {
+                resID = R.drawable.ic_album_second
+            })
         })
     }
 
     private fun loadAudio(audioModel: AudioModel) {
-        Glide.with(this)
-            .load(audioModel.loadThumbnail(requireContext().contentResolver))
-            .error(R.drawable.ic_album)
-            .into(binding!!.audio)
+        Glide.with(this).load(audioModel.loadThumbnail(requireContext().contentResolver)).error(R.drawable.ic_album).into(binding!!.audio)
         binding!!.audioTitle.text = audioModel.displayName
         Log.d("AUDIO_PICKED ${audioModel.thumbnail?.isRecycled}", audioModel.toString())
     }
@@ -164,34 +147,24 @@ class FragmentResult : DialogFragment(R.layout.activity_main), View.OnClickListe
 
     @SuppressLint("MissingPermission")
     private fun showVideoMultiBottomSheetPicker() {
-        MultiVideoPicker.showPicker(requireContext(), arrayOf(), {
-            setupBaseMultiPicker(
-                tintForLoadingProgressBar = ContextCompat.getColor(
-                    requireContext(),
-                    R.color.colorPrimaryDark
-                ),
-                gravityForSelectAndUnSelectIndicators = BaseMultiPickerModifier.Gravity.TOP_RIGHT,
-                titleModifications = {
-                    textAlignment = TextView.TEXT_ALIGNMENT_CENTER
-                    textStyle = TitleTextModifier.TextStyle.ITALIC
-                    textColor = Color.BLACK
-                    marginBottom = 30 // use dp or sp this is only for demonstration purposes
-                    textPadding = 5 // use dp or sp this is only for demonstration purposes
-                    textSize = 30f  // use sp this is only for demonstration purposes
-                    textString = "Pick multiple videos"
-                },
-                selectIconModifications = {
-                    resID = R.drawable.ic_checked
-                    tint = Color.BLACK
-                },
-                unSelectIconModifications = {
-                    resID = R.drawable.ic_unchecked
-                    tint = Color.BLACK
-                },
-                viewHolderPlaceholderModifications = {
-                    resID = R.drawable.ic_close
-                }
-            )
+        MultiVideoPicker.showPicker(requireContext(), arrayOf(), pickerConfig = PickerConfig(showFileSize = true), {
+            setupBaseMultiPicker(tintForLoadingProgressBar = ContextCompat.getColor(requireContext(), R.color.colorPrimaryDark), gravityForSelectAndUnSelectIndicators = BaseMultiPickerModifier.Gravity.TOP_RIGHT, titleModifications = {
+                textAlignment = TextView.TEXT_ALIGNMENT_CENTER
+                textStyle = TitleTextModifier.TextStyle.ITALIC
+                textColor = Color.BLACK
+                marginBottom = 30 // use dp or sp this is only for demonstration purposes
+                textPadding = 5 // use dp or sp this is only for demonstration purposes
+                textSize = 30f  // use sp this is only for demonstration purposes
+                textString = "Pick multiple videos"
+            }, selectIconModifications = {
+                resID = R.drawable.ic_checked
+                tint = Color.BLACK
+            }, unSelectIconModifications = {
+                resID = R.drawable.ic_unchecked
+                tint = Color.BLACK
+            }, viewHolderPlaceholderModifications = {
+                resID = R.drawable.ic_close
+            })
         })
     }
 
@@ -200,30 +173,24 @@ class FragmentResult : DialogFragment(R.layout.activity_main), View.OnClickListe
     private fun showSingleVideoBottomSheetPicker() {
         //SingleVideoPicker.showPicker(context = this, onPickedVideo = ::loadVideo)
 
-        SingleVideoPicker.showPicker(requireContext(), extensions = arrayOf(), {
-            setupBaseModifier(
-                loadingIndicatorColor = R.color.minusColor,
-                titleTextModifications = {
-                    textAlignment = TextView.TEXT_ALIGNMENT_VIEW_START
-                    textStyle = TitleTextModifier.TextStyle.ITALIC
-                    textColor = Color.BLACK
-                    marginBottom = 30 // use dp or sp this is only for demonstration purposes
-                    textPadding = 5 // use dp or sp this is only for demonstration purposes
-                    textSize = 30f  // use sp this is only for demonstration purposes
-                    textString = "Pick a video"
-                },
-                placeHolderModifications = {
-                    resID = R.drawable.ic_image
-                }
-            )
+        SingleVideoPicker.showPicker(requireContext(), extensions = arrayOf(), pickerConfig = PickerConfig(showFileSize = false), {
+            setupBaseModifier(loadingIndicatorColor = R.color.minusColor, titleTextModifications = {
+                textAlignment = TextView.TEXT_ALIGNMENT_VIEW_START
+                textStyle = TitleTextModifier.TextStyle.ITALIC
+                textColor = Color.BLACK
+                marginBottom = 30 // use dp or sp this is only for demonstration purposes
+                textPadding = 5 // use dp or sp this is only for demonstration purposes
+                textSize = 30f  // use sp this is only for demonstration purposes
+                textString = "Pick a video"
+            }, placeHolderModifications = {
+                resID = R.drawable.ic_image
+            })
         })
 
     }
 
     private fun loadVideo(videoModel: VideoModel) {
-        Glide.with(this)
-            .load(videoModel.contentUri)
-            .into(binding!!.video)
+        Glide.with(this).load(videoModel.contentUri).into(binding!!.video)
         Log.d("VIDEO_PICKED", videoModel.toString())
     }
 
@@ -236,42 +203,31 @@ class FragmentResult : DialogFragment(R.layout.activity_main), View.OnClickListe
     //images
     @SuppressLint("MissingPermission")
     private fun showImageMultiBottomSheetPicker() {
-        MultiImagePicker.showPicker(requireContext(), extensions = arrayOf(), {
-            setupBaseMultiPicker(
-                tintForLoadingProgressBar = ContextCompat.getColor(
-                    requireContext(),
-                    R.color.colorPrimaryDark
-                ),
-                gravityForSelectAndUnSelectIndicators = BaseMultiPickerModifier.Gravity.TOP_LEFT,
-                titleModifications = {
-                    textAlignment = TextView.TEXT_ALIGNMENT_VIEW_START
-                    textStyle = TitleTextModifier.TextStyle.BOLD_ITALIC
-                    textColor = Color.BLACK
-                    marginBottom = 30 // use dp or sp this is only for demonstration purposes
-                    textPadding = 5 // use dp or sp this is only for demonstration purposes
-                    textSize = 30f  // use sp this is only for demonstration purposes
-                    textString = "Pick multiple images"
-                },
-                selectIconModifications = {
-                    resID = R.drawable.ic_checked
-                    tint = Color.BLACK
-                },
-                unSelectIconModifications = {
-                    resID = R.drawable.ic_unchecked
-                    tint = Color.BLACK
-                },
-                viewHolderPlaceholderModifications = {
-                    resID = R.drawable.ic_image
-                }
-            )
+        MultiImagePicker.showPicker(requireContext(), extensions = arrayOf(), pickerConfig = PickerConfig(showFileSize = false), {
+            setupBaseMultiPicker(tintForLoadingProgressBar = ContextCompat.getColor(requireContext(), R.color.colorPrimaryDark), gravityForSelectAndUnSelectIndicators = BaseMultiPickerModifier.Gravity.TOP_LEFT, titleModifications = {
+                textAlignment = TextView.TEXT_ALIGNMENT_VIEW_START
+                textStyle = TitleTextModifier.TextStyle.BOLD_ITALIC
+                textColor = Color.BLACK
+                marginBottom = 30 // use dp or sp this is only for demonstration purposes
+                textPadding = 5 // use dp or sp this is only for demonstration purposes
+                textSize = 30f  // use sp this is only for demonstration purposes
+                textString = "Pick multiple images"
+            }, selectIconModifications = {
+                resID = R.drawable.ic_checked
+                tint = Color.BLACK
+            }, unSelectIconModifications = {
+                resID = R.drawable.ic_unchecked
+                tint = Color.BLACK
+            }, viewHolderPlaceholderModifications = {
+                resID = R.drawable.ic_image
+            })
         })
     }
 
     @SuppressLint("MissingPermission")
     private fun showSingleImageBottomSheetPicker() {
-        SingleImagePicker.showPicker(requireContext(), extensions = arrayOf(), {
-            loadingIndicatorTint =
-                ContextCompat.getColor(requireContext(), R.color.colorPrimaryDark)
+        SingleImagePicker.showPicker(requireContext(), extensions = arrayOf(), pickerConfig = PickerConfig(showFileSize = true), {
+            loadingIndicatorTint = ContextCompat.getColor(requireContext(), R.color.colorPrimaryDark)
             titleTextModifier.apply {
                 textAlignment = TextView.TEXT_ALIGNMENT_VIEW_START
                 textStyle = TitleTextModifier.TextStyle.BOLD_ITALIC
@@ -296,9 +252,7 @@ class FragmentResult : DialogFragment(R.layout.activity_main), View.OnClickListe
     }
 
     private fun loadImage(imageModel: ImageModel) {
-        Glide.with(this)
-            .load(imageModel.contentUri)
-            .into(binding!!.image)
+        Glide.with(this).load(imageModel.contentUri).into(binding!!.image)
         Log.d("IMAGE_PICKED", imageModel.toString())
     }
 
@@ -329,37 +283,31 @@ class FragmentResult : DialogFragment(R.layout.activity_main), View.OnClickListe
 
         //listeners images
         setFragmentResultListener(SingleImagePicker.SINGLE_IMAGE_REQUEST_KEY) { _, bundle ->
-            val loadedModel =
-                bundle.getParcelable<ImageModel>(SingleImagePicker.ON_SINGLE_IMAGE_PICK_KEY)
+            val loadedModel = bundle.getParcelable<ImageModel>(SingleImagePicker.ON_SINGLE_IMAGE_PICK_KEY)
             loadedModel?.let { loadImage(it) }
         }
         setFragmentResultListener(MultiImagePicker.MULTI_IMAGE_REQUEST_KEY) { _, bundle ->
-            val loadedModel =
-                bundle.getParcelableArrayList<ImageModel>(MultiImagePicker.ON_MULTI_IMAGE_PICK_KEY)
+            val loadedModel = bundle.getParcelableArrayList<ImageModel>(MultiImagePicker.ON_MULTI_IMAGE_PICK_KEY)
             loadedModel?.let { doSomethingWithImageList(it) }
         }
 
         //listeners video
         setFragmentResultListener(SingleVideoPicker.SINGLE_VIDEO_REQUEST_KEY) { _, bundle ->
-            val loadedModel =
-                bundle.getParcelable<VideoModel>(SingleVideoPicker.ON_SINGLE_VIDEO_PICK_KEY)
+            val loadedModel = bundle.getParcelable<VideoModel>(SingleVideoPicker.ON_SINGLE_VIDEO_PICK_KEY)
             loadedModel?.let { loadVideo(it) }
         }
         setFragmentResultListener(MultiVideoPicker.MULTI_VIDEO_REQUEST_KEY) { _, bundle ->
-            val loadedModel =
-                bundle.getParcelableArrayList<VideoModel>(MultiVideoPicker.ON_MULTI_VIDEO_PICK_KEY)
+            val loadedModel = bundle.getParcelableArrayList<VideoModel>(MultiVideoPicker.ON_MULTI_VIDEO_PICK_KEY)
             loadedModel?.let { doSomethingWithVideoList(it) }
         }
 
         //listeners audio
         setFragmentResultListener(SingleAudioPicker.SINGLE_AUDIO_REQUEST_KEY) { _, bundle ->
-            val loadedModel =
-                bundle.getParcelable<AudioModel>(SingleAudioPicker.ON_SINGLE_AUDIO_PICK_KEY)
+            val loadedModel = bundle.getParcelable<AudioModel>(SingleAudioPicker.ON_SINGLE_AUDIO_PICK_KEY)
             loadedModel?.let { loadAudio(it) }
         }
         setFragmentResultListener(MultiAudioPicker.MULTI_AUDIO_REQUEST_KEY) { _, bundle ->
-            val loadedModel =
-                bundle.getParcelableArrayList<AudioModel>(MultiAudioPicker.ON_MULTI_AUDIO_PICK_KEY)
+            val loadedModel = bundle.getParcelableArrayList<AudioModel>(MultiAudioPicker.ON_MULTI_AUDIO_PICK_KEY)
             loadedModel?.let { doSomethingWithAudioList(it) }
         }
 

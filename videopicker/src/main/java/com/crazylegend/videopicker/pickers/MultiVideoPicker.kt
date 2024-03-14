@@ -3,6 +3,7 @@ package com.crazylegend.videopicker.pickers
 import android.content.Context
 import android.util.Log
 import androidx.fragment.app.FragmentManager
+import com.crazylegend.core.dto.PickerConfig
 import com.crazylegend.core.modifiers.base.BaseMultiPickerModifier
 import com.crazylegend.core.setupModifier
 import com.crazylegend.extensions.setupManager
@@ -25,7 +26,7 @@ object MultiVideoPicker {
     fun restoreListener(context: Context, videoList: (list: List<VideoModel>) -> Unit = {}) {
         val manager = context.setupManager()
         when (val fragment = manager.findFragmentByTag(MULTI_PICKER_BOTTOM_SHEET)
-            ?: manager.findFragmentByTag(MULTI_PICKER_DIALOG)) {
+                ?: manager.findFragmentByTag(MULTI_PICKER_DIALOG)) {
             is MultiVideoPickerBottomSheetDialog -> {
                 fragment.onVideosPicked = onVideosDSL(videoList)
             }
@@ -37,15 +38,17 @@ object MultiVideoPicker {
     }
 
     fun showPicker(
-        context: Context,
-        extensions: Array<String>? = arrayOf(),
-        modifier: BaseMultiPickerModifier.() -> Unit = {},
-        videoList: (list: List<VideoModel>) -> Unit = {},
+            context: Context,
+            extensions: Array<String>? = arrayOf(),
+            pickerConfig: PickerConfig = PickerConfig(),
+            modifier: BaseMultiPickerModifier.() -> Unit = {},
+            videoList: (list: List<VideoModel>) -> Unit = {},
     ) {
         val manager = context.setupManager()
         val setupModifier = setupModifier(modifier)
         with(MultiVideoPickerBottomSheetDialog()) {
             this.extensions = extensions
+            this.pickerConfig = pickerConfig
             addModifier(setupModifier)
             onVideosPicked = onVideosDSL(videoList)
             show(manager, MULTI_PICKER_BOTTOM_SHEET)
@@ -53,14 +56,16 @@ object MultiVideoPicker {
     }
 
     fun showPicker(
-        fragmentManager: FragmentManager,
-        extensions: Array<String>? = arrayOf(),
-        modifier: BaseMultiPickerModifier.() -> Unit = {},
-        videoList: (list: List<VideoModel>) -> Unit = {}
+            fragmentManager: FragmentManager,
+            extensions: Array<String>? = arrayOf(),
+            pickerConfig: PickerConfig = PickerConfig(),
+            modifier: BaseMultiPickerModifier.() -> Unit = {},
+            videoList: (list: List<VideoModel>) -> Unit = {}
     ) {
         val setupModifier = setupModifier(modifier)
         with(MultiVideoPickerBottomSheetDialog()) {
             this.extensions = extensions
+            this.pickerConfig = pickerConfig
             addModifier(setupModifier)
             onVideosPicked = onVideosDSL(videoList)
             show(fragmentManager, MULTI_PICKER_BOTTOM_SHEET)
